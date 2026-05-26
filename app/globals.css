@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --cinza-grafite: #1A1A1A;
+  --cinza-metalico: #5E5E5E;
+  --branco: #F5F5F5;
+  --laranja-impacto: #FF6B00;
+  --laranja-energia: #FF8C42;
 }
 
 @theme inline {
@@ -10,6 +15,19 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* cores */
+  --color-cinza-grafite: var(--cinza-grafite);
+  --color-cinza-metalico: var(--cinza-metalico);
+  --color-branco: var(--branco);
+  --color-laranja-impacto: var(--laranja-impacto);
+  --color-laranja-energia: var(--laranja-energia);
+
+  /* Fonts */
+  --font-oswald: var(--font-oswald);
+  --font-share-tech: var(--font-share-tech);
+  --font-exo-2: var(--font-exo-2);
+  --font-roboto: var(--font-roboto);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,3 +42,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* Preto Industrial	Fundo principal	#0D0D0D
+Cinza Grafite	Cards / superfícies	#1A1A1A
+Cinza Metálico	Bordas / detalhes	#5E5E5E
+Branco Técnico	Textos principais	#F5F5F5
+Laranja Impacto	Destaques / colisão	#FF6B00
+Laranja Energia	Hover / efeitos	#FF8C42 */
