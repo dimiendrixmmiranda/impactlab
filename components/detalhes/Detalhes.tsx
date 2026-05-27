@@ -20,7 +20,7 @@ export default function Detalhes() {
     }
 
     return (
-        <section className="font-oswald p-4 flex flex-col gap-4 lg:gap-8">
+        <section className="relative font-oswald p-4 flex flex-col gap-4 lg:gap-8">
             <div className="font-oswald p-4 flex flex-col gap-4 max-w-[1440px] w-full mx-auto lg:gap-8 ">
                 <div className="flex flex-col justify-center items-center">
                     <p className="uppercase text-laranja-impacto">Recursos principas</p>
