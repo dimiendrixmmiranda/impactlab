@@ -88,7 +88,7 @@ export default function Page() {
                     </div>
                     <div className="bg-zinc-800 p-4 rounded-xl lg:grid lg:grid-cols-2 lg:gap-4 xl:grid-cols-[1fr_auto] border border-zinc-500">
                         <div className="grid grid-cols-[70px_1fr] gap-2">
-                            <div className="text-4xl p-1 rounded-full border w-[70px] h-[70px] flex justify-center items-center border-laranja-impacto my-auto text-laranja-impacto">
+                            <div className="text-4xl p-1 rounded-full border w-[70px] h-[70px] flex justify-center items-center border-laranja-impacto my-auto text-laranja-impactow">
                                 <TbTargetArrow />
                             </div>
                             <div>
