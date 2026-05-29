@@ -8,6 +8,7 @@ export default function Home() {
         <>
             <section
                 className="
+                relative
                 font-share-tech
                 p-4 text-white
                 bg-[linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.4)),url('/assets/fundo.png')]
@@ -17,6 +18,7 @@ export default function Home() {
                 xl:h-[70vh]
             "
             >
+                <div className="absolute bottom-0 left-0 h-12 w-full bg-gradient-to-b from-transparent via-black/70 to-black pointer-events-none"></div>
                 <div className="lg:grid lg:grid-cols-2 lg:gap-8 max-w-[1000px] mx-auto xl:max-w-[1200px]">
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
@@ -42,7 +44,7 @@ export default function Home() {
                             <Image alt="Bola impactando uma parede" src={'/assets/bola.png'} fill className="object-cover" />
                         </div>
                     </div>
-                    <Link href={'#detalhes'} className="lg:col-span-2 flex flex-col justify-center items-center text-zinc-400 hover:text-laranja-impacto duration-300 transition-all cursor-pointer w-fit mx-auto xl:text-xl xl:pt-4">
+                    <Link href={'#detalhes'} className="lg:col-span-2 z-20 flex flex-col justify-center items-center text-zinc-400 hover:text-laranja-impacto duration-300 transition-all cursor-pointer w-fit mx-auto xl:text-xl xl:pt-4">
                         <RiScrollToBottomFill />
                         <p className="">Role para baixo</p>
                     </Link>

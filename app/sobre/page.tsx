@@ -1,9 +1,12 @@
+'use client'
 import Template from "@/components/template/Template";
 import Image from "next/image";
-import { FaCube, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
-import { FaUserGroup } from "react-icons/fa6";
+import { FaCube, FaLightbulb, FaQuoteLeft, FaQuoteRight, FaUsers } from "react-icons/fa";
+import { FaGear, FaUserGroup } from "react-icons/fa6";
 import { GiAtom, GiGooeyImpact } from "react-icons/gi";
+import { IoIosRocket } from "react-icons/io";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
+import { MdScience } from "react-icons/md";
 import { TbTargetArrow } from "react-icons/tb";
 import { VscGraph } from "react-icons/vsc";
 
@@ -12,11 +15,11 @@ export default function Page() {
         <Template>
             <div className="max-w-[1400px] mx-auto">
                 <div className="min-h-screen font-oswald p-4 flex flex-col gap-10 lg:p-8">
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-zinc-800 p-4 rounded-xl flex flex-col gap-6 border border-zinc-500 xl:p-8 xl:px-12">
+                    <div className="grid grid-cols-2 gap-4 bg-zinc-800 border border-zinc-500 rounded-xl">
+                        <div className="p-4 rounded-xl flex flex-col gap-6 xl:p-8 xl:px-12">
                             <div>
                                 <p className="text-laranja-impacto uppercase text-laranja-impacto">Sobre o Projeto</p>
-                                <h2 className="font-bold lg:text-6xl lg:leading-[65px]">Ciência, Fisíca, <b className="text-laranja-impacto">Impacto Real!</b></h2>
+                                <h2 className="font-bold uppercase mt-2 lg:text-6xl lg:leading-[65px]">Ciência, Fisíca, <b className="text-laranja-impacto">Impacto Real!</b></h2>
                             </div>
                             <p>
                                 O <b className="text-laranja-impacto">ImpactLab</b> é uma plataforma interativa criada para simular impactos de projeteis em diferentes materiais e estruturas. Unimos a física, engenharia e tecnologia para tornar o aprendizado mais visual, dinâmico e proximo da realidade.
@@ -43,8 +46,8 @@ export default function Page() {
                             </div>
                         </div>
                         <div className="flex justify-center items-center">
-                            <div className="relative w-[300px] h-[200px] lg:w-[500px] lg:h-[300px]">
-                                <Image alt="bola na parede" src={'/assets/bola-parede.png'} fill className="object-contain" />
+                            <div className="relative w-[300px] h-[200px] lg:w-full lg:h-[380px]">
+                                <Image alt="bola na parede" src={'/assets/bola-3.png'} fill className="object-contain" />
                             </div>
                         </div>
                     </div>
@@ -106,6 +109,57 @@ export default function Page() {
                             <div className="flex justify-center items-center w-full h-full col-start-3 col-end-4 pb-4">
                                 <FaQuoteRight />
                             </div>
+                        </div>
+                    </div>
+                    <div className="bg-zinc-800 p-4 rounded-xl flex flex-col gap-4 xl:px-8 xl:py-6">
+                        <div>
+                            <h3 className="font-bold text-xl text-laranja-impacto">Nossa Missão</h3>
+                        </div>
+                        <div className="lg:grid lg:grid-cols-5 lg:gap-2 relative xl:gap-4">
+                            <div className="grid grid-rows-[60px_auto_auto] text-center">
+                                <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
+                                    <FaUsers />
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                </div>
+                                <h4 className="font-bold text-xl mt-2">1. Ideia</h4>
+                                <p>Identificamos a necessidade de uma ferramenta que unisse física, engenharia e visualização interativa.</p>
+                            </div>
+                            <div className="grid grid-rows-[60px_auto_auto] text-center">
+                                <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
+                                    <FaLightbulb />
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                </div>
+                                <h4 className="font-bold text-xl mt-2">2. Pesquisa</h4>
+                                <p>Estudamos conceitos físicos, comportamento de materiais e modelos de impacto utilizados na engenharia.</p>
+                            </div>
+                            <div className="grid grid-rows-[60px_auto_auto] text-center">
+                                <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
+                                    <FaGear />
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                </div>
+                                <h4 className="font-bold text-xl mt-2">3. Desenvolvimento</h4>
+                                <p>Construímos simulações realistas com cálculos precisos e uma interface intuitiva.</p>
+                            </div>
+                            <div className="grid grid-rows-[60px_auto_auto] text-center">
+                                <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
+                                    <MdScience />
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                </div>
+                                <h4 className="font-bold text-xl mt-2">4. Testes</h4>
+                                <p>Validamos os modelos, aprimoramos métricas e garantimos resultados confiáveis.</p>
+                            </div>
+                            <div className="grid grid-rows-[60px_auto_auto] text-center">
+                                <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
+                                    <IoIosRocket />
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                </div>
+                                <h4 className="font-bold text-xl mt-2">5. Impacto</h4>
+                                <p>Disponibilizamos o ImpactLab para transformar o aprendizado e inspirar novas descobertas.</p>
+                            </div>
+                            {/* <div className="absolute h-1 w-full bg-laranja-impacto top-[50%]"></div> */}
                         </div>
                     </div>
                 </div>
