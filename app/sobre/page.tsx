@@ -79,7 +79,7 @@ export default function Page() {
                                 Transformamos cálculos complexos em visualizações intuitivas para facilitar a compreensão e o ensino de conceitos ciêntificos.
                             </p>
                         </div>
-                        <div className="flex flex-col justify-center items-center gap-1 border-r border-zinc-500 p-4 xl:p-6">
+                        <div className="flex flex-col justify-center items-center gap-1 p-4 xl:p-6">
                             <div className="relative w-[80px] h-[80px] rounded-full p-1 border border-laranja-impacto text-laranja-impacto flex justify-center items-center text-5xl">
                                 <FaUserGroup />
                             </div>

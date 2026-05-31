@@ -8,6 +8,8 @@ import {
 	Roboto,
 } from "next/font/google";
 
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
 import "./globals.css";
 
 const geistSans = Geist({

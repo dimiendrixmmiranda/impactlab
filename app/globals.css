@@ -55,6 +55,13 @@ body {
   scroll-behavior:smooth ;
 }
 
+.p-paginator,.p-component{
+  background-color: var(--cinza-grafite)!important;
+}
+.p-paginator,.p-component button{
+  color: var(--branco)!important;
+}
+
 /* Preto Industrial	Fundo principal	#0D0D0D
 Cinza Grafite	Cards / superfícies	#1A1A1A
 Cinza Metálico	Bordas / detalhes	#5E5E5E

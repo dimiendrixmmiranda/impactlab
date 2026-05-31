@@ -44,7 +44,7 @@ export default function Home() {
                             <Image alt="Bola impactando uma parede" src={'/assets/bola.png'} fill className="object-cover" />
                         </div>
                     </div>
-                    <Link href={'#detalhes'} className="lg:col-span-2 z-20 flex flex-col justify-center items-center text-zinc-400 hover:text-laranja-impacto duration-300 transition-all cursor-pointer w-fit mx-auto xl:text-xl xl:pt-4">
+                    <Link href={'#detalhes'} className="lg:col-span-2 z-20 flex flex-col justify-center items-center text-zinc-400 hover:text-laranja-impacto duration-300 transition-all hover:scale-105 cursor-pointer w-fit mx-auto xl:text-xl xl:pt-4">
                         <RiScrollToBottomFill />
                         <p className="">Role para baixo</p>
                     </Link>
