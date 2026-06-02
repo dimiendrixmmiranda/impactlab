@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --cinza-grafite: #1A1A1A;
+  --cinza-grafite: #1b1b1b;
   --cinza-metalico: #5E5E5E;
   --branco: #F5F5F5;
   --laranja-impacto: #FF6B00;
@@ -68,3 +68,50 @@ Cinza Metálico	Bordas / detalhes	#5E5E5E
 Branco Técnico	Textos principais	#F5F5F5
 Laranja Impacto	Destaques / colisão	#FF6B00
 Laranja Energia	Hover / efeitos	#FF8C42 */
+
+
+.bordaInterativa {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.bordaInterativa::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 270deg,
+        #ff7b00 320deg,
+        #ffb347 360deg
+    );
+
+    animation: bordaRodando 4s linear infinite;
+}
+
+.bordaInterativa::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: var(--color-cinza-grafite); /* cor do bg-cinza-grafite */
+    border-radius: 14px;
+    z-index: 1;
+}
+
+.bordaInterativa > * {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes bordaRodando {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

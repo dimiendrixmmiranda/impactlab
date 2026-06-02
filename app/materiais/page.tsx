@@ -29,7 +29,7 @@ export default function Page() {
 
     function cardMaterial(material: string, tipo: string, imagem: string, resistencia: number, densidade: number, dureza: number, elasticidade: number) {
         return (
-            <div className="bg-zinc-700 p-2 rounded-xl border border-zinc-500 w-full max-w-[320px] mx-auto flex flex-col gap-3 lg:p-4">
+            <div className="bg-zinc-800 p-2 rounded-xl border border-zinc-500 w-full max-w-[320px] mx-auto flex flex-col gap-3 lg:p-4">
                 <div>
                     <h2 className="text-xl font-bold">{material}</h2>
                     <p className="text-laranja-impacto">{tipo}</p>
@@ -66,7 +66,7 @@ export default function Page() {
     return (
         <Template>
             <div className="max-w-[1400px] mx-auto flex flex-col gap-8 p-4">
-                <div className="bg-zinc-800 rounded-xl lg:grid lg:grid-cols-2 lg:gap-8">
+                <div className="rounded-xl lg:grid lg:grid-cols-2 lg:gap-8 bordaInterativa">
                     <div className="font-oswald p-4 flex flex-col gap-6 lg:p-8">
                         <div className="flex flex-col gap-2">
                             <p className="uppercase text-lg text-laranja-impacto">Materiais</p>
@@ -108,7 +108,7 @@ export default function Page() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-zinc-800 lg:grid lg:grid-cols-4 lg:gap-4 p-4 rounded-xl">
+                <div className="lg:grid lg:grid-cols-4 lg:gap-4 p-4 rounded-xl bordaInterativa">
                     <div className="grid grid-cols-[50px_auto] gap-2 border-r border-zinc-500">
                         <div className="w-[50px] h-[50px] rounded-full border border-laranja-impacto text-laranja-impacto flex justify-center items-center text-3xl">
                             <FaCube />
@@ -155,7 +155,7 @@ export default function Page() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-zinc-800 rounded-xl">
+                <div className="rounded-xl bordaInterativa">
                     <div className="flex flex-col gap-2 p-4 xl:p-6 xl:px-10">
                         <p className="uppercase text-lg text-laranja-impacto">Catálogo de materiais</p>
                         <div className="flex items-center gap-4">
@@ -193,7 +193,7 @@ export default function Page() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-zinc-800 rounded-xl p-4 lg:grid lg:grid-cols-[600px_1fr_150px] lg:gap-6 2xl:grid-cols-[600px_1fr_250px]">
+                <div className="rounded-xl p-4 lg:grid lg:grid-cols-[600px_1fr_150px] lg:gap-6 2xl:grid-cols-[600px_1fr_250px] bordaInterativa">
                     <div className="flex items-center gap-4 border-r w-fit">
                         <div className="text-9xl text-laranja-impacto"><FiTarget /></div>
                         <div className="max-w-[420px] flex flex-col justify-between h-full xl:w-full">

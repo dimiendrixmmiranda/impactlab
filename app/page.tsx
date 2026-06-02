@@ -9,11 +9,11 @@ export default function Page() {
 		<Template>
 			<Home />
 			<div className="bg-black w-full flex flex-col justify-center items-center gap-6 xl:py-10">
-				<div className="flex flex-col justify-center bg-zinc-900 rounded-xl max-w-[1440px] m-4" id="detalhes">
+				<div className="flex flex-col justify-center bg-zinc-900 rounded-xl max-w-[1440px] m-4 bordaInterativa" id="detalhes">
 					<Detalhes />
 					<Estatisticas />
 				</div>
-				<div className="flex flex-col justify-center bg-zinc-900 rounded-xl max-w-[1440px] m-4">
+				<div className="flex flex-col justify-center bg-zinc-900 rounded-xl max-w-[1440px] m-4 bordaInterativa">
 					<Sobre/>
 				</div>
 			</div>

@@ -19,7 +19,7 @@ export default function Home() {
             "
             >
                 <div className="absolute bottom-0 left-0 h-12 w-full bg-gradient-to-b from-transparent via-black/70 to-black pointer-events-none"></div>
-                <div className="lg:grid lg:grid-cols-2 lg:gap-8 max-w-[1000px] mx-auto xl:max-w-[1200px]">
+                <div className="lg:grid lg:grid-cols-2 lg:gap-8 max-w-[1000px] mx-auto xl:max-w-[1200px] ">
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
                             <span className="uppercase text-laranja-impacto xl:text-xl">Simulação de impacto e resistência</span>

@@ -39,7 +39,7 @@ export default function Page() {
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 rounded-xl">
-                        <div className="bg-zinc-800 p-4 rounded-xl grid grid-cols-[260px_1fr] xl:grid-cols-[400px_1fr] 2xl:p-8">
+                        <div className="p-4 rounded-xl grid grid-cols-[260px_1fr] xl:grid-cols-[400px_1fr] 2xl:p-8 bordaInterativa">
                             <div className="flex flex-col gap-2 z-10">
                                 <div className="flex gap-4">
                                     <div className="w-12 h-12 rounded-xl border border-laranja-impacto flex justify-center items-center xl:w-18 xl:h-18">
@@ -80,7 +80,7 @@ export default function Page() {
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-zinc-800 p-4 rounded-xl grid grid-cols-[260px_1fr] xl:grid-cols-[400px_1fr] 2xl:p-8">
+                        <div className="p-4 rounded-xl grid grid-cols-[260px_1fr] xl:grid-cols-[400px_1fr] 2xl:p-8 bordaInterativa">
                             <div className="flex flex-col gap-2 z-10">
                                 <div className="flex gap-4">
                                     <div className="w-12 h-12 rounded-xl border border-laranja-impacto flex justify-center items-center xl:w-18 xl:h-18">
@@ -121,7 +121,7 @@ export default function Page() {
                                 </div> */}
                             </div>
                         </div>
-                        <div className="bg-zinc-800 p-4 rounded-xl grid grid-cols-[260px_1fr] xl:grid-cols-[400px_1fr] 2xl:p-8">
+                        <div className="p-4 rounded-xl grid grid-cols-[260px_1fr] xl:grid-cols-[400px_1fr] 2xl:p-8 bordaInterativa">
                             <div className="flex flex-col gap-2 z-10">
                                 <div className="flex gap-4">
                                     <div className="w-12 h-12 rounded-xl border border-laranja-impacto flex justify-center items-center xl:w-18 xl:h-18">
@@ -162,7 +162,7 @@ export default function Page() {
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-zinc-800 p-4 rounded-xl grid grid-cols-[260px_1fr] xl:grid-cols-[400px_1fr] 2xl:p-8">
+                        <div className="p-4 rounded-xl grid grid-cols-[260px_1fr] xl:grid-cols-[400px_1fr] 2xl:p-8 bordaInterativa">
                             <div className="flex flex-col gap-2 z-10">
                                 <div className="flex gap-4">
                                     <div className="w-12 h-12 rounded-xl border border-laranja-impacto flex justify-center items-center xl:w-18 xl:h-18">
@@ -204,7 +204,7 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-zinc-800 p-2 rounded-xl lg:grid lg:grid-cols-4 lg:gap-4 xl:p-4">
+                    <div className="p-2 rounded-xl lg:grid lg:grid-cols-4 lg:gap-4 xl:p-4 bordaInterativa">
                         <div className="flex items-center gap-2 border-r border-zinc-500 px-2">
                             <div className="text-4xl text-laranja-impacto xl:text-5xl">
                                 <LuBrain />
@@ -242,7 +242,7 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-zinc-800 p-2 rounded-xl lg:grid lg:grid-cols-[auto_1fr_150px] lg:gap-2 xl:p-4 xl:grid-cols-[auto_1fr_200px]">
+                    <div className="p-2 rounded-xl lg:grid lg:grid-cols-[auto_1fr_150px] lg:gap-2 xl:p-4 xl:grid-cols-[auto_1fr_200px] bordaInterativa">
                         <div className="text-6xl text-laranja-impacto">
                             <LiaAtomSolid />
                         </div>

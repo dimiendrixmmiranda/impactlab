@@ -15,7 +15,7 @@ export default function Page() {
         <Template>
             <div className="max-w-[1400px] mx-auto">
                 <div className="min-h-screen font-oswald p-4 flex flex-col gap-10 lg:p-8">
-                    <div className="grid grid-cols-2 gap-4 bg-zinc-800 border border-zinc-500 rounded-xl">
+                    <div className="grid grid-cols-2 gap-4 rounded-xl bordaInterativa">
                         <div className="p-4 rounded-xl flex flex-col gap-6 xl:p-8 xl:px-12">
                             <div>
                                 <p className="text-laranja-impacto uppercase text-laranja-impacto">Sobre o Projeto</p>
@@ -51,7 +51,7 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-zinc-800 rounded-xl lg:grid lg:grid-cols-4 border border-zinc-500">
+                    <div className="rounded-xl lg:grid lg:grid-cols-4 bordaInterativa">
                         <div className="flex flex-col justify-center items-center gap-1 border-r border-zinc-500 p-4 xl:p-6">
                             <div className="relative w-[80px] h-[80px] rounded-full p-1 border border-laranja-impacto text-laranja-impacto flex justify-center items-center text-5xl">
                                 <GiAtom />
@@ -89,7 +89,7 @@ export default function Page() {
                             </p>
                         </div>
                     </div>
-                    <div className="bg-zinc-800 p-4 rounded-xl lg:grid lg:grid-cols-2 lg:gap-4 xl:grid-cols-[1fr_auto] border border-zinc-500">
+                    <div className="p-4 rounded-xl lg:grid lg:grid-cols-2 lg:gap-4 xl:grid-cols-[1fr_auto] bordaInterativa">
                         <div className="grid grid-cols-[70px_1fr] gap-2">
                             <div className="text-4xl p-1 rounded-full border w-[70px] h-[70px] flex justify-center items-center border-laranja-impacto my-auto text-laranja-impactow">
                                 <TbTargetArrow />
@@ -111,7 +111,7 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-zinc-800 p-4 rounded-xl flex flex-col gap-4 xl:px-8 xl:py-6">
+                    <div className="p-4 rounded-xl flex flex-col gap-4 xl:px-8 xl:py-6 bordaInterativa">
                         <div>
                             <h3 className="font-bold text-xl text-laranja-impacto">Nossa Missão</h3>
                         </div>

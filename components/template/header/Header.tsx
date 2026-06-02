@@ -18,7 +18,7 @@ export default function Header() {
         transition-all duration-500
         border-laranja-impacto
         text-shadow-[1px_1px_2px_black]
-        lg:text-lg
+        xl:text-lg
         ${ativo
                 ? 'scale-105 border-b border-laranja-impacto text-laranja-impacto'
                 : 'hover:scale-105 hover:border-b hover:border-laranja-impacto'
@@ -74,7 +74,7 @@ export default function Header() {
                 </ul>
             </section>
             <div className="ml-auto">
-                <Link href={'/'} className="grid grid-cols-[30px_1fr] max-w-[145px] gap-1 leading-4.5 border bg-orange-400 border-orange-700 px-2 py-1 rounded-xl text-shadow-[1px_1px_2px_black]">
+                <Link href={'/'} className="grid grid-cols-[30px_1fr] max-w-[240px] gap-1 leading-4.5 border bg-orange-400 border-orange-700 px-2 py-1 rounded-xl text-shadow-[1px_1px_2px_black] xl:text-lg xl:py-2">
                     <IoLogIn className="text-2xl mx-auto my-auto" />
                     <p className="hidden lg:block">Acessar minhas simulações</p>
                 </Link>
