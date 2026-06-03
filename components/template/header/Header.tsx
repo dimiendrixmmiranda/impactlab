@@ -5,6 +5,7 @@ import { FaCogs, FaCube, FaFlask, FaHome } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5";
 import { MdOutlineScience } from "react-icons/md";
 import { usePathname } from 'next/navigation';
+import SidebarComponent from "@/components/sidebar/SidebarComponent";
 
 
 export default function Header() {
@@ -29,12 +30,13 @@ export default function Header() {
     console.log(pathname)
 
     return (
-        <header className="bg-stone-950 font-oswald p-2 flex items-center lg:px-6">
+        <header className="bg-stone-950 font-oswald p-2 items-center grid grid-cols-[1fr_40px] md:grid-cols-[auto_1fr_40px] md:grid-cols-[auto_1fr_200px] lg:px-6">
             <Link href={'/'}>
                 <div className="relative w-[100px] h-[50px]">
                     <Image alt="Logo da ImpactLab" src={'/logo/logo.png'} fill className="object-cover" />
                 </div>
             </Link>
+            <SidebarComponent/>
             <section className="flex-1 justify-center hidden md:flex">
                 <ul className="flex items-center gap-4">
                     <li>
@@ -73,9 +75,9 @@ export default function Header() {
                     </li>
                 </ul>
             </section>
-            <div className="ml-auto">
-                <Link href={'/'} className="grid grid-cols-[30px_1fr] max-w-[240px] gap-1 leading-4.5 border bg-orange-400 border-orange-700 px-2 py-1 rounded-xl text-shadow-[1px_1px_2px_black] xl:text-lg xl:py-2">
-                    <IoLogIn className="text-2xl mx-auto my-auto" />
+            <div className="ml-auto hidden md:flex w-full h-full mx-auto my-auto justify-center items-center">
+                <Link href={'/'} className="flex justify-center items-center bg-laranja-impacto p-2 rounded-xl">
+                    <IoLogIn className="text-xl mx-auto my-auto" />
                     <p className="hidden lg:block">Acessar minhas simulações</p>
                 </Link>
             </div>

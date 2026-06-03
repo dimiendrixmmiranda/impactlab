@@ -15,7 +15,7 @@ export default function Footer() {
                 </Link>
             </div>
             <div className="text-zinc-400 flex flex-col gap-2">
-                <h4 className="uppercase">Navegação</h4>
+                <h4 className="uppercase text-white">Navegação</h4>
                 <ul>
                     <li>
                         <Link href={'/'}>Início</Link>
@@ -35,7 +35,7 @@ export default function Footer() {
                 </ul>
             </div>
             <div className="text-zinc-400 flex flex-col gap-2">
-                <h4 className="uppercase">Suporte</h4>
+                <h4 className="uppercase text-white">Suporte</h4>
                 <ul>
                     <li>
                         <Link href={'/'}>Documentação</Link>
@@ -85,7 +85,7 @@ export default function Footer() {
                 </ul>
             </div>
             <div className="col-span-4 flex justify-between text-zinc-400 mt-6">
-                <div>
+                <div className="text-white">
                     <span>© 2024 ImpactLab. Todos os direitos reservados.</span>
                 </div>
                 <div>

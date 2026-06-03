@@ -51,15 +51,22 @@ body {
   --breakpoint-2xl: 1440px;
 }
 
-.detalhes{
-  scroll-behavior:smooth ;
+button{
+    cursor: pointer;
 }
 
-.p-paginator,.p-component{
-  background-color: var(--cinza-grafite)!important;
+.detalhes {
+  scroll-behavior: smooth;
 }
-.p-paginator,.p-component button{
-  color: var(--branco)!important;
+
+.p-paginator,
+.p-component {
+  background-color: var(--cinza-grafite) !important;
+}
+
+.p-paginator,
+.p-component button {
+  color: var(--branco) !important;
 }
 
 /* Preto Industrial	Fundo principal	#0D0D0D
@@ -76,6 +83,7 @@ Laranja Energia	Hover / efeitos	#FF8C42 */
     border-radius: 16px;
 }
 
+/* BORDA GIRANDO */
 .bordaInterativa::before {
     content: "";
     position: absolute;
@@ -85,20 +93,42 @@ Laranja Energia	Hover / efeitos	#FF8C42 */
         from 0deg,
         transparent 0deg,
         transparent 270deg,
-        #ff7b00 320deg,
-        #ffb347 360deg
+        rgba(255, 123, 0, 0.8) 320deg,
+        rgba(255, 179, 71, 1) 360deg
     );
 
-    animation: bordaRodando 4s linear infinite;
+    animation: bordaRodando 8s linear infinite;
 }
 
+/* FUNDO + LUZ ANIMADA */
 .bordaInterativa::after {
     content: "";
     position: absolute;
     inset: 4px;
-    background: var(--color-cinza-grafite); /* cor do bg-cinza-grafite */
     border-radius: 14px;
     z-index: 1;
+
+    background:
+        radial-gradient(
+            circle at 0% 50%,
+            rgba(255, 107, 0, 0.12) 0%,
+            rgba(255, 107, 0, 0.05) 15%,
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #1b1b1b,
+            #202020,
+            #1b1b1b
+        );
+
+    background-size:
+        250% 250%,
+        100% 100%;
+
+    animation:
+        luzMovendo 12s ease-in-out infinite,
+        fundoRespirando 8s ease-in-out infinite;
 }
 
 .bordaInterativa > * {
@@ -113,5 +143,39 @@ Laranja Energia	Hover / efeitos	#FF8C42 */
 
     to {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes luzMovendo {
+    0% {
+        background-position:
+            0% 50%,
+            center;
+    }
+
+    50% {
+        background-position:
+            100% 50%,
+            center;
+    }
+
+    100% {
+        background-position:
+            0% 50%,
+            center;
+    }
+}
+
+@keyframes fundoRespirando {
+    0% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.08);
+    }
+
+    100% {
+        filter: brightness(1);
     }
 }
