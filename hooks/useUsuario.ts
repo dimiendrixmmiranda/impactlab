@@ -1,9 +1,10 @@
 'use client'
+import Usuario from "@/interfaces/Usuario";
 import { useEffect, useState } from "react";
 
 export function useUsuario() {
 
-    const [usuario, setUsuario] = useState(null);
+    const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -22,6 +23,9 @@ export function useUsuario() {
         }
         carregarUsuario();
     }, [])
+
+    console.log(usuario)
+
     return {
         usuario,
         loading

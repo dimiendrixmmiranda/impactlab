@@ -386,7 +386,7 @@ export default function Page() {
                             <li className="border border-zinc-500 p-4 rounded-xl grid grid-rows-[auto_1fr_auto] bg-zinc-900">
                                 <h3 className="uppercase font-bold text-xl text-center">Deformação</h3>
                                 <div className="relative w-24 h-14 mx-auto my-auto">
-                                    <Image alt="formula" src={'/assets/formulas/cinetica.png'} fill className="object-cover"/>
+                                    <Image alt="formula" src={'/assets/formulas/deformacao.png'} fill className="object-cover"/>
                                 </div>
                                 <p className="text-center">Variação relativa do comprimento do material.</p>
                             </li>

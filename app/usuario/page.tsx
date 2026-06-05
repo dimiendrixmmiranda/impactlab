@@ -9,6 +9,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoDocumentTextOutline, IoLogOut } from "react-icons/io5";
 import { MdAutoGraph, MdOutlineDashboard, MdOutlinePlayCircle } from "react-icons/md";
 import { PiAtomBold, PiCubeBold, PiFlaskBold, PiLightningBold, PiRocketLaunchBold } from "react-icons/pi";
+import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator';
+import { signOut } from "next-auth/react";
 
 export default function Page() {
 
@@ -33,7 +35,13 @@ export default function Page() {
         )
     }
     const [simulacoes, setSimulacoes] = useState<any[]>([]);
+    const [first, setFirst] = useState(0);
+    const [rows, setRows] = useState(5);
 
+    const onPageChange = (event: PaginatorPageChangeEvent) => {
+        setFirst(event.first);
+        setRows(event.rows);
+    };
     useEffect(() => {
         async function carregarSimulacoes() {
             const response = await fetch("/api/simulacao");
@@ -45,12 +53,21 @@ export default function Page() {
         carregarSimulacoes();
     }, []);
 
-    console.log(simulacoes)
+    const handleLogout = async () => {
+        await signOut({
+            callbackUrl: "/"
+        });
+    };
 
+    console.log(simulacoes)
+    const simulacoesPaginadas = simulacoes.slice(
+        first,
+        first + rows
+    )
     return (
         <Template>
             <div className="min-h-screen font-oswald gap-4 xl:grid xl:grid-cols-[200px_1fr] 2xl:grid-cols-[280px_1fr]">
-                <div className="bg-zinc-900 flex flex-col">
+                <div className="flex flex-col">
                     <div className="flex flex-col">
                         <h3 className="uppercase p-4">Menu Principal</h3>
                         <ul className="flex flex-col gap-2">
@@ -102,24 +119,58 @@ export default function Page() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href={'/'} className="flex items-center gap-1 text-xl w-full px-4 py-2">
+                                <button onClick={() => handleLogout()} className="flex items-center gap-1 text-xl w-full px-4 py-2">
                                     <IoLogOut className="mt-1" />
                                     <p>Sair</p>
-                                </Link>
+                                </button>
                             </li>
                         </ul>
                     </div>
-                    <div className="border border-laranja-impacto m-2 p-2 rounded-xl 2xl:mt-6">
+                    <div className="border border-laranja-impacto m-2 p-2 rounded-xl flex flex-col gap-2 2xl:mt-6">
                         <div className="flex items-center gap-2 text-xl">
                             <FaRegLightbulb />
-                            <h3>Dica Técnica</h3>
+                            <h3>Resistência dos Materiais</h3>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <p className="leading-5">
-                                A tensão é inversamente
-                                proporcional à área de contato.
-                            </p>
-                            <b>σ = F / A</b>
+                            <ul className="flex flex-col gap-3">
+                                <li className="grid grid-cols-[20px_auto_1fr_40px] gap-1">
+                                    <div className="w-5 h-5 relative my-auto bg-red-500"></div>
+                                    <h2>Aço</h2>
+                                    <div className="w-full h-2 border border-laranja-energia rounded-lg my-auto"></div>
+                                    <p>35.6kN</p>
+                                </li>
+                                <li className="grid grid-cols-[20px_auto_1fr_40px] gap-1">
+                                    <div className="w-5 h-5 relative my-auto bg-red-500"></div>
+                                    <h2>Aço</h2>
+                                    <div className="w-full h-2 border border-laranja-energia rounded-lg my-auto"></div>
+                                    <p>35.6kN</p>
+                                </li>
+                                <li className="grid grid-cols-[20px_auto_1fr_40px] gap-1">
+                                    <div className="w-5 h-5 relative my-auto bg-red-500"></div>
+                                    <h2>Aço</h2>
+                                    <div className="w-full h-2 border border-laranja-energia rounded-lg my-auto"></div>
+                                    <p>35.6kN</p>
+                                </li>
+                                <li className="grid grid-cols-[20px_auto_1fr_40px] gap-1">
+                                    <div className="w-5 h-5 relative my-auto bg-red-500"></div>
+                                    <h2>Aço</h2>
+                                    <div className="w-full h-2 border border-laranja-energia rounded-lg my-auto"></div>
+                                    <p>35.6kN</p>
+                                </li>
+                                <li className="grid grid-cols-[20px_auto_1fr_40px] gap-1">
+                                    <div className="w-5 h-5 relative my-auto bg-red-500"></div>
+                                    <h2>Aço</h2>
+                                    <div className="w-full h-2 border border-laranja-energia rounded-lg my-auto"></div>
+                                    <p>35.6kN</p>
+                                </li>
+                                <li className="grid grid-cols-[20px_auto_1fr_40px] gap-1">
+                                    <div className="w-5 h-5 relative my-auto bg-red-500"></div>
+                                    <h2>Aço</h2>
+                                    <div className="w-full h-2 border border-laranja-energia rounded-lg my-auto"></div>
+                                    <p>35.6kN</p>
+                                </li>
+                            </ul>
+                            <span className="text-zinc-500 text-center">Baseado em simulações realizadas</span>
                         </div>
                     </div>
                 </div>
@@ -160,13 +211,13 @@ export default function Page() {
                             '120 m/s'
                         )}
                     </div>
-                    <div className="xl:grid xl:grid-cols-[700px_1fr] xl:gap-6 2xl:grid-cols-[800px_auto] 2xl:grid-cols-[auto_1fr]">
-                        <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 xl:row-start-1 xl:row-end-3">
+                    <div className="xl:grid xl:grid-cols-[700px_1fr] xl:grid-rows-[360px_auto] xl:gap-6 2xl:grid-cols-[800px_auto] 3xl:grid-cols-[auto_1fr] 3xl:grid-rows-[340px_auto]">
+                        <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 flex flex-col xl:row-start-1 xl:row-end-3">
                             <h3 className="text-3xl font-bold mb-4">
                                 Simulações recentes
                             </h3>
                             <div className="overflow-x-auto">
-                                <table className="w-full min-w-[900px]">
+                                <table className="w-full min-w-[900px] 2xl:h-[600px] 3xl:h-[550px]">
                                     <thead>
                                         <tr className="border-b border-zinc-600 text-zinc-400 text-sm uppercase">
                                             <th className="text-left py-3">
@@ -186,15 +237,13 @@ export default function Page() {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {simulacoes.map((sim) => (
+                                    <tbody className="">
+                                        {simulacoesPaginadas.map((sim) => (
                                             <tr
-                                                key={sim}
-                                                className="
-                                            border-b border-zinc-700
+                                                key={sim.id}
+                                                className="border-b border-zinc-700
                                             hover:bg-zinc-700/40
-                                            transition-colors
-                                        "
+                                            transition-colors"
                                             >
                                                 <td className="py-4">
                                                     <div className="flex gap-3 items-center">
@@ -255,28 +304,41 @@ export default function Page() {
                                     </tbody>
                                 </table>
                             </div>
+                            <div className="card mt-auto">
+                                <Paginator
+                                    first={first}
+                                    rows={rows}
+                                    totalRecords={simulacoes.length}
+                                    onPageChange={onPageChange}
+                                    template="PrevPageLink PageLinks NextPageLink"
+                                    className="bg-transparent border-none"
+                                />
+                            </div>
                         </div>
-                        <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4">
+                        <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4 flex flex-col gap-3 2xl:p-6">
                             <h3 className="text-3xl font-bold mb-4">
                                 Materiais mais utilizados
                             </h3>
+                            <div className="w-full h-full 4xl:grid 4xl:grid-cols-2 3xl:gap-4">
+                                <div className="w-full h-full bg-red-500 mx-auto 3xl:m-0"></div>
+                            </div>
                         </div>
-                        <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-4">
-                            <h3 className="text-3xl font-bold mb-4">
-                                Dicas Rápidas
-                            </h3>
-                            <div className="border border-zinc-700 grid grid-cols-[40px_1fr_auto] p-4 rounded-xl gap-4">
-                                <div className="w-10 h-10 rounded-full bg-amber-600 flex justify-center items-center text-2xl mt-2">
-                                    <FaLightbulb />
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <div>
+                        <div className="bg-zinc-800 border border-zinc-700 rounded-xl flex flex-col gap-4 p-4 2xl:p-6">
+                            <div className="flex items-center gap-2">
+                                <FaLightbulb className="text-4xl text-amber-500" />
+                                <h3 className="text-3xl font-bold">
+                                    Dicas Rápidas
+                                </h3>
+                            </div>
+                            <div className="border border-zinc-700 flex flex-col p-4 rounded-xl gap-4 h-full">
+                                <div className="flex flex-col gap-2 h-full">
+                                    <div className="flex flex-col gap-2">
                                         <h2 className="font-bold text-xl">Dica de hoje</h2>
-                                        <span>
+                                        <span className="line-clamp-4 4xl:text-lg">
                                             Para resultados ainda mais precisos, certifique-se de inserir corretamente as propriedades do material e as condições de impacto.
                                         </span>
                                     </div>
-                                    <button className="flex text-nowrap items-center bg-zinc-950 p-2 rounded-xl text-center justify-center">
+                                    <button className="flex text-nowrap items-center bg-zinc-950 p-2 rounded-xl text-center justify-center mt-auto">
                                         <p>Ver todas as dicas</p>
                                         <IoIosArrowForward className="pt-1" />
                                     </button>

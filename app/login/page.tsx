@@ -213,11 +213,11 @@ export default function Page() {
                                                         <p>Microsoft</p>
                                                     </button>
                                                 </div>
-                                                <button className="text-center mx-auto w-full flex justify-center items-center gap-1">Ainda não tem uma conta? <b className="text-laranja-impacto">Criar conta</b></button>
+                                                <button onClick={() => setActive('create')} className="text-center mx-auto w-full flex justify-center items-center gap-1">Ainda não tem uma conta? <b className="text-laranja-impacto">Criar conta</b></button>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="flex flex-col gap-4">
+                                        <div className="flex flex-col gap-3">
                                             <div className="flex flex-col gap-1">
                                                 <label className="text-lg" htmlFor="nome">Nome</label>
                                                 <div className="relative">
@@ -274,11 +274,12 @@ export default function Page() {
                                             <div>
                                                 <button
                                                     onClick={cadastrar}
-                                                    className="font-bold text-3xl bg-laranja-impacto w-full py-2 rounded-xl cursor-pointer"
+                                                    className="font-bold text-xl bg-laranja-impacto w-full py-2 rounded-xl cursor-pointer"
                                                 >
                                                     Cadastrar
                                                 </button>
                                             </div>
+                                            <button onClick={() => setActive('login')} className="text-center mx-auto w-full flex justify-center items-center gap-1">Ja tem uma conta? <b className="text-laranja-impacto">Faça login agora mesmo!</b></button>
                                         </div>
                                     )
                                 }

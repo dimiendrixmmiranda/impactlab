@@ -3,16 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaCogs, FaCube, FaFlask, FaHome } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5";
-import { MdOutlineScience } from "react-icons/md";
+import { MdOutlineScience, MdWavingHand } from "react-icons/md";
 import { usePathname } from 'next/navigation';
 import SidebarComponent from "@/components/sidebar/SidebarComponent";
 import { useUsuario } from "@/hooks/useUsuario";
 
 
 export default function Header() {
-
-    const { usuario} = useUsuario();
-
+    const { usuario } = useUsuario();
     console.log(usuario);
 
     const pathname = usePathname()
@@ -32,8 +30,6 @@ export default function Header() {
             }
     `;
     }
-
-    console.log(pathname)
 
     return (
         <header className="bg-stone-950 font-oswald p-2 items-center grid grid-cols-[1fr_40px] md:grid-cols-[auto_1fr_40px] md:grid-cols-[auto_1fr_200px] lg:px-6">
@@ -81,12 +77,26 @@ export default function Header() {
                     </li>
                 </ul>
             </section>
-            <div className="ml-auto hidden md:flex w-full h-full mx-auto my-auto justify-center items-center">
-                <Link href={'/'} className="flex justify-center items-center bg-laranja-impacto p-2 rounded-xl">
-                    <IoLogIn className="text-xl mx-auto my-auto" />
-                    <p className="hidden lg:flex flex-nowrap" style={{ textShadow: '1px 1px 2px black' }}>Acessar minhas simulações</p>
-                </Link>
-            </div>
-        </header>
+            {
+                usuario ? (
+                    <Link href={'/usuario'} className="flex items-center gap-2">
+                        <div className="relative w-8 h-8 rounded-full bg-zinc-800">
+
+                        </div>
+                        <h2>Bem vindo, {usuario.nome?.split(' ')[0]}</h2>
+                        <div className="text-lg text-yellow-500">
+                            <MdWavingHand />
+                        </div>
+                    </Link >
+                ) : (
+                    <div className="ml-auto hidden md:flex w-full h-full mx-auto my-auto justify-center items-center">
+                        <Link href={'/login'} className="flex justify-center items-center bg-laranja-impacto p-2 rounded-xl">
+                            <IoLogIn className="text-xl mx-auto my-auto" />
+                            <p className="hidden lg:flex flex-nowrap" style={{ textShadow: '1px 1px 2px black' }}>Acessar minhas simulações</p>
+                        </Link>
+                    </div>
+                )
+            }
+        </header >
     )
 }
