@@ -6,9 +6,15 @@ import { IoLogIn } from "react-icons/io5";
 import { MdOutlineScience } from "react-icons/md";
 import { usePathname } from 'next/navigation';
 import SidebarComponent from "@/components/sidebar/SidebarComponent";
+import { useUsuario } from "@/hooks/useUsuario";
 
 
 export default function Header() {
+
+    const { usuario} = useUsuario();
+
+    console.log(usuario);
+
     const pathname = usePathname()
 
     function getLinkClass(path: string) {
@@ -36,7 +42,7 @@ export default function Header() {
                     <Image alt="Logo da ImpactLab" src={'/logo/logo.png'} fill className="object-cover" />
                 </div>
             </Link>
-            <SidebarComponent/>
+            <SidebarComponent />
             <section className="flex-1 justify-center hidden md:flex">
                 <ul className="flex items-center gap-4">
                     <li>
@@ -78,7 +84,7 @@ export default function Header() {
             <div className="ml-auto hidden md:flex w-full h-full mx-auto my-auto justify-center items-center">
                 <Link href={'/'} className="flex justify-center items-center bg-laranja-impacto p-2 rounded-xl">
                     <IoLogIn className="text-xl mx-auto my-auto" />
-                    <p className="hidden lg:block">Acessar minhas simulações</p>
+                    <p className="hidden lg:flex flex-nowrap" style={{ textShadow: '1px 1px 2px black' }}>Acessar minhas simulações</p>
                 </Link>
             </div>
         </header>

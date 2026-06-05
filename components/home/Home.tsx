@@ -23,16 +23,16 @@ export default function Home() {
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
                             <span className="uppercase text-laranja-impacto xl:text-xl">Simulação de impacto e resistência</span>
-                            <h2 className="text-5xl xl:text-7xl">Transformando colisões em <b className="uppercase font-bold text-laranja-impacto">cálculos</b>!</h2>
+                            <h2 className="text-5xl uppercase xl:text-7xl">Transformando colisões em <b className="uppercase font-bold text-laranja-impacto">cálculos</b>!</h2>
                         </div>
                         <p className="xl:text-lg">
                             O ImpactLab é uma plataforma interativa que utiliza conceitos de física, mecânica e ciência dos materiais para simular impactos e analisar a resistência de diferentes estruturas
                         </p>
                         <div className="flex items-center lg:gap-4">
-                            <button className="flex items-center gap-1 bg-laranja-impacto border border-orange-700 p-2 px-4 text-lg rounded-xl text-shadow-[1px_1px_2px_black] lg:text-lg">
+                            <Link href={'/simulacao'} className="flex items-center gap-1 bg-laranja-impacto border border-orange-700 p-2 px-4 text-lg rounded-xl text-shadow-[1px_1px_2px_black] lg:text-lg">
                                 <p>Iniciar simulação</p>
                                 <FaArrowRight />
-                            </button>
+                            </Link>
                             <Link href={'#sobre'} className="flex items-center gap-1 border border-zinc-600 p-2 px-4 text-lg rounded-xl text-shadow-[1px_1px_2px_black] lg:text-lg">
                                 <p>Saiba Mais</p>
                                 <FaArrowDown />

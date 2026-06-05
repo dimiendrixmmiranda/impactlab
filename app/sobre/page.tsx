@@ -51,7 +51,7 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-                    <div className="rounded-xl lg:grid lg:grid-cols-4 bordaInterativa">
+                    <div className="rounded-xl p-2 lg:grid lg:grid-cols-4 bordaInterativa">
                         <div className="flex flex-col justify-center items-center gap-1 border-r border-zinc-500 p-4 xl:p-6">
                             <div className="relative w-[80px] h-[80px] rounded-full p-1 border border-laranja-impacto text-laranja-impacto flex justify-center items-center text-5xl">
                                 <GiAtom />

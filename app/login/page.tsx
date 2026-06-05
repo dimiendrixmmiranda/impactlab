@@ -1,4 +1,7 @@
 'use client'
+
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Template from "@/components/template/Template";
 import Link from "next/link";
 import { useState } from "react";
@@ -19,6 +22,65 @@ export default function Page() {
     const [confirmarSenha, setConfirmarSenha] = useState('')
     const [sexo, setSexo] = useState('')
     const [dataDeNascimento, setDataDeNascimento] = useState('')
+
+    const router = useRouter();
+
+    const cadastrar = async () => {
+
+        if (senha !== confirmarSenha) {
+            alert("As senhas não coincidem");
+            return;
+        }
+
+        const response =
+            await fetch("/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nome,
+                    email,
+                    senha,
+                    sexo
+                })
+            });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error);
+            return;
+        }
+
+        alert("Conta criada com sucesso!");
+        router.push("/usuario");
+
+        setActive("login");
+
+        setNome("");
+        setEmail("");
+        setSenha("");
+        setConfirmarSenha("");
+        setSexo("");
+    }
+
+    const fazerLogin = async () => {
+        const result =
+            await signIn("credentials", {
+                email,
+                password: senha,
+                redirect: false
+            });
+
+        if (result?.error) {
+            alert("Email ou senha inválidos");
+            return;
+        }
+
+        router.push("/usuario");
+    }
+
     return (
         <Template>
             <div className="max-w-[1400px] mx-auto flex flex-col gap-8 p-4 font-oswald xl:py-10 2xl:p-16">
@@ -129,7 +191,8 @@ export default function Page() {
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-center items-center">
-                                                    <button className="w-full h-full flex justify-center items-center bg-laranja-impacto text-xl rounded-xl py-2">Entrar</button>
+                                                    <button className="w-full h-full flex justify-center items-center bg-laranja-impacto text-xl rounded-xl py-2" onClick={fazerLogin}
+                                                    >Entrar</button>
                                                 </div>
                                                 <div className="relative w-full flex justify-center items-center">
                                                     <div className="absolute top-[60%] left-0 w-[30%] h-[2px] bg-zinc-500" style={{ transform: 'translate(0,-50%)' }} />
@@ -209,7 +272,12 @@ export default function Page() {
                                                 <label htmlFor="termos">Li e Concordo com os termos de uso</label>
                                             </div>
                                             <div>
-                                                <button className="font-bold text-3xl bg-laranja-impacto w-full py-2 rounded-xl">Cadastrar</button>
+                                                <button
+                                                    onClick={cadastrar}
+                                                    className="font-bold text-3xl bg-laranja-impacto w-full py-2 rounded-xl cursor-pointer"
+                                                >
+                                                    Cadastrar
+                                                </button>
                                             </div>
                                         </div>
                                     )

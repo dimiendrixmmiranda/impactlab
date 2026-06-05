@@ -27,9 +27,9 @@ export default function Page() {
         first + rows
     )
 
-    function cardMaterial(material: string, tipo: string, imagem: string, resistencia: number, densidade: number, dureza: number, elasticidade: number) {
+    function cardMaterial(material: string, tipo: string, imagem: string, resistencia: number, densidade: number, dureza: number, elasticidade: number, id: string) {
         return (
-            <div className="bg-zinc-800 p-2 rounded-xl border border-zinc-500 w-full max-w-[320px] mx-auto flex flex-col gap-3 lg:p-4">
+            <div key={id} className="bg-zinc-800 p-2 rounded-xl border border-zinc-500 w-full max-w-[320px] mx-auto flex flex-col gap-3 lg:p-4">
                 <div>
                     <h2 className="text-xl font-bold">{material}</h2>
                     <p className="text-laranja-impacto">{tipo}</p>
@@ -177,7 +177,8 @@ export default function Page() {
                                         material.resistencia,
                                         material.densidade,
                                         material.dureza,
-                                        material.elasticidade
+                                        material.elasticidade,
+                                        material.id
                                     )
                                 })
                             }
