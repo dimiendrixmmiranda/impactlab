@@ -11,7 +11,6 @@ import { useUsuario } from "@/hooks/useUsuario";
 
 export default function Header() {
     const { usuario } = useUsuario();
-    console.log(usuario);
 
     const pathname = usePathname()
 

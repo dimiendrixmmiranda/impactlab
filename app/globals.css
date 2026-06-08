@@ -138,6 +138,35 @@ Laranja Energia	Hover / efeitos	#FF8C42 */
     z-index: 2;
 }
 
+.scroll {
+  overflow-y: auto;
+}
+
+/* Chrome, Edge e Safari */
+.scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #18181b;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #f97316;
+  border-radius: 999px;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
+
+/* Firefox */
+.scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #f97316 #18181b;
+}
+
+
 @keyframes bordaRodando {
     from {
         transform: rotate(0deg);

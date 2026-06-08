@@ -186,7 +186,7 @@ export default function Page() {
                                 <BsGraphUp />
                             </div>
                             <h2 className="font-bold text-xl text-center">Calculo</h2>
-                            <div>
+                            <div className="mt-2">
                                 <ul>
                                     <li className="flex items-center gap-1">
                                         <div>
@@ -220,7 +220,7 @@ export default function Page() {
                                 <LiaAtomSolid />
                             </div>
                             <h2 className="font-bold text-xl text-center">Física</h2>
-                            <div>
+                            <div className="mt-2">
                                 <ul>
                                     <li className="flex items-center gap-1">
                                         <div>
@@ -254,7 +254,7 @@ export default function Page() {
                                 <PiGearBold />
                             </div>
                             <h2 className="font-bold text-xl text-center">Mecânica</h2>
-                            <div>
+                            <div className="mt-2">
                                 <ul>
                                     <li className="flex items-center gap-1">
                                         <div>
@@ -288,7 +288,7 @@ export default function Page() {
                                 <SiMaterialdesignicons />
                             </div>
                             <h2 className="font-bold text-xl text-center">Ciência dos Materiais</h2>
-                            <div>
+                            <div className="mt-2">
                                 <ul>
                                     <li className="flex items-center gap-1">
                                         <div>
@@ -322,7 +322,7 @@ export default function Page() {
                                 <FaCode />
                             </div>
                             <h2 className="font-bold text-xl text-center">Algoritmos</h2>
-                            <div>
+                            <div className="mt-2">
                                 <ul>
                                     <li className="flex items-center gap-1">
                                         <div>

@@ -5,7 +5,11 @@ import ResultadoSimulacao from "@/interfaces/ResultadoSimulacao";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-export default function Simulacao() {
+interface SimulacaoProps {
+    formato: 'horizontal' | 'vertical'
+}
+
+export default function Simulacao({ formato }: SimulacaoProps) {
     const { usuario } = useUsuario();
     const [material, setMaterial] = useState('')
 
@@ -396,114 +400,116 @@ export default function Simulacao() {
     ])
 
     return (
-        <section className="bg-black text-white relative overflow-hidden">
+        <section className="bg-[#0D0D0D]/90 text-white relative overflow-hidden">
             {/* BACKGROUND */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,0,0.12),transparent_45%)]" />
 
             {/* GRID */}
             <div className="absolute inset-0 opacity-15 bg-[linear-gradient(rgba(255,107,0,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,107,0,0.08)_1px,transparent_1px)] bg-[size:50px_50px]" />
 
-            <div className="relative z-10 grid grid-cols-[350px_1fr] gap-8 h-full">
-                <aside className="w-full h-full border-r border-orange-500/10 bg-[#0D0D0D]/90 backdrop-blur-xl p-6 flex flex-col gap-6">
+            <div className={`relative z-10 grid ${formato === 'vertical' ? 'grid-cols-[350px_1fr]' : 'grid-rows-[auto_1fr]'} gap-8 h-full`}>
+                <aside className="w-full h-full border-r border-orange-500/10 backdrop-blur-xl p-6 flex flex-col gap-6">
                     <div>
                         <h1 className="text-4xl font-bold font-oswald leading-tight">
                             Painel de <b className="text-laranja-impacto">Simulação</b>
                         </h1>
                     </div>
-                    <div className="bg-[#141414] border border-white/5 rounded-3xl p-5 space-y-4">
-                        <h2 className="text-orange-500 text-lg font-semibold">
-                            Projétil
-                        </h2>
-                        <div className="space-y-2">
-                            <label className="text-sm text-zinc-400">
-                                Massa (kg)
-                            </label>
-                            <input
-                                type="text"
-                                value={massa}
-                                onChange={(e) =>
-                                    setMassa(e.target.value)
-                                }
-                                placeholder="10"
-                                className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
-                            />
+                    <div className={`gap-6 ${formato === 'vertical' ? 'flex flex-col ' : 'grid grid-cols-2'}`}>
+                        <div className="bg-[#141414] border border-white/5 rounded-3xl p-5 space-y-4">
+                            <h2 className="text-orange-500 text-lg font-semibold">
+                                Projétil
+                            </h2>
+                            <div className="space-y-2">
+                                <label className="text-sm text-zinc-400">
+                                    Massa (kg)
+                                </label>
+                                <input
+                                    type="text"
+                                    value={massa}
+                                    onChange={(e) =>
+                                        setMassa(e.target.value)
+                                    }
+                                    placeholder="10"
+                                    className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm text-zinc-400">
+                                    Velocidade (m/s)
+                                </label>
+                                <input
+                                    type="text"
+                                    value={velocidade}
+                                    onChange={(e) =>
+                                        setVelocidade(e.target.value)
+                                    }
+                                    placeholder="80"
+                                    className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm text-zinc-400">
+                                    Diâmetro (cm)
+                                </label>
+                                <input
+                                    type="text"
+                                    value={diametroProjetil}
+                                    onChange={(e) =>
+                                        setDiametroProjetil(e.target.value)
+                                    }
+                                    placeholder="10"
+                                    className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
+                                />
+                            </div>
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-sm text-zinc-400">
-                                Velocidade (m/s)
-                            </label>
-                            <input
-                                type="text"
-                                value={velocidade}
-                                onChange={(e) =>
-                                    setVelocidade(e.target.value)
-                                }
-                                placeholder="80"
-                                className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-sm text-zinc-400">
-                                Diâmetro (cm)
-                            </label>
-                            <input
-                                type="text"
-                                value={diametroProjetil}
-                                onChange={(e) =>
-                                    setDiametroProjetil(e.target.value)
-                                }
-                                placeholder="10"
-                                className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
-                            />
-                        </div>
-                    </div>
-                    <div className="bg-[#141414] border border-white/5 rounded-3xl p-5 space-y-4">
-                        <h2 className="text-orange-500 text-lg font-semibold">
-                            Parede
-                        </h2>
-                        <div className="space-y-2">
-                            <label className="text-sm text-zinc-400">
-                                Material
-                            </label>
-                            <select
-                                value={material}
-                                onChange={(e) =>
-                                    setMaterial(e.target.value)
-                                }
-                                className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
-                            >
-                                <option value="">Selecione</option>
-                                {
-                                    materiais.map((material) => (
-                                        <option
-                                            key={material.id}
-                                            value={material.id}
-                                        >
-                                            {material.nome}
-                                        </option>
-                                    ))
-                                }
+                        <div className="bg-[#141414] border border-white/5 rounded-3xl p-5 space-y-4">
+                            <h2 className="text-orange-500 text-lg font-semibold">
+                                Parede
+                            </h2>
+                            <div className="space-y-2">
+                                <label className="text-sm text-zinc-400">
+                                    Material
+                                </label>
+                                <select
+                                    value={material}
+                                    onChange={(e) =>
+                                        setMaterial(e.target.value)
+                                    }
+                                    className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
+                                >
+                                    <option value="">Selecione</option>
+                                    {
+                                        materiais.map((material) => (
+                                            <option
+                                                key={material.id}
+                                                value={material.id}
+                                            >
+                                                {material.nome}
+                                            </option>
+                                        ))
+                                    }
 
-                            </select>
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-sm text-zinc-400">
-                                Espessura (cm)
-                            </label>
-                            <input
-                                type="text"
-                                value={espessura}
-                                onChange={(e) =>
-                                    setEspessura(e.target.value)
-                                }
-                                placeholder="20"
-                                className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
-                            />
+                                </select>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm text-zinc-400">
+                                    Espessura (cm)
+                                </label>
+                                <input
+                                    type="text"
+                                    value={espessura}
+                                    onChange={(e) =>
+                                        setEspessura(e.target.value)
+                                    }
+                                    placeholder="20"
+                                    className="w-full bg-black border border-white/10 rounded-xl p-3 outline-none"
+                                />
+                            </div>
                         </div>
                     </div>
                     <button onClick={iniciarSimulacao} className="bg-laranja-impacto font-bold uppercase py-2 text-xl rounded-xl" style={{ textShadow: '1px 1px 2px black' }}>Iniciar Simulação</button>
                 </aside>
-                <section className="flex-1 relative flex items-center justify-center pr-8 lg:grid lg:grid-rows-[auto_1fr] lg:grid-cols-1 lg:my-8 lg:gap-8">
+                <section className="flex-1 relative flex items-center justify-center pr-8 p-8 lg:grid lg:grid-rows-[auto_1fr] lg:grid-cols-1 lg:gap-8">
                     {/* <div className="absolute w-[600px] h-[600px] bg-orange-500/10 blur-[150px] rounded-full" /> */}
                     <div className="relative w-full h-[500px] border border-orange-500/10 rounded-[40px] bg-[#111]/60 backdrop-blur-md overflow-hidden">
                         <div className="flex flex-col items-center w-full p-4">

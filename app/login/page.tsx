@@ -42,7 +42,8 @@ export default function Page() {
                     nome,
                     email,
                     senha,
-                    sexo
+                    sexo,
+                    imagem: sexo == 'masculino' ? '/users/usuario-masculino.png' : '/users/usuario-feminino.png'
                 })
             });
 

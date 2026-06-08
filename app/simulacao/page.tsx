@@ -6,7 +6,7 @@ import Template from "@/components/template/Template"
 export default function Page() {
     return (
         <Template>
-            <Simulacao />
+            <Simulacao formato="vertical"/>
         </Template>
     )
 }
