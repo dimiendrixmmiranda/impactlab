@@ -14,6 +14,8 @@ export default function Header() {
 
     const pathname = usePathname()
 
+    console.log(usuario)
+
     function getLinkClass(path: string) {
         const ativo = pathname === path;
 

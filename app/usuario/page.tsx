@@ -151,12 +151,12 @@ export default function Page() {
         }
 
         return Object.entries(
-            simulacoes.reduce((acc, simulacao) => {
+            simulacoes.length > 0 ? simulacoes.reduce((acc, simulacao) => {
                 acc[simulacao.material] =
                     (acc[simulacao.material] || 0) + 1;
 
                 return acc;
-            }, {} as Record<string, number>)
+            }, {} as Record<string, number>): []
         )
             .map(([material, quantidade]) => ({
                 material: material.replaceAll("-", " "),

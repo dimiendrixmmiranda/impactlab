@@ -8,10 +8,7 @@ export async function GET() {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-        return NextResponse.json(
-            { error: "Não autenticado" },
-            { status: 401 }
-        )
+        return NextResponse.json(null)
     }
 
     const usuario =
