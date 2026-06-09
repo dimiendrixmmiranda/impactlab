@@ -1,4 +1,6 @@
+'use client'
 import Template from "@/components/template/Template";
+import { useUsuario } from "@/hooks/useUsuario";
 import Image from "next/image";
 import Link from "next/link";
 import { BiSolidCube } from "react-icons/bi";
@@ -14,7 +16,7 @@ import { TbCubeSpark, TbHeartRateMonitor, TbPointFilled } from "react-icons/tb";
 import { VscGraphLine } from "react-icons/vsc";
 
 export default function Page() {
-
+    const { usuario } = useUsuario()
     const gerarCampo = (position: number, icone: React.ReactNode, titulo: string, descricacao: string) => {
         return (
             <div className="group flex flex-col gap-6 relative cursor-pointer">
@@ -109,7 +111,10 @@ export default function Page() {
     return (
         <Template>
             <div className="max-w-[1400px] mx-auto flex flex-col gap-8 p-4 min-h-screen">
-                <div className="bg-cinza-grafite rounded-xl lg:grid lg:grid-cols-2 lg:gap-8 bordaInterativa">
+                <div className="bg-cinza-grafite rounded-xl lg:grid lg:grid-cols-2 lg:gap-8 bordaInterativa" style={{
+                    ['--angulo-inicial' as any]:
+                        `${Math.random() * 360}deg`
+                }}>
                     <div className="font-oswald p-4 flex flex-col gap-6 lg:p-8">
                         <div className="flex flex-col gap-2">
                             <p className="uppercase text-lg text-laranja-impacto">Como funciona?</p>
@@ -158,7 +163,10 @@ export default function Page() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-cinza-grafite flex flex-col gap-4 p-4 rounded-xl 2xl:p-8 bordaInterativa">
+                <div className="bg-cinza-grafite flex flex-col gap-4 p-4 rounded-xl 2xl:p-8 bordaInterativa" style={{
+                    ['--angulo-inicial' as any]:
+                        `${Math.random() * 360}deg`
+                }}>
                     <div>
                         <p className="uppercase text-lg text-laranja-impacto">Como funciona?</p>
                         <div className="font-bold uppercase text-4xl flex flex-col gap-2">
@@ -173,7 +181,10 @@ export default function Page() {
                         {gerarCampo(5, <IoDocumentTextOutline />, 'Compare e aprenda', 'Compare cenários, salve suas simulações e gere relatórios físicos completos.')}
                     </div>
                 </div>
-                <div className="bg-cinza-grafite flex flex-col gap-4 p-4 rounded-xl 2xl:p-8 bordaInterativa">
+                <div className="bg-cinza-grafite flex flex-col gap-4 p-4 rounded-xl 2xl:p-8 bordaInterativa" style={{
+                    ['--angulo-inicial' as any]:
+                        `${Math.random() * 360}deg`
+                }}>
                     <div>
                         <p className="uppercase text-lg text-laranja-impacto">Fundamentação Interdisciplinar</p>
                         <div className="font-bold uppercase text-4xl flex flex-col gap-2">
@@ -353,7 +364,10 @@ export default function Page() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-cinza-grafite flex flex-col gap-4 p-4 rounded-xl lg:gap-8 2xl:p-8 bordaInterativa">
+                <div className="bg-cinza-grafite flex flex-col gap-4 p-4 rounded-xl lg:gap-8 2xl:p-8 bordaInterativa" style={{
+                    ['--angulo-inicial' as any]:
+                        `${Math.random() * 360}deg`
+                }}>
                     <div className="flex flex-col gap-1">
                         <p className="uppercase text-lg text-laranja-impacto">Conceitos físicos aplicados</p>
                         <div className="font-bold uppercase text-4xl flex flex-col gap-2">
@@ -365,45 +379,48 @@ export default function Page() {
                             <li className="border border-zinc-500 p-4 rounded-xl grid grid-rows-[auto_1fr_auto] bg-zinc-900">
                                 <h3 className="uppercase font-bold text-xl text-center">Energia Cinética</h3>
                                 <div className="relative w-24 h-14 mx-auto my-auto">
-                                    <Image alt="formula" src={'/assets/formulas/cinetica.png'} fill className="object-cover"/>
+                                    <Image alt="formula" src={'/assets/formulas/cinetica.png'} fill className="object-cover" />
                                 </div>
                                 <p className="text-center">Energia associada ao movimento do objeto.</p>
                             </li>
                             <li className="border border-zinc-500 p-4 rounded-xl grid grid-rows-[auto_1fr_auto] bg-zinc-900">
                                 <h3 className="uppercase font-bold text-xl text-center">Força</h3>
                                 <div className="relative w-[100px] h-8 mx-auto my-auto">
-                                    <Image alt="formula" src={'/assets/formulas/forca.png'} fill className="object-cover"/>
+                                    <Image alt="formula" src={'/assets/formulas/forca.png'} fill className="object-cover" />
                                 </div>
                                 <p className="text-center">Força resultante aplicada ao material.</p>
                             </li>
                             <li className="border border-zinc-500 p-4 rounded-xl grid grid-rows-[auto_1fr_auto] bg-zinc-900">
                                 <h3 className="uppercase font-bold text-xl text-center">Tensão Mecânica</h3>
                                 <div className="relative w-24 h-16 mx-auto my-auto">
-                                    <Image alt="formula" src={'/assets/formulas/tensao.png'} fill className="object-cover"/>
+                                    <Image alt="formula" src={'/assets/formulas/tensao.png'} fill className="object-cover" />
                                 </div>
                                 <p className="text-center">Relação entre força aplicada e área da seção.</p>
                             </li>
                             <li className="border border-zinc-500 p-4 rounded-xl grid grid-rows-[auto_1fr_auto] bg-zinc-900">
                                 <h3 className="uppercase font-bold text-xl text-center">Deformação</h3>
                                 <div className="relative w-24 h-14 mx-auto my-auto">
-                                    <Image alt="formula" src={'/assets/formulas/deformacao.png'} fill className="object-cover"/>
+                                    <Image alt="formula" src={'/assets/formulas/deformacao.png'} fill className="object-cover" />
                                 </div>
                                 <p className="text-center">Variação relativa do comprimento do material.</p>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div className="bg-cinza-grafite grid grid-cols-[500px_1fr] gap-4 rounded-xl relative h-fit 2xl:grid-cols-[600px_1fr] bordaInterativa">
+                <div className="bg-cinza-grafite grid grid-cols-[500px_1fr] gap-4 rounded-xl relative h-fit 2xl:grid-cols-[600px_1fr] bordaInterativa" style={{
+                    ['--angulo-inicial' as any]:
+                        `${Math.random() * 360}deg`
+                }}>
                     <div className="flex flex-col gap-2 z-10 p-4 2xl:p-8">
                         <h3 className="uppercase font-bold text-4xl">Pronto para simular?</h3>
                         <p>Configure seus cenários, execute simulações e descubra como os materiais reagem ao impacto</p>
-                        <Link href="/" className="flex items-center gap-1 bg-laranja-impacto rounded-xl p-2 px-4 text-lg font-bold w-fit" style={{textShadow: '1px 1px 2px black'}}>
+                        <Link href={usuario ? '/usuario' : '/login'} className="flex items-center gap-1 bg-laranja-impacto rounded-xl p-2 px-4 text-lg font-bold w-fit" style={{ textShadow: '1px 1px 2px black' }}>
                             <RiLoginBoxLine />
                             <p>Acessar Painel de Simulações</p>
                             <FaArrowRight />
                         </Link>
                     </div>
-                    <div className="absolute top-[50%] right-0 2xl:top-[45%]" style={{transform: 'translate(0,-35%)'}}>
+                    <div className="absolute top-[50%] right-0 2xl:top-[45%]" style={{ transform: 'translate(0,-35%)' }}>
                         <div className="relative w-[500px] h-[140px] ml-auto 2xl:w-[700px] 2xl:h-[200px]">
                             <Image alt="bola" src={'/assets/bola-5.png'} fill className="object-cover" />
                         </div>

@@ -92,7 +92,7 @@ Laranja Energia	Hover / efeitos	#FF8C42 */
     inset: -2px;
 
     background: conic-gradient(
-        from 0deg,
+        from var(--angulo-inicial, 0deg),
         transparent 0deg,
         transparent 270deg,
         rgba(255, 123, 0, 0.8) 320deg,

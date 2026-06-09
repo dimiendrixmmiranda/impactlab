@@ -259,7 +259,7 @@ export default function Page() {
                                                     <label className="text-lg" htmlFor="sexo">Sexo</label>
                                                     <div className="relative">
                                                         <GiPadlock className="absolute top-[50%] left-2" style={{ transform: 'translate(0,-50%)' }} />
-                                                        <select name="sexo" id="sexo" className="border border-zinc-500 w-full rounded-xl h-[45px] pl-8 text-zinc-600">
+                                                        <select name="sexo" id="sexo" onChange={(e) => setSexo(e.target.value)} className="border border-zinc-500 w-full rounded-xl h-[45px] pl-8 text-zinc-600">
                                                             <option value="">Selecione</option>
                                                             <option value="masculino">Masculino</option>
                                                             <option value="feminino">Feminino</option>

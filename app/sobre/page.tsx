@@ -15,7 +15,10 @@ export default function Page() {
         <Template>
             <div className="max-w-[1400px] mx-auto">
                 <div className="min-h-screen font-oswald p-4 flex flex-col gap-10 lg:p-8">
-                    <div className="grid grid-cols-2 gap-4 rounded-xl bordaInterativa">
+                    <div className="grid grid-cols-2 gap-4 rounded-xl bordaInterativa" style={{
+                        ['--angulo-inicial' as any]:
+                            `${Math.random() * 360}deg`
+                    }}>
                         <div className="p-4 rounded-xl flex flex-col gap-6 xl:p-8 xl:px-12">
                             <div>
                                 <p className="text-laranja-impacto uppercase text-laranja-impacto">Sobre o Projeto</p>
@@ -51,7 +54,10 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-                    <div className="rounded-xl p-2 lg:grid lg:grid-cols-4 bordaInterativa">
+                    <div className="rounded-xl p-2 lg:grid lg:grid-cols-4 bordaInterativa" style={{
+                        ['--angulo-inicial' as any]:
+                            `${Math.random() * 360}deg`
+                    }}>
                         <div className="flex flex-col justify-center items-center gap-1 border-r border-zinc-500 p-4 xl:p-6">
                             <div className="relative w-[80px] h-[80px] rounded-full p-1 border border-laranja-impacto text-laranja-impacto flex justify-center items-center text-5xl">
                                 <GiAtom />
@@ -89,7 +95,10 @@ export default function Page() {
                             </p>
                         </div>
                     </div>
-                    <div className="p-4 rounded-xl lg:grid lg:grid-cols-2 lg:gap-4 xl:grid-cols-[1fr_auto] bordaInterativa">
+                    <div className="p-4 rounded-xl lg:grid lg:grid-cols-2 lg:gap-4 xl:grid-cols-[1fr_auto] bordaInterativa" style={{
+                        ['--angulo-inicial' as any]:
+                            `${Math.random() * 360}deg`
+                    }}>
                         <div className="grid grid-cols-[70px_1fr] gap-2">
                             <div className="text-4xl p-1 rounded-full border w-[70px] h-[70px] flex justify-center items-center border-laranja-impacto my-auto text-laranja-impactow">
                                 <TbTargetArrow />
@@ -111,7 +120,10 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-                    <div className="p-4 rounded-xl flex flex-col gap-4 xl:px-8 xl:py-6 bordaInterativa">
+                    <div className="p-4 rounded-xl flex flex-col gap-4 xl:px-8 xl:py-6 bordaInterativa" style={{
+                        ['--angulo-inicial' as any]:
+                            `${Math.random() * 360}deg`
+                    }}>
                         <div>
                             <h3 className="font-bold text-xl text-laranja-impacto">Nossa Missão</h3>
                         </div>
@@ -119,7 +131,7 @@ export default function Page() {
                             <div className="grid grid-rows-[60px_auto_auto] text-center">
                                 <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
                                     <FaUsers />
-                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{ transform: 'translate(0,-50%)' }}></div>
                                 </div>
                                 <h4 className="font-bold text-xl mt-2">1. Ideia</h4>
                                 <p>Identificamos a necessidade de uma ferramenta que unisse física, engenharia e visualização interativa.</p>
@@ -127,8 +139,8 @@ export default function Page() {
                             <div className="grid grid-rows-[60px_auto_auto] text-center">
                                 <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
                                     <FaLightbulb />
-                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
-                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{ transform: 'translate(0,-50%)' }}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{ transform: 'translate(0,-50%)' }}></div>
                                 </div>
                                 <h4 className="font-bold text-xl mt-2">2. Pesquisa</h4>
                                 <p>Estudamos conceitos físicos, comportamento de materiais e modelos de impacto utilizados na engenharia.</p>
@@ -136,8 +148,8 @@ export default function Page() {
                             <div className="grid grid-rows-[60px_auto_auto] text-center">
                                 <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
                                     <FaGear />
-                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
-                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{ transform: 'translate(0,-50%)' }}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{ transform: 'translate(0,-50%)' }}></div>
                                 </div>
                                 <h4 className="font-bold text-xl mt-2">3. Desenvolvimento</h4>
                                 <p>Construímos simulações realistas com cálculos precisos e uma interface intuitiva.</p>
@@ -145,8 +157,8 @@ export default function Page() {
                             <div className="grid grid-rows-[60px_auto_auto] text-center">
                                 <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
                                     <MdScience />
-                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
-                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{ transform: 'translate(0,-50%)' }}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] left-[100%]" style={{ transform: 'translate(0,-50%)' }}></div>
                                 </div>
                                 <h4 className="font-bold text-xl mt-2">4. Testes</h4>
                                 <p>Validamos os modelos, aprimoramos métricas e garantimos resultados confiáveis.</p>
@@ -154,7 +166,7 @@ export default function Page() {
                             <div className="grid grid-rows-[60px_auto_auto] text-center">
                                 <div className="relative w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 border border-laranja-impacto text-3xl">
                                     <IoIosRocket />
-                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{transform: 'translate(0,-50%)'}}></div>
+                                    <div className="w-[170%] xl:w-[240%] h-1 bg-laranja-impacto absolute top-[50%] right-[100%]" style={{ transform: 'translate(0,-50%)' }}></div>
                                 </div>
                                 <h4 className="font-bold text-xl mt-2">5. Impacto</h4>
                                 <p>Disponibilizamos o ImpactLab para transformar o aprendizado e inspirar novas descobertas.</p>

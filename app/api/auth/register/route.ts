@@ -10,7 +10,8 @@ export async function POST(req: Request) {
             nome,
             email,
             senha,
-            sexo
+            sexo,
+            imagem
         } = body;
 
         if (!nome || !email || !senha) {
@@ -42,7 +43,8 @@ export async function POST(req: Request) {
                 nome,
                 email,
                 senha: senhaHash,
-                sexo
+                sexo, 
+                imagem
             }
         });
 
