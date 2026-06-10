@@ -1,5 +1,8 @@
 import { dicasImpactLab } from "@/constants/dicas";
+import { areaImpacto, energiaCinetica, forcaImpacto, tensaoMecanica } from "@/constants/formulas";
+import { materiais } from "@/constants/materiais";
 import { useLarguraDaTela } from "@/hooks/useLarguraDaTela";
+import Image from "next/image";
 import Link from "next/link";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { useEffect, useMemo, useState } from "react";
@@ -146,7 +149,7 @@ export default function Dashboard() {
                             simulacoesPaginadas.length > 0 ? (
                                 <table className="w-full min-w-[900px] 2xl:h-[600px] 3xl:h-[550px]">
                                     <thead>
-                                        <tr className="border-b border-zinc-600 text-zinc-400 text-sm uppercase grid grid-cols-[230px_130px_130px_130px_130px_130px_130px]">
+                                        <tr className="border-b border-zinc-600 text-zinc-400 text-sm uppercase grid grid-cols-[230px_130px_130px_130px_130px_130px_130px_130px]">
                                             <th className="text-left py-3">
                                                 Simulação
                                             </th>
@@ -163,7 +166,10 @@ export default function Dashboard() {
                                                 Energia Cinética
                                             </th>
                                             <th className="text-center py-3">
-                                                Força de Impacto
+                                                Area Impacto
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Tensão Mecânica
                                             </th>
                                             <th className="text-center py-3">
                                                 Ações
@@ -172,55 +178,68 @@ export default function Dashboard() {
                                     </thead>
                                     <tbody className="grid grid-rows-5">
                                         {
-                                            simulacoesPaginadas.map((sim) => (
-                                                <tr
-                                                    key={sim.id}
-                                                    className="
+                                            simulacoesPaginadas.map(sim => {
+                                                const material = materiais.find(material => material.id === sim.material)
+                                                console.log(material)
+                                                return (
+                                                    <tr
+                                                        key={sim.id}
+                                                        className="
                                                                     border-b border-zinc-700
                                                                     hover:bg-zinc-700/40
                                                                     transition-colors
-                                                                    grid grid-cols-[230px_130px_130px_130px_130px_130px_130px]
+                                                                    grid grid-cols-[230px_130px_130px_130px_130px_130px_130px_130px]
                                                                 "
-                                                >
-                                                    <td className="py-4">
-                                                        <div className="flex gap-3 items-center">
-                                                            <div className="relative w-16 h-10 rounded bg-zinc-600" /><div>
-                                                                <p className="font-bold capitalize">
-                                                                    {sim.material.replaceAll("-", " ")}
+                                                    >
+                                                        <td className="py-4">
+                                                            <div className="flex gap-3 items-center">
+                                                                {
+                                                                    material ? (
+                                                                        <div className="relative w-16 h-10 bg-zinc-600 rounded-xl overflow-hidden border border-zinc-400">
+                                                                            <Image alt={material.nome} src={material.imagem} fill className="object-cover" />
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="relative w-16 h-10 bg-zinc-600 rounded-xl overflow-hidden border border-zinc-400"></div>
+                                                                    )
+                                                                }
+
+                                                                <div>
+                                                                    <p className="font-bold capitalize">
+                                                                        {sim.material.replaceAll("-", " ")}
+                                                                    </p>
+
+                                                                    <p className="text-sm text-zinc-400">
+                                                                        Força de Impacto: {forcaImpacto(sim.massa, sim.velocidade)} N
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td className="flex items-center justify-center text-center uppercase">
+                                                            {sim.material.split("-")[0]}
+                                                        </td>
+
+                                                        <td className="flex items-center justify-center text-center">
+                                                            <div>
+                                                                <p>
+                                                                    {new Date(sim.createdAt).toLocaleDateString("pt-BR")}
                                                                 </p>
 
-                                                                <p className="text-sm text-zinc-400">
-                                                                    Força: 1502 N
+                                                                <p className="text-zinc-400 text-sm">
+                                                                    {new Date(sim.createdAt).toLocaleTimeString(
+                                                                        "pt-BR",
+                                                                        {
+                                                                            hour: "2-digit",
+                                                                            minute: "2-digit",
+                                                                        }
+                                                                    )}
                                                                 </p>
                                                             </div>
-                                                        </div>
-                                                    </td>
+                                                        </td>
 
-                                                    <td className="flex items-center justify-center text-center uppercase">
-                                                        {sim.material.split("-")[0]}
-                                                    </td>
-
-                                                    <td className="flex items-center justify-center text-center">
-                                                        <div>
-                                                            <p>
-                                                                {new Date(sim.createdAt).toLocaleDateString("pt-BR")}
-                                                            </p>
-
-                                                            <p className="text-zinc-400 text-sm">
-                                                                {new Date(sim.createdAt).toLocaleTimeString(
-                                                                    "pt-BR",
-                                                                    {
-                                                                        hour: "2-digit",
-                                                                        minute: "2-digit",
-                                                                    }
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                    </td>
-
-                                                    <td className="flex items-center justify-center text-center">
-                                                        <span
-                                                            className="
+                                                        <td className="flex items-center justify-center text-center">
+                                                            <span
+                                                                className="
                                                                     px-3 py-1
                                                                     rounded-full
                                                                     text-sm
@@ -228,32 +247,36 @@ export default function Dashboard() {
                                                                     text-green-400
                                                                     border border-green-500/40
                                                                 "
-                                                        >
-                                                            Concluída
-                                                        </span>
-                                                    </td>
+                                                            >
+                                                                Concluída
+                                                            </span>
+                                                        </td>
 
-                                                    <td className="flex items-center justify-center text-center uppercase">
-                                                        1000
-                                                    </td>
+                                                        <td className="flex items-center justify-center text-center uppercase">
+                                                            {energiaCinetica(sim.massa, sim.velocidade)} J
+                                                        </td>
 
-                                                    <td className="flex items-center justify-center text-center uppercase">
-                                                        1000
-                                                    </td>
+                                                        <td className="flex items-center justify-center text-center uppercase">
+                                                            {areaImpacto(sim.diametroProjetil).toFixed(2)} m²
+                                                        </td>
+                                                        <td className="flex items-center justify-center text-center uppercase">
+                                                            {tensaoMecanica(forcaImpacto(sim.massa, sim.velocidade), areaImpacto(sim.diametroProjetil)).toFixed(2)} MPa
+                                                        </td>
 
-                                                    <td className="flex items-center justify-center text-center">
-                                                        <button
-                                                            className="
+                                                        <td className="flex items-center justify-center text-center">
+                                                            <button
+                                                                className="
                                                                     text-laranja-impacto
                                                                     hover:text-laranja-energia
                                                                     transition-colors
                                                                 "
-                                                        >
-                                                            Ver detalhes
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))
+                                                            >
+                                                                Ver detalhes
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
                                     </tbody>
                                 </table>

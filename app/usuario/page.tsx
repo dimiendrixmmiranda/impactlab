@@ -37,6 +37,7 @@ import Configuracoes from "@/components/componentesUsuario/Configuracoes";
 import Perfil from "@/components/componentesUsuario/Perfil";
 import Image from "next/image";
 import Dashboard from "@/components/componentesUsuario/Dashboard";
+import Dados from "@/components/componentesUsuario/Dados";
 
 type Menu =
     | 'dashboard'
@@ -185,11 +186,15 @@ export default function Page() {
         switch (menuAtivo) {
             case 'dashboard':
                 return (
-                    <Dashboard/>
+                    <Dashboard />
                 )
             case 'simulacoes':
                 return (
                     <Simulacao formato="horizontal" />
+                )
+            case 'dados':
+                return (
+                    <Dados />
                 )
             case 'relatorios':
                 return (
@@ -474,7 +479,7 @@ export default function Page() {
                                             "
                                         >
                                             <div className="relative w-5 h-5 border border-zinc-600 rounded">
-                                                <Image alt={material.nome} src={material.imagem} fill className="object-cover"/>
+                                                <Image alt={material.nome} src={material.imagem} fill className="object-cover" />
                                             </div>
                                             <h2>
                                                 {material.nome}

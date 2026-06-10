@@ -308,18 +308,12 @@ export default function Simulacao({ formato }: SimulacaoProps) {
                 setResultado(resultadoCalculado);
 
                 const dadosParaSalvar = {
-                    material,
-                    energia: resultadoCalculado.energia,
-                    momento: resultadoCalculado.momento,
-                    impacto: resultadoCalculado.impacto,
-                    area: resultadoCalculado.area,
-                    tensao: resultadoCalculado.tensao,
-                    integridade:
-                        resultadoCalculado.integridade,
-                    status: resultadoCalculado.status,
-                    corStatus:
-                        resultadoCalculado.corStatus,
-                };
+                    massa: Number(massa),
+                    velocidade: Number(velocidade),
+                    diametroProjetil: Number(diametroProjetil),
+                    espessura: Number(espessura),
+                    material
+                }
 
                 console.log(
                     "Dados enviados:",
@@ -331,12 +325,9 @@ export default function Simulacao({ formato }: SimulacaoProps) {
                     {
                         method: "POST",
                         headers: {
-                            "Content-Type":
-                                "application/json",
+                            "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(
-                            dadosParaSalvar
-                        ),
+                        body: JSON.stringify(dadosParaSalvar),
                     }
                 );
 

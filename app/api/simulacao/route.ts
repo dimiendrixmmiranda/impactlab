@@ -4,9 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
-
-    const session =
-        await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
         return NextResponse.json(
@@ -17,12 +15,11 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const usuario =
-        await prisma.user.findUnique({
-            where: {
-                email: session.user.email
-            }
-        });
+    const usuario = await prisma.user.findUnique({
+        where: {
+            email: session.user.email,
+        },
+    });
 
     if (!usuario) {
         return NextResponse.json(
@@ -31,21 +28,17 @@ export async function POST(req: Request) {
         );
     }
 
-    const simulacao =
-        await prisma.simulation.create({
-            data: {
-                material: body.material,
-                energia: body.energia,
-                momento: body.momento,
-                impacto: body.impacto,
-                area: body.area,
-                tensao: body.tensao,
-                integridade: body.integridade,
-                status: body.status,
-                corStatus: body.corStatus,
-                userId: usuario.id
-            }
-        });
+    const simulacao = await prisma.simulation.create({
+        data: {
+            massa: Number(body.massa),
+            velocidade: Number(body.velocidade),
+            diametroProjetil: Number(body.diametroProjetil),
+            espessura: Number(body.espessura),
+            material: body.material,
+            userId: usuario.id,
+        },
+    });
+
     return NextResponse.json(simulacao);
 }
 

@@ -13,34 +13,29 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
+  id          String       @id @default(cuid())
   nome        String
-  email       String   @unique
+  email       String       @unique
   senha       String
   sexo        String?
   imagem      String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime     @default(now())
 
   simulations Simulation[]
 }
 
 model Simulation {
-  id           String   @id @default(cuid())
+  id               String   @id @default(cuid())
 
-  material     String
-  energia      Float
-  momento      Float
-  impacto      Float
-  area         Float
-  tensao       Float
+  massa            Float
+  velocidade       Float
+  diametroProjetil Float
+  espessura        Float
 
-  integridade  Float
+  material         String
 
-  status       String
-  corStatus    String
+  createdAt        DateTime @default(now())
 
-  createdAt    DateTime @default(now())
-
-  userId       String
-  user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String
+  user             User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
