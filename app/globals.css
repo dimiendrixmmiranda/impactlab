@@ -78,6 +78,9 @@ Branco Técnico	Textos principais	#F5F5F5
 Laranja Impacto	Destaques / colisão	#FF6B00
 Laranja Energia	Hover / efeitos	#FF8C42 */
 
+.p-dialog-header{
+  background-color: var(--cinza-grafite);
+}
 
 .bordaInterativa {
     position: relative;

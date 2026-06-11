@@ -115,9 +115,9 @@ export default function Dados() {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-2 grid-rows-2 gap-4">
+            <div className="grid grid-cols-2 grid-rows-2 gap-4 3xl:grid-rows-[auto_280px]">
                 <div className="bg-zinc-700 w-full h-full col-start-1 col-end-2 row-start-1 row-end-3 rounded-xl p-4">
-                   <div className="font-bold text-2xl flex items-center gap-2">
+                    <div className="font-bold text-2xl flex items-center gap-2">
                         <TbClockHour11 className="text-laranja-impacto text-3xl" />
                         <h3>Simulações Recentes</h3>
                     </div>
@@ -129,8 +129,11 @@ export default function Dados() {
                     {
                         simulacoes.length > 0 ? (
                             <div className="w-full h-full 4xl:grid 4xl:grid-cols-2 3xl:gap-4">
-                                <div className="w-full h-full mx-auto z-10 grid grid-cols-2 3xl:m-0">
-                                    <ResponsiveContainer width="100%" className={`xl:h-[240px]`}>
+                                <div className="w-full h-full mx-auto z-10 3xl:m-0">
+                                    <ResponsiveContainer
+                                        width="100%"
+                                        height={300}
+                                    >
                                         <PieChart>
                                             <Pie
                                                 data={dadosGrafico}
@@ -138,8 +141,7 @@ export default function Dados() {
                                                 nameKey="material"
                                                 cx="50%"
                                                 cy="50%"
-                                                outerRadius={larguraTela > 1600 ? 85 : 200}
-                                                label={false}
+                                                outerRadius={120}
                                             >
                                                 {dadosGrafico.map((_, index) => (
                                                     <Cell
@@ -152,9 +154,6 @@ export default function Dados() {
                                             <Tooltip />
                                         </PieChart>
                                     </ResponsiveContainer>
-                                    <div>
-                                        Legenda
-                                    </div>
                                 </div>
                                 <div className="hidden flex-col gap-2 4xl:flex">
                                     <h3 className="text-2xl font-bold text-shadow-[1px_1px_2px_black]">Legendas</h3>
@@ -182,7 +181,7 @@ export default function Dados() {
                         <BsLightning className="text-laranja-impacto text-3xl" />
                         <h3>Acesso Rápido</h3>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 text-center leading-5 3xl:grid-cols-4">
+                    <div className="grid grid-cols-2 gap-4 text-center leading-5 3xl:grid-cols-4 3xl:my-auto">
                         <div>
                             <Link href={'/'} className="flex flex-col justify-centere items-center border border-zinc-600 rounded-xl p-4 h-full">
                                 <FaPlus className="text-laranja-impacto text-6xl" />

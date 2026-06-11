@@ -54,3 +54,29 @@ export const tensaoMecanica = (
 
     return forca / area
 }
+
+
+export const tenacidade = (limiteRuptura: number, alongamento: number) => {
+    const t = limiteRuptura * (alongamento / 100)
+    return t
+}
+
+export const fragilidade = (alongamento: number) => {
+    const frag = 100 - alongamento
+    return frag
+}
+export const absorcaoEnergia = (limiteRuptura: number, alongamento: number) => {
+    const abs = limiteRuptura * alongamento;
+    return abs
+}
+
+
+export const porcentagem = (
+    valor: number,
+    maximo: number
+) => {
+    return Math.min(
+        (valor / maximo) * 100,
+        100
+    );
+}
