@@ -81,8 +81,8 @@ export default function Header() {
             {
                 usuario ? (
                     <Link href={'/usuario'} className="flex items-center gap-2">
-                        <div className="relative w-8 h-8 rounded-full bg-zinc-800">
-                            <Image alt="Imagem do usuário" src={usuario.imagem!} fill unoptimized className="object-cover"/>
+                        <div className="relative w-8 h-8 rounded-full overflow-hidden bg-zinc-800">
+                            <Image alt="Imagem do usuário" src={usuario?.imagem || ""} fill unoptimized className="object-cover" />
                         </div>
                         <h2>Bem vindo, {usuario.nome?.split(' ')[0]}</h2>
                         <div className="text-lg text-yellow-500">

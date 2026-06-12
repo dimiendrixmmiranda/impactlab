@@ -8,18 +8,18 @@ import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { useEffect, useMemo, useState } from "react";
 import { FaLightbulb, FaPlus } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
-import { MdOutlineScience } from "react-icons/md";
+import { MdAlignHorizontalLeft, MdOutlineScience } from "react-icons/md";
 import { PiCubeBold, PiFlaskBold, PiLightningBold, PiRocketLaunchBold } from "react-icons/pi";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const CORES = [
-    "#f97316",
-    "#fb923c",
-    "#fdba74",
-    "#ea580c",
-    "#c2410c",
-    "#9a3412",
-    "#7c2d12",
+    "#CB2957",
+    "#FF6A1C",
+    "#112E81",
+    "#FFD400",
+    "#007979",
+    "#4F252E",
+    "#0A7C6E",
 ];
 
 export default function Dashboard() {
@@ -28,6 +28,32 @@ export default function Dashboard() {
     const [rows, setRows] = useState(6);
     const larguraTela = useLarguraDaTela()
     const dicaAleatoria = dicasImpactLab[Math.floor(Math.random() * dicasImpactLab.length)]
+
+    const mesAtual = new Date().getMonth();
+    const anoAtual = new Date().getFullYear();
+
+    const simulacoesMesAtual = simulacoes.filter((simulacao) => {
+        const data = new Date(simulacao.createdAt);
+
+        return (
+            data.getMonth() === mesAtual &&
+            data.getFullYear() === anoAtual
+        )
+    })
+
+    const maiorForcaImpacto = simulacoes.length > 0 ? Math.max(
+        ...simulacoes.map((simulacao) =>
+            forcaImpacto(
+                simulacao.massa,
+                simulacao.velocidade,
+                simulacao.tempoImpacto
+            )
+        )
+    ) : 0
+
+    const maiorVelocidade = simulacoes.length > 0 ? Math.max(
+        ...simulacoes.map((simulacao) => simulacao.velocidade)
+    ) : 0
 
     useEffect(() => {
         async function carregarSimulacoes() {
@@ -80,7 +106,7 @@ export default function Dashboard() {
             .sort((a, b) => b.quantidade - a.quantidade);
     }, [simulacoes])
 
-    const gerarCampo = (icone: React.ReactNode, titulo: string, quantidade: string) => {
+    const gerarCampo = (icone: React.ReactNode, titulo: string, quantidade: string, valorMensal?: string) => {
         return (
             <div className="bg-zinc-700 p-4 rounded-xl flex gap-2 items-center">
                 <div className="text-6xl text-laranja-impacto">
@@ -94,7 +120,11 @@ export default function Dashboard() {
                         <p className="text-3xl font-bold text-shadow-[2px_2px_3px_black]">
                             {quantidade}
                         </p>
-                        <p className="text-sm mt-auto text-green-600 text-shadow-[1px_1px_2px_black]">+12 este mês</p>
+                        {
+                            valorMensal ? (
+                                <p className="text-sm mt-auto text-green-600 text-shadow-[1px_1px_2px_black]">+{valorMensal} este mês</p>
+                            ) : ('')
+                        }
                     </div>
                 </div>
             </div>
@@ -118,25 +148,26 @@ export default function Dashboard() {
                 {gerarCampo(
                     <PiFlaskBold />,
                     'Simulações Realizadas',
-                    '24'
+                    simulacoes.length.toString(),
+                    simulacoesMesAtual.length.toString()
                 )}
 
                 {gerarCampo(
                     <PiCubeBold />,
                     'Materiais Disponíveis',
-                    '15'
+                    materiais.length.toString()
                 )}
 
                 {gerarCampo(
                     <PiLightningBold />,
-                    'Força Máxima Calculada',
-                    '28.4 kN'
+                    'Maior Força de Impacto',
+                    `${maiorForcaImpacto}N`
                 )}
 
                 {gerarCampo(
                     <PiRocketLaunchBold />,
                     'Velocidade Máxima Simulada',
-                    '130 m/s'
+                    `${maiorVelocidade} m/s`
                 )}
             </div>
             <div className="xl:grid xl:grid-cols-[700px_1fr] xl:grid-rows-[340px_auto] xl:gap-6 2xl:grid-cols-[800px_auto] 2xl:grid-rows-[360px_auto] 3xl:grid-cols-[900px_1fr] 3xl:grid-rows-[360px_auto] 4xl:grid-cols-[950px_1fr]">
@@ -180,7 +211,6 @@ export default function Dashboard() {
                                         {
                                             simulacoesPaginadas.map(sim => {
                                                 const material = materiais.find(material => material.id === sim.material)
-                                                console.log(material)
                                                 return (
                                                     <tr
                                                         key={sim.id}

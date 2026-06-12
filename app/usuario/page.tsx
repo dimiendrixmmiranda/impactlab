@@ -398,15 +398,6 @@ export default function Page() {
                             </li>
                             <li>
                                 <div
-                                    onClick={() => setMenuAtivo('resultados')}
-                                    className={getMenuClass('resultados')}
-                                >
-                                    <MdAutoGraph className="mt-1" />
-                                    <p>Resultados</p>
-                                </div>
-                            </li>
-                            <li>
-                                <div
                                     onClick={() => setMenuAtivo('relatorios')}
                                     className={getMenuClass('relatorios')}
                                 >
@@ -473,7 +464,7 @@ export default function Page() {
                                             key={i}
                                             className="
                                                 grid
-                                                grid-cols-[20px_auto_1fr_80px]
+                                                grid-cols-[20px_1fr_70px]
                                                 gap-2
                                                 items-center
                                             "
@@ -481,32 +472,34 @@ export default function Page() {
                                             <div className="relative w-5 h-5 border border-zinc-600 rounded">
                                                 <Image alt={material.nome} src={material.imagem} fill className="object-cover" />
                                             </div>
-                                            <h2>
-                                                {material.nome}
-                                            </h2>
-                                            <div
-                                                className="
-                                                    w-full
-                                                    h-2
-                                                    bg-zinc-800
-                                                    rounded-full
-                                                    overflow-hidden border border-zinc-950
-                                                "
-                                            >
+                                            <div className="flex flex-col">
+                                                <h2 className="line-clamp-1">
+                                                    {material.nome}
+                                                </h2>
                                                 <div
                                                     className="
-                                                        h-full
-                                                        bg-gradient-to-r
-                                                        from-orange-500
-                                                        to-orange-300
-                                                        rounded-full
-                                                        transition-all
-                                                        duration-500
-                                                    "
-                                                    style={{
-                                                        width: `${porcentagem}%`
-                                                    }}
-                                                />
+                                                            w-full
+                                                            h-2
+                                                            bg-zinc-800
+                                                            rounded-full
+                                                            overflow-hidden border border-zinc-950
+                                                        "
+                                                >
+                                                    <div
+                                                        className="
+                                                                h-full
+                                                                bg-gradient-to-r
+                                                                from-orange-500
+                                                                to-orange-300
+                                                                rounded-full
+                                                                transition-all
+                                                                duration-500
+                                                            "
+                                                        style={{
+                                                            width: `${porcentagem}%`
+                                                        }}
+                                                    />
+                                                </div>
                                             </div>
                                             <p className="text-right">
                                                 {material.resistencia} MPa

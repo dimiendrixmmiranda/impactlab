@@ -11,9 +11,68 @@ import { TiWorld } from "react-icons/ti";
 import { MdOutlineScience } from "react-icons/md";
 import { IoCubeOutline, IoRocketOutline } from "react-icons/io5";
 import { SlEnergy } from "react-icons/sl";
+import { useEffect, useRef, useState } from "react";
+import { forcaImpacto } from "@/constants/formulas";
 
 export default function Perfil() {
     const { usuario } = useUsuario()
+    const [simulacoes, setSimulacoes] = useState<any[]>([])
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const selecionarImagem = () => {
+        inputRef.current?.click();
+    }
+    const [imagemPerfil, setImagemPerfil] =
+        useState("");
+
+    const materiaisTestados = new Set(
+        simulacoes.map(simulacao => simulacao.material)
+    )
+
+    const quantidadeMateriaisTestados =
+        materiaisTestados.size
+
+    const maiorForcaImpacto =
+        simulacoes.length > 0
+            ? Math.max(
+                ...simulacoes.map(simulacao =>
+                    forcaImpacto(
+                        simulacao.massa,
+                        simulacao.velocidade
+                    )
+                )
+            )
+            : 0
+
+    useEffect(() => {
+        async function carregarSimulacoes() {
+            const response = await fetch("/api/simulacao");
+            const data = await response.json();
+
+            setSimulacoes(data);
+        }
+
+        carregarSimulacoes();
+    }, []);
+
+
+    const handleImagem = async (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await fetch(
+            "/api/upload",
+            {
+                method: "POST",
+                body: formData,
+            }
+        );
+        const usuario = await response.json();
+        setImagemPerfil(usuario.imagem);
+    }
 
     const gerarCampoInformacaoDado = (icone: React.ReactNode, titulo: string, quantidade: string) => {
         return (
@@ -25,11 +84,10 @@ export default function Perfil() {
                     <h3 className="text-laranja-impacto">
                         {titulo}
                     </h3>
-                    <div className="flex gap-2 leading-4">
-                        <p className="text-3xl font-bold text-shadow-[2px_2px_3px_black]">
+                    <div className="flex jusce gap-2 leading-4">
+                        <p className="text-3xl font-bold text-shadow-[2px_2px_3px_black] text-center">
                             {quantidade}
                         </p>
-                        <p className="text-sm mt-auto text-green-600 text-shadow-[1px_1px_2px_black]">+12 este mês</p>
                     </div>
                 </div>
             </div>
@@ -54,11 +112,32 @@ export default function Perfil() {
                         </div>
                         <div className="grid grid-cols-3 gap-4">
                             <div className="flex flex-col gap-3 justify-center items-center">
-                                <div className="relative w-[130px] h-[130px] rounded-full bg-zinc-950 3xl:w-[160px] 3xl:h-[160px]"></div>
-                                <button className="flex items-center justify-center gap-1 text-center border border-laranja-impacto rounded-xl text-laranja-impacto px-6 py-1">
+
+                                <div className="relative w-[130px] h-[130px] rounded-full bg-zinc-950 overflow-hidden 3xl:w-[160px] 3xl:h-[160px]">
+                                    <img
+                                        src={imagemPerfil || usuario?.imagem || ""}
+                                        alt="Foto de perfil"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+
+                                <input
+                                    ref={inputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={handleImagem}
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={selecionarImagem}
+                                    className="flex items-center justify-center gap-1 border border-laranja-impacto rounded-xl text-laranja-impacto px-6 py-1"
+                                >
                                     <p>Alterar foto</p>
                                     <IoIosCamera className="mt-1" />
                                 </button>
+
                             </div>
                             <div className="col-start-2 col-end-4 grid grid-cols-2 gap-2">
                                 <div>
@@ -104,16 +183,16 @@ export default function Perfil() {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             {
-                                gerarCampoInformacaoDado(<MdOutlineScience />, 'Simulações Realizadas', '12')
+                                gerarCampoInformacaoDado(<MdOutlineScience />, 'Simulações Realizadas', simulacoes.length.toString())
                             }
                             {
-                                gerarCampoInformacaoDado(<IoCubeOutline />, 'Materiais Testados', '12')
+                                gerarCampoInformacaoDado(<IoCubeOutline />, 'Materiais Testados', quantidadeMateriaisTestados.toString())
                             }
                             {
-                                gerarCampoInformacaoDado(<SlEnergy />, 'Força Máxima', '12')
+                                gerarCampoInformacaoDado(<SlEnergy />, 'Força Máxima', `${maiorForcaImpacto}N`)
                             }
                             {
-                                gerarCampoInformacaoDado(<IoRocketOutline />, 'Simulações Realizadas', '12')
+                                gerarCampoInformacaoDado(<IoRocketOutline />, 'Relatórios Gerados', '0')
                             }
                         </div>
                         <button className="flex items-center text-laranja-impacto border border-laranja-impacto p-2 rounded-xl text-center justify-center">
