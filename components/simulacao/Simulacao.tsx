@@ -4,6 +4,8 @@ import { useUsuario } from "@/hooks/useUsuario";
 import ResultadoSimulacao from "@/interfaces/ResultadoSimulacao";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { gerarRelatorioPdf } from "@/constants/geradorRelatorioPdf";
+import { areaImpacto, energiaCinetica, forcaImpacto, momentoLinear, tensaoMecanica } from "@/constants/formulas";
 
 interface SimulacaoProps {
     formato: 'horizontal' | 'vertical'
@@ -25,86 +27,13 @@ export default function Simulacao({ formato }: SimulacaoProps) {
     const [resultado, setResultado] =
         useState<ResultadoSimulacao | null>(null)
 
-
     const materialSelecionado = useMemo(() => {
         return materiais.find(
             (m) => m.id === material
         )
     }, [material])
 
-    console.log(usuario)
-
-    /*
-    ========================================
-    FÍSICA
-    ========================================
-    */
-
-    // Ec = mv² / 2
-    const energiaCinetica = (
-        massa: number,
-        velocidade: number
-    ) => {
-
-        return (
-            massa * Math.pow(velocidade, 2)
-        ) / 2
-    }
-
-    // p = mv
-    const momentoLinear = (
-        massa: number,
-        velocidade: number
-    ) => {
-
-        return massa * velocidade
-    }
-
-    // F = Δp / Δt
-    const forcaImpacto = (
-        massa: number,
-        velocidade: number,
-        tempoImpacto: number = 0.01
-    ) => {
-
-        const deltaP =
-            momentoLinear(
-                massa,
-                velocidade
-            )
-
-        return deltaP / tempoImpacto
-    }
-
-    // A = πr²
-    const areaImpacto = (
-        diametro: number
-    ) => {
-
-        const raio = diametro / 2
-
-        return (
-            Math.PI *
-            Math.pow(raio, 2)
-        )
-    }
-
-    // σ = F / A
-    const tensaoMecanica = (
-        forca: number,
-        area: number
-    ) => {
-
-        if (area <= 0) return 0
-
-        return forca / area
-    }
-
-    /*
-    ========================================
-    CÁLCULOS
-    ========================================
-    */
+    console.log(resultado)
 
     const energia =
         energiaCinetica(
@@ -253,7 +182,7 @@ export default function Simulacao({ formato }: SimulacaoProps) {
         }
 
         return {
-            material,
+            material: materialSelecionado!,
             energia,
             momento,
             impacto,
@@ -389,6 +318,7 @@ export default function Simulacao({ formato }: SimulacaoProps) {
         diametroProjetil,
         espessura
     ])
+
 
     return (
         <section className="bg-[#0D0D0D]/90 text-white relative overflow-hidden">
@@ -628,10 +558,23 @@ export default function Simulacao({ formato }: SimulacaoProps) {
                                 Dados
                             </p>
                         </div>
+                        <div className="absolute top-4 right-8">
+                            <button
+                                onClick={() => resultado ? gerarRelatorioPdf(resultado) : ''}
+                            >
+                                <p>Baixar Relatório</p>
+                            </button>
+                        </div>
+                        <div className="flex w-full h-full justify-center items-center text-2xl">
+                            <p>
+                                {etapa}
+                            </p>
+                        </div>
                         {
-                            energia && momento && impacto && area && tensao ? (
+                            resultado ? (
                                 <div>
-                                    <div className="grid grid-cols-2 gap-6 xl:grid-cols-3">
+                                    <div className="relative grid grid-cols-2 gap-6 xl:grid-cols-3">
+
                                         <div className="flex items-center justify-between pb-3">
                                             <div>
                                                 <p className="text-zinc-400">
@@ -713,9 +656,17 @@ export default function Simulacao({ formato }: SimulacaoProps) {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="flex justify-center items-center h-full">
-                                    <h2 className="text-2xl font-bold">Insira dados para visualizar o resultado da simulação...</h2>
-                                </div>
+                                <>
+                                    {
+                                        etapa ? ('') : (
+                                            <div className="flex justify-center items-center h-full">
+                                                <h2 className="text-2xl font-bold">
+                                                    Insira dados para visualizar o resultado da simulação...
+                                                </h2>
+                                            </div>
+                                        )
+                                    }
+                                </>
                             )
                         }
                     </div>

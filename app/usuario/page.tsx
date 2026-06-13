@@ -38,6 +38,7 @@ import Perfil from "@/components/componentesUsuario/Perfil";
 import Image from "next/image";
 import Dashboard from "@/components/componentesUsuario/Dashboard";
 import Dados from "@/components/componentesUsuario/Dados";
+import Relatorios from "@/components/componentesUsuario/Relatorios";
 
 type Menu =
     | 'dashboard'
@@ -51,36 +52,17 @@ type Menu =
 
 
 export default function Page() {
-    const gerarCampo = (icone: React.ReactNode, titulo: string, quantidade: string) => {
-        return (
-            <div className="bg-zinc-700 p-4 rounded-xl flex gap-2 items-center">
-                <div className="text-6xl text-laranja-impacto">
-                    {icone}
-                </div>
-                <div>
-                    <h3 className="text-laranja-impacto">
-                        {titulo}
-                    </h3>
-                    <div className="flex gap-2 leading-4">
-                        <p className="text-3xl font-bold text-shadow-[2px_2px_3px_black]">
-                            {quantidade}
-                        </p>
-                        <p className="text-sm mt-auto text-green-600 text-shadow-[1px_1px_2px_black]">+12 este mês</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+
     const larguraTela = useLarguraDaTela()
     const CORES = [
-        "#f97316",
-        "#fb923c",
-        "#fdba74",
-        "#ea580c",
-        "#c2410c",
-        "#9a3412",
-        "#7c2d12",
-    ];
+        "#CB2957",
+        "#FF6A1C",
+        "#112E81",
+        "#FFD400",
+        "#007979",
+        "#4F252E",
+        "#0A7C6E",
+    ]
     const [menuAtivo, setMenuAtivo] = useState<Menu>('dashboard')
     const [simulacoes, setSimulacoes] = useState<any[]>([])
     const [first, setFirst] = useState(0);
@@ -198,156 +180,7 @@ export default function Page() {
                 )
             case 'relatorios':
                 return (
-                    <div className="flex flex-col gap-4 overflow-hidden p-4">
-                        <div className="overflow-x-auto flex flex-col gap-4">
-                            <div>
-                                <h2 className="font-bold text-4xl">Relatórios Recentes</h2>
-                                <p>Acompanhe e analise seus resultados</p>
-                            </div>
-                            <div className="xl:grid xl:grid-cols-4 xl:gap-4">
-                                {
-                                    gerarCampo(<IoDocumentText />, 'Total de Relatórios', '12')
-                                }
-                                {
-                                    gerarCampo(<GiGooeyImpact />, 'Força Máxima', '130kg')
-                                }
-                                {
-                                    gerarCampo(<GiShieldImpact />, 'Maior Impacto', '450')
-                                }
-                                {
-                                    gerarCampo(<BiSolidReport />, 'Relatórios Exportados', '10')
-                                }
-                            </div>
-                            <div className="xl:grid xl:grid-cols-2 xl:gap-4">
-                                <div className="bg-zinc-700 rounded-xl p-4">
-                                    <h3 className="text-3xl font-bold mb-4">
-                                        Visão Geral dos Relatórios
-                                    </h3>
-                                </div>
-                                <div className="bg-zinc-700 rounded-xl p-4">
-                                    <h3 className="text-3xl font-bold mb-4">
-                                        Distribuição por Material
-                                    </h3>
-                                </div>
-                            </div>
-                            <div className="flex flex-col gap-4 w-fit">
-                                <div className="flex">
-                                    <h3 className="font-bold text-3xl">Lista de Relatórios</h3>
-                                </div>
-                                {/* Vai ter um botao na hora da simulação para gerar relatorio, mas por enquanto, todas as simulações terao relatorios */}
-                                <table className="w-fit min-w-[900px] 2xl:h-[600px] 3xl:h-[550px]">
-                                    <thead>
-                                        <tr className="border-b border-zinc-600 text-zinc-400 text-sm uppercase grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px]">
-                                            <th className="text-left py-3">
-                                                Relatório
-                                            </th>
-                                            <th className="text-center py-3">
-                                                Material
-                                            </th>
-                                            <th className="text-center py-3">
-                                                Data
-                                            </th>
-                                            <th className="text-center py-3">
-                                                Força
-                                            </th>
-                                            <th className="text-center py-3">
-                                                Tensão
-                                            </th>
-                                            <th className="text-center py-3">
-                                                Deformação
-                                            </th>
-                                            <th className="text-center py-3">
-                                                Status
-                                            </th>
-                                            <th className="text-center py-3">
-                                                Ações
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="">
-                                        {simulacoesPaginadas.map((sim) => (
-                                            <tr
-                                                key={sim.id}
-                                                className="border-b border-zinc-700
-                                            hover:bg-zinc-700/40
-                                            transition-colors
-                                            grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px]
-                                            "
-                                            >
-                                                <td className="flex items-center py-4">
-                                                    <div className="flex gap-3 items-center">
-                                                        <IoDocumentTextOutline className="text-3xl text-laranja-impacto" />
-                                                        <div>
-                                                            <p className="font-bold capitalize">
-                                                                {sim.material.replaceAll('-', ' ')}
-                                                            </p>
-                                                            <p className="text-sm text-zinc-400">
-                                                                Força: 1502 N
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="flex items-center justify-center text-center uppercase">
-                                                    {sim.material.split('-')[0]}
-                                                </td>
-                                                <td className="flex items-center justify-center text-center">
-                                                    <div>
-                                                        <p>
-                                                            {new Date(sim.createdAt).toLocaleDateString("pt-BR")}
-                                                        </p>
-                                                        <p className="text-zinc-400 text-sm">
-                                                            {new Date(sim.createdAt).toLocaleTimeString("pt-BR", {
-                                                                hour: "2-digit",
-                                                                minute: "2-digit",
-                                                            })}
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td className="flex items-center justify-center text-center">
-                                                    <span>32kN</span>
-                                                </td>
-                                                <td className="flex items-center justify-center text-center">
-                                                    <span>32kN</span>
-                                                </td>
-                                                <td className="flex items-center justify-center text-center">
-                                                    <span>32kN</span>
-                                                </td>
-                                                <td className="flex items-center justify-center text-center">
-                                                    <span
-                                                        className="
-                                                    px-3 py-1
-                                                    rounded-full
-                                                    text-sm
-                                                    bg-green-500/20
-                                                    text-green-400
-                                                    border border-green-500/40
-                                                "
-                                                    >
-                                                        Concluída
-                                                    </span>
-                                                </td>
-                                                <td className="flex items-center justify-center text-center flex items-center justify-center w-full gap-2">
-                                                    <button className="text-2xl"><FaEye /></button>
-                                                    <button className="text-2xl"><IoMdDownload /></button>
-                                                    <button className="text-2xl"><MdMoreVert /></button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                                <div className="card mt-auto">
-                                    <Paginator
-                                        first={first}
-                                        rows={rows}
-                                        totalRecords={simulacoes.length}
-                                        onPageChange={onPageChange}
-                                        template="PrevPageLink PageLinks NextPageLink"
-                                        className="bg-transparent border-none"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <Relatorios />
                 )
             case 'perfil':
                 return (

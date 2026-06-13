@@ -99,12 +99,15 @@ export default function Dashboard() {
                 return acc;
             }, {} as Record<string, number>) : []
         )
-            .map(([material, quantidade]) => ({
+            .map(([material, quantidade], i) => ({
                 material: material.replaceAll("-", " "),
                 quantidade: Number(quantidade),
+                cor: CORES[i]
             }))
             .sort((a, b) => b.quantidade - a.quantidade);
     }, [simulacoes])
+
+    console.log(dadosGrafico)
 
     const gerarCampo = (icone: React.ReactNode, titulo: string, quantidade: string, valorMensal?: string) => {
         return (
@@ -348,7 +351,7 @@ export default function Dashboard() {
                                                 nameKey="material"
                                                 cx="50%"
                                                 cy="50%"
-                                                outerRadius={larguraTela < 1600 ? 100 : 120}
+                                                outerRadius={larguraTela < 1600 ? 100 : 100}
                                                 label={false}
                                             >
                                                 {dadosGrafico.map((_, index) => (
@@ -366,10 +369,16 @@ export default function Dashboard() {
                                 <div className="hidden flex-col gap-2 4xl:flex">
                                     <h3 className="text-2xl font-bold text-shadow-[1px_1px_2px_black]">Legendas</h3>
                                     <ul>
-                                        <li className="flex items-center gap-2">
-                                            <div className="w-6 h-4 bg-red-500"></div>
-                                            <p>Material</p>
-                                        </li>
+                                        {
+                                            dadosGrafico.map((dado) => {
+                                                return (
+                                                    <li className="flex items-center gap-2">
+                                                        <div className={`w-6 h-4`} style={{backgroundColor: dado.cor}}></div>
+                                                        <p className="capitalize">{dado.material} - {dado.quantidade}</p>
+                                                    </li>
+                                                )
+                                            })
+                                        }
                                     </ul>
                                 </div>
                             </div>

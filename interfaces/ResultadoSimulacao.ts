@@ -1,4 +1,7 @@
+import { Material } from "./Material"
+
 export default interface ResultadoSimulacao {
+    material: Material
     energia: number
     momento: number
     impacto: number
