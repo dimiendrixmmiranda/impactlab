@@ -1,6 +1,7 @@
 'use state'
-import { areaImpacto, forcaImpacto, tensaoMecanica } from "@/constants/formulas"
+import { areaImpacto, calcularResultado, forcaImpacto, tensaoMecanica } from "@/constants/formulas"
 import { gerarRelatorioPdf } from "@/constants/geradorRelatorioPdf"
+import { materiais } from "@/constants/materiais"
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator"
 import { useEffect, useMemo, useState } from "react"
 import { BiSolidReport } from "react-icons/bi"
@@ -165,7 +166,7 @@ export default function Relatorios() {
     }
     return (
         <div className="flex flex-col gap-4 overflow-hidden p-4">
-            <div className="overflow-x-auto flex flex-col gap-4">
+            <div className="flex flex-col gap-4">
                 <div>
                     <h2 className="font-bold text-4xl">Relatórios Recentes</h2>
                     <p>Acompanhe e analise seus resultados</p>
@@ -302,14 +303,14 @@ export default function Relatorios() {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4 w-fit">
+                <div className="flex flex-col gap-4 w-full overflow-x-auto">
                     <div className="flex">
                         <h3 className="font-bold text-3xl">Lista de Relatórios</h3>
                     </div>
                     {/* Vai ter um botao na hora da simulação para gerar relatorio, mas por enquanto, todas as simulações terao relatorios */}
-                    <table className="w-fit min-w-[900px] 2xl:h-[600px] 3xl:h-[550px]">
+                    <table className="w-fit min-w-[900px] 2xl:h-[600px] 3xl:h-[550px] overflow-x-scroll">
                         <thead>
-                            <tr className="border-b border-zinc-600 text-zinc-400 text-sm uppercase grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px]">
+                            <tr className="border-b border-zinc-600 text-zinc-400 text-sm uppercase grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px_130px]">
                                 <th className="text-left py-3">
                                     Relatório
                                 </th>
@@ -320,10 +321,13 @@ export default function Relatorios() {
                                     Data
                                 </th>
                                 <th className="text-center py-3">
-                                    Força
+                                    Energia
                                 </th>
                                 <th className="text-center py-3">
                                     Tensão
+                                </th>
+                                <th className="text-center py-3">
+                                    Espessura
                                 </th>
                                 <th className="text-center py-3">
                                     Deformação
@@ -337,56 +341,64 @@ export default function Relatorios() {
                             </tr>
                         </thead>
                         <tbody className="">
-                            {simulacoesPaginadas.map((sim) => (
-                                <tr
-                                    key={sim.id}
-                                    className="border-b border-zinc-700
+                            {simulacoesPaginadas.map((sim) => {
+                                const material = materiais.find(material => material.id === sim.material)
+                                const resultadoCalculado = calcularResultado(parseFloat(sim.massa), parseFloat(sim.velocidade), parseFloat(sim.diametroProjetil), material!, parseFloat(sim.espessura))
+                                console.log(sim)
+
+                                return (
+                                    <tr
+                                        key={sim.id}
+                                        className="border-b border-zinc-700
                                                     hover:bg-zinc-700/40
                                                     transition-colors
-                                                    grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px]
+                                                    grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px_130px]
                                                     "
-                                >
-                                    <td className="flex items-center py-4">
-                                        <div className="flex gap-3 items-center">
-                                            <IoDocumentTextOutline className="text-3xl text-laranja-impacto" />
+                                    >
+                                        <td className="flex items-center py-4">
+                                            <div className="flex gap-3 items-center">
+                                                <IoDocumentTextOutline className="text-3xl text-laranja-impacto" />
+                                                <div>
+                                                    <p className="font-bold capitalize">
+                                                        {sim.material.replaceAll('-', ' ')}
+                                                    </p>
+                                                    <p className="text-sm text-zinc-400">
+                                                        Força de Impacto: {resultadoCalculado.impacto} N
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="flex items-center justify-center text-center uppercase">
+                                            {sim.material.split('-')[0]}
+                                        </td>
+                                        <td className="flex items-center justify-center text-center">
                                             <div>
-                                                <p className="font-bold capitalize">
-                                                    {sim.material.replaceAll('-', ' ')}
+                                                <p>
+                                                    {new Date(sim.createdAt).toLocaleDateString("pt-BR")}
                                                 </p>
-                                                <p className="text-sm text-zinc-400">
-                                                    Força: 1502 N
+                                                <p className="text-zinc-400 text-sm">
+                                                    {new Date(sim.createdAt).toLocaleTimeString("pt-BR", {
+                                                        hour: "2-digit",
+                                                        minute: "2-digit",
+                                                    })}
                                                 </p>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="flex items-center justify-center text-center uppercase">
-                                        {sim.material.split('-')[0]}
-                                    </td>
-                                    <td className="flex items-center justify-center text-center">
-                                        <div>
-                                            <p>
-                                                {new Date(sim.createdAt).toLocaleDateString("pt-BR")}
-                                            </p>
-                                            <p className="text-zinc-400 text-sm">
-                                                {new Date(sim.createdAt).toLocaleTimeString("pt-BR", {
-                                                    hour: "2-digit",
-                                                    minute: "2-digit",
-                                                })}
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td className="flex items-center justify-center text-center">
-                                        <span>32kN</span>
-                                    </td>
-                                    <td className="flex items-center justify-center text-center">
-                                        <span>32kN</span>
-                                    </td>
-                                    <td className="flex items-center justify-center text-center">
-                                        <span>32kN</span>
-                                    </td>
-                                    <td className="flex items-center justify-center text-center">
-                                        <span
-                                            className="
+                                        </td>
+                                        <td className="flex items-center justify-center text-center">
+                                            <span>{resultadoCalculado.energia.toFixed(2)}</span>
+                                        </td>
+                                        <td className="flex items-center justify-center text-center">
+                                            <span>{resultadoCalculado.tensao.toFixed(2)}</span>
+                                        </td>
+                                        <td className="flex items-center justify-center text-center">
+                                            <span>{sim.espessura}</span>
+                                        </td>
+                                        <td className="flex items-center justify-center text-center">
+                                            <span>{resultadoCalculado.deformParede.toFixed(2)}</span>
+                                        </td>
+                                        <td className="flex items-center justify-center text-center">
+                                            <span
+                                                className="
                                                 px-3 py-1
                                                 rounded-full
                                                 text-sm
@@ -394,27 +406,28 @@ export default function Relatorios() {
                                                 text-green-400
                                                 border border-green-500/40
                                             "
-                                        >
-                                            Concluída
-                                        </span>
-                                    </td>
-                                    <td className="flex items-center justify-center text-center flex items-center justify-center w-full gap-2">
-                                        <button className="text-2xl"><FaEye /></button>
-                                        <button
-                                            className="text-2xl"
-                                            onClick={() => {
-                                                console.log(sim)
-                                                gerarRelatorioPdf(sim)
-                                            }}
-                                        >
-                                            <IoMdDownload />
-                                        </button>
-                                        <button className="text-2xl" >
-                                            <FaRegTrashCan />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                                            >
+                                                Concluída
+                                            </span>
+                                        </td>
+                                        <td className="flex items-center justify-center text-center flex items-center justify-center w-full gap-2">
+                                            <button className="text-2xl"><FaEye /></button>
+                                            <button
+                                                className="text-2xl"
+                                                onClick={() => {
+                                                    console.log(sim)
+                                                    gerarRelatorioPdf(sim)
+                                                }}
+                                            >
+                                                <IoMdDownload />
+                                            </button>
+                                            <button className="text-2xl" >
+                                                <FaRegTrashCan />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                     <div className="card mt-auto">

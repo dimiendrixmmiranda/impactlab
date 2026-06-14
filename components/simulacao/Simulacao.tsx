@@ -5,7 +5,7 @@ import ResultadoSimulacao from "@/interfaces/ResultadoSimulacao";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { gerarRelatorioPdf } from "@/constants/geradorRelatorioPdf";
-import { areaImpacto, energiaCinetica, forcaImpacto, momentoLinear, tensaoMecanica } from "@/constants/formulas";
+import { areaImpacto, calcularResultado, energiaCinetica, forcaImpacto, momentoLinear, tensaoMecanica } from "@/constants/formulas";
 
 interface SimulacaoProps {
     formato: 'horizontal' | 'vertical'
@@ -120,79 +120,79 @@ export default function Simulacao({ formato }: SimulacaoProps) {
         corStatus = 'text-yellow-500'
     }
 
-    function calcularResultado() {
-        const energia =
-            energiaCinetica(
-                Number(massa),
-                Number(velocidade)
-            );
+    // function calcularResultado() {
+    //     const energia =
+    //         energiaCinetica(
+    //             Number(massa),
+    //             Number(velocidade)
+    //         );
 
-        const momento =
-            momentoLinear(
-                Number(massa),
-                Number(velocidade)
-            );
+    //     const momento =
+    //         momentoLinear(
+    //             Number(massa),
+    //             Number(velocidade)
+    //         );
 
-        const impacto =
-            forcaImpacto(
-                Number(massa),
-                Number(velocidade)
-            );
+    //     const impacto =
+    //         forcaImpacto(
+    //             Number(massa),
+    //             Number(velocidade)
+    //         );
 
-        const area =
-            areaImpacto(
-                Number(diametroProjetil)
-            );
+    //     const area =
+    //         areaImpacto(
+    //             Number(diametroProjetil)
+    //         );
 
-        const tensao =
-            tensaoMecanica(
-                impacto,
-                area
-            );
+    //     const tensao =
+    //         tensaoMecanica(
+    //             impacto,
+    //             area
+    //         );
 
-        const resistenciaMaterial =
-            materialSelecionado?.resistencia || 0;
+    //     const resistenciaMaterial =
+    //         materialSelecionado?.resistencia || 0;
 
-        const resistenciaParede =
-            resistenciaMaterial *
-            Number(espessura);
+    //     const resistenciaParede =
+    //         resistenciaMaterial *
+    //         Number(espessura);
 
-        let integridade = 100;
+    //     let integridade = 100;
 
-        if (resistenciaParede > 0) {
-            integridade =
-                (
-                    (resistenciaParede - tensao)
-                    / resistenciaParede
-                ) * 100;
-        }
+    //     if (resistenciaParede > 0) {
+    //         integridade =
+    //             (
+    //                 (resistenciaParede - tensao)
+    //                 / resistenciaParede
+    //             ) * 100;
+    //     }
 
-        let status = "Estável";
-        let corStatus = "text-green-500";
+    //     let status = "Estável";
+    //     let corStatus = "text-green-500";
 
-        if (integridade <= 0) {
-            status = "Destruída";
-            corStatus = "text-red-500";
-        } else if (integridade < 30) {
-            status = "Crítica";
-            corStatus = "text-orange-500";
-        } else if (integridade < 70) {
-            status = "Danificada";
-            corStatus = "text-yellow-500";
-        }
+    //     if (integridade <= 0) {
+    //         status = "Destruída";
+    //         corStatus = "text-red-500";
+    //     } else if (integridade < 30) {
+    //         status = "Crítica";
+    //         corStatus = "text-orange-500";
+    //     } else if (integridade < 70) {
+    //         status = "Danificada";
+    //         corStatus = "text-yellow-500";
+    //     }
 
-        return {
-            material: materialSelecionado!,
-            energia,
-            momento,
-            impacto,
-            area,
-            tensao,
-            integridade,
-            status,
-            corStatus
-        };
-    }
+    //     return {
+    //         material: materialSelecionado!,
+    //         energia,
+    //         momento,
+    //         impacto,
+    //         area,
+    //         tensao,
+    //         integridade,
+    //         status,
+    //         corStatus
+    //     };
+    // }
 
     const iniciarSimulacao = async () => {
         if (
@@ -232,7 +232,7 @@ export default function Simulacao({ formato }: SimulacaoProps) {
         setTimeout(async () => {
             try {
                 const resultadoCalculado =
-                    calcularResultado();
+                    calcularResultado(parseFloat(massa), parseFloat(velocidade), parseFloat(diametroProjetil), materialSelecionado!, parseFloat(espessura))
 
                 setResultado(resultadoCalculado);
 
@@ -289,6 +289,8 @@ export default function Simulacao({ formato }: SimulacaoProps) {
             }
         }, 4000);
     }
+
+    console.log(resultado)
 
     const areaRef = useRef<HTMLDivElement>(null);
     const projetilRef = useRef<HTMLDivElement>(null);
