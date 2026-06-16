@@ -2,16 +2,24 @@ import jsPDF from "jspdf"
 
 interface ResultadosDaSimulacaoProps {
     doc: jsPDF
-    grafico: string
+    formulaCinetica: string,
+    formulaDeformacao: string
+    formulaForca: string
+    formulaTensao: string
+    iconeRaio: string
 }
 
 export function renderResultadosDaSimulacao({
     doc,
-    grafico
+    formulaCinetica,
+    formulaDeformacao,
+    formulaForca,
+    formulaTensao,
+    iconeRaio
 }: ResultadosDaSimulacaoProps) {
 
     doc.addImage(
-        grafico,
+        formulaCinetica,
         'PNG',
         10,
         102.5,
@@ -28,10 +36,10 @@ export function renderResultadosDaSimulacao({
         largura: 40,
         altura: 30,
         titulo: "Energia Cinética (Ec)",
-        formula: "Ec = 1/2 mv²",
+        formula: formulaCinetica,
         valor: "32.000,00",
         unidade: "J",
-        icone: grafico
+        icone: iconeRaio
     })
     renderCardMetrica({
         doc,
@@ -39,11 +47,11 @@ export function renderResultadosDaSimulacao({
         y: 120,
         largura: 40,
         altura: 30,
-        titulo: "Energia Cinética (Ec)",
-        formula: "Ec = 1/2 mv²",
+        titulo: "Momento Linear (p)",
+        formula: formulaCinetica,
         valor: "32.000,00",
         unidade: "J",
-        icone: grafico
+        icone: iconeRaio
     })
     renderCardMetrica({
         doc,
@@ -51,11 +59,11 @@ export function renderResultadosDaSimulacao({
         y: 120,
         largura: 40,
         altura: 30,
-        titulo: "Energia Cinética (Ec)",
-        formula: "Ec = 1/2 mv²",
+        titulo: "Força de Impacto (F)",
+        formula: formulaForca,
         valor: "32.000,00",
         unidade: "J",
-        icone: grafico
+        icone: iconeRaio
     })
     renderCardMetrica({
         doc,
@@ -63,11 +71,11 @@ export function renderResultadosDaSimulacao({
         y: 155,
         largura: 40,
         altura: 30,
-        titulo: "Energia Cinética (Ec)",
-        formula: "Ec = 1/2 mv²",
+        titulo: "Area de Impacto (A)",
+        formula: formulaCinetica,
         valor: "32.000,00",
         unidade: "J",
-        icone: grafico
+        icone: iconeRaio
     })
     renderCardMetrica({
         doc,
@@ -75,11 +83,11 @@ export function renderResultadosDaSimulacao({
         y: 155,
         largura: 40,
         altura: 30,
-        titulo: "Energia Cinética (Ec)",
-        formula: "Ec = 1/2 mv²",
+        titulo: "Tensão Mecânica (o)",
+        formula: formulaCinetica,
         valor: "32.000,00",
         unidade: "J",
-        icone: grafico
+        icone: iconeRaio
     })
     renderCardMetrica({
         doc,
@@ -87,14 +95,13 @@ export function renderResultadosDaSimulacao({
         y: 155,
         largura: 40,
         altura: 30,
-        titulo: "Energia Cinética (Ec)",
-        formula: "Ec = 1/2 mv²",
+        titulo: "Integridade Estrutural",
+        formula: formulaCinetica,
         valor: "32.000,00",
         unidade: "J",
-        icone: grafico
+        icone: iconeRaio
     })
 }
-
 
 
 function renderCardMetrica({
@@ -104,9 +111,9 @@ function renderCardMetrica({
     largura,
     altura,
     titulo,
-    formula,
     valor,
     unidade,
+    formula,
     icone
 }: any) {
 
@@ -117,43 +124,45 @@ function renderCardMetrica({
     const centroX = x + largura / 2
 
     // Título
-    doc.setFontSize(14)
+    doc.setFontSize(10)
     doc.setFont("helvetica", "bold")
 
     doc.text(
         titulo,
         centroX,
-        y + 12,
+        y + 6,
         { align: "center" }
     )
 
-    // Fórmula
-    doc.setFontSize(18)
+    const larguraFormula = 18
+    const alturaFormula = 10
 
-    doc.text(
+    const posicaoXFormula =
+        x + (largura - larguraFormula) / 2
+
+    doc.addImage(
         formula,
-        centroX,
-        y + 28,
+        "PNG",
+        posicaoXFormula,
+        y + 8,
+        larguraFormula,
+        alturaFormula
+    )
+    // Valor
+    doc.setFontSize(12)
+    doc.text(
+        `${valor} ${unidade}`,
+        x + 22,
+        y + altura - 6.5,
         { align: "center" }
     )
 
-    // Ícone
     doc.addImage(
         icone,
         "PNG",
-        x + 8,
-        y + altura - 25,
-        18,
-        18
-    )
-
-    // Valor
-    doc.setFontSize(20)
-
-    doc.text(
-        `${valor} ${unidade}`,
-        centroX + 15,
-        y + altura - 10,
-        { align: "center" }
+        x + 4,
+        y + 19,
+        6,
+        6
     )
 }

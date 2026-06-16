@@ -131,6 +131,8 @@ import { renderDadosDaSimulacao } from "./components/dadosDaSimulacao"
 import { renderResultadosDaSimulacao } from "./components/resultadosDaSimulacao"
 import { renderSobreOMaterial } from "./components/sobreOMaterial"
 import { renderConclusao } from "./components/conclusao"
+import renderStatusEstrutura from "./components/statusDaEstrutura"
+import { renderDadosDoMaterial } from "./components/dadosDoMaterial"
 
 export async function gerarRelatorioPdf(
     simulacao: any
@@ -171,6 +173,12 @@ export async function gerarRelatorioPdf(
         grafico,
         lampada,
         alvo,
+        formulaCinetica,
+        formulaDeformacao,
+        formulaForca,
+        formulaTensao,
+        iconeRaio,
+        iconePerigo
     ] = await Promise.all([
         carregarImagem('/logo/logo.png'),
         carregarImagem('/pdf/data.png'),
@@ -185,6 +193,12 @@ export async function gerarRelatorioPdf(
         carregarImagem('/pdf/grafico.png'),
         carregarImagem('/pdf/lampada.png'),
         carregarImagem('/pdf/alvo.png'),
+        carregarImagem('/pdf/cinetica.png'),
+        carregarImagem('/pdf/deformacao.png'),
+        carregarImagem('/pdf/forca.png'),
+        carregarImagem('/pdf/tensao.png'),
+        carregarImagem('/pdf/raio.png'),
+        carregarImagem('/pdf/perigo.png'),
     ])
 
     const dataFormatada = new Date(
@@ -220,7 +234,24 @@ export async function gerarRelatorioPdf(
     })
     renderResultadosDaSimulacao({
         doc,
-        grafico
+        formulaCinetica,
+        formulaDeformacao,
+        formulaForca,
+        formulaTensao,
+        iconeRaio
+    })
+    renderDadosDoMaterial({
+        doc,
+        materialImg,
+        material: material!
+    })
+    renderStatusEstrutura({
+        doc,
+        x: 10,
+        y: 190,
+        largura: 130,
+        integridade: 20,
+        iconePerigo: iconePerigo
     })
     renderConclusao({
         doc,

@@ -370,9 +370,9 @@ export default function Dashboard() {
                                     <h3 className="text-2xl font-bold text-shadow-[1px_1px_2px_black]">Legendas</h3>
                                     <ul>
                                         {
-                                            dadosGrafico.map((dado) => {
+                                            dadosGrafico.map((dado, i) => {
                                                 return (
-                                                    <li className="flex items-center gap-2">
+                                                    <li className="flex items-center gap-2" key={i}>
                                                         <div className={`w-6 h-4`} style={{backgroundColor: dado.cor}}></div>
                                                         <p className="capitalize">{dado.material} - {dado.quantidade}</p>
                                                     </li>
