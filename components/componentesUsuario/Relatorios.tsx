@@ -45,7 +45,7 @@ export default function Relatorios() {
         first,
         first + rows
     ) : []
-    
+
     const maiorForcaImpacto = simulacoes.length > 0 ? Math.max(
         ...simulacoes.map((simulacao) =>
             forcaImpacto(
@@ -185,7 +185,7 @@ export default function Relatorios() {
                         gerarCampo(<GiShieldImpact />, 'Maior Tensão', `${maiorTensao.toFixed(2)} MPa`)
                     }
                     {
-                        gerarCampo(<BiSolidReport />, 'Quantidade de Simulações', '10')
+                        gerarCampo(<BiSolidReport />, 'Quantidade de Simulações', `${simulacoes.length}`)
                     }
                 </div>
                 <div className="xl:grid xl:grid-cols-2 xl:gap-4">
