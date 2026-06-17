@@ -20,6 +20,7 @@ model User {
   sexo        String?
   imagem      String?
   createdAt   DateTime     @default(now())
+  qtdeRelatorios  Int          @default(0)
 
   simulations Simulation[]
 }

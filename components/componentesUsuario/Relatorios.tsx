@@ -2,6 +2,7 @@
 import { areaImpacto, calcularResultado, forcaImpacto, tensaoMecanica } from "@/constants/formulas"
 import { gerarRelatorioPdf } from "@/constants/geradorRelatorioPdf"
 import { materiais } from "@/constants/materiais"
+import { useUsuario } from "@/hooks/useUsuario"
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator"
 import { useEffect, useMemo, useState } from "react"
 import { BiSolidReport } from "react-icons/bi"
@@ -34,6 +35,8 @@ export default function Relatorios() {
         "#4F252E",
         "#0A7C6E",
     ]
+    const { usuario } = useUsuario();
+    console.log(usuario)
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(6);
     const [simulacoes, setSimulacoes] = useState<any[]>([])
@@ -42,7 +45,7 @@ export default function Relatorios() {
         first,
         first + rows
     ) : []
-
+    
     const maiorForcaImpacto = simulacoes.length > 0 ? Math.max(
         ...simulacoes.map((simulacao) =>
             forcaImpacto(
@@ -173,7 +176,7 @@ export default function Relatorios() {
                 </div>
                 <div className="xl:grid xl:grid-cols-4 xl:gap-4">
                     {
-                        gerarCampo(<IoDocumentText />, 'Total de Relatórios', '12')
+                        gerarCampo(<IoDocumentText />, 'Total de Relatórios', `${usuario?.qtdeRelatorios}`)
                     }
                     {
                         gerarCampo(<GiGooeyImpact />, 'Força Máxima', `${maiorForcaImpacto} N`)
@@ -182,7 +185,7 @@ export default function Relatorios() {
                         gerarCampo(<GiShieldImpact />, 'Maior Tensão', `${maiorTensao.toFixed(2)} MPa`)
                     }
                     {
-                        gerarCampo(<BiSolidReport />, 'Relatórios Exportados', '10')
+                        gerarCampo(<BiSolidReport />, 'Quantidade de Simulações', '10')
                     }
                 </div>
                 <div className="xl:grid xl:grid-cols-2 xl:gap-4">
@@ -414,9 +417,12 @@ export default function Relatorios() {
                                             <button className="text-2xl"><FaEye /></button>
                                             <button
                                                 className="text-2xl"
-                                                onClick={() => {
+                                                onClick={async () => {
+                                                    await gerarRelatorioPdf(sim)
                                                     console.log(sim)
-                                                    gerarRelatorioPdf(sim)
+                                                    await fetch('/api/user/relatorio', {
+                                                        method: 'POST'
+                                                    })
                                                 }}
                                             >
                                                 <IoMdDownload />

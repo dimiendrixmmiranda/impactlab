@@ -16,6 +16,7 @@ export function renderConclusao({
     const y = 260
     const largura = 131
     const altura = 30
+    doc.setDrawColor(0)
 
     doc.rect(
         x,

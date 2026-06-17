@@ -26,14 +26,13 @@ export default function Simulacao({ formato }: SimulacaoProps) {
 
     const [resultado, setResultado] =
         useState<ResultadoSimulacao | null>(null)
-
+    const [sim, setSim] = useState<any>()
     const materialSelecionado = useMemo(() => {
         return materiais.find(
             (m) => m.id === material
         )
     }, [material])
 
-    console.log(resultado)
 
     const energia =
         energiaCinetica(
@@ -263,10 +262,7 @@ export default function Simulacao({ formato }: SimulacaoProps) {
                 const data =
                     await response.json();
 
-                console.log(
-                    "Resposta da API:",
-                    data
-                );
+                setSim(data)
 
                 if (!response.ok) {
                     throw new Error(
@@ -560,13 +556,25 @@ export default function Simulacao({ formato }: SimulacaoProps) {
                                 Dados
                             </p>
                         </div>
-                        <div className="absolute top-4 right-8">
-                            <button
-                                onClick={() => resultado ? gerarRelatorioPdf(resultado) : ''}
-                            >
-                                <p>Baixar Relatório</p>
-                            </button>
-                        </div>
+                        {
+                            resultado ? (
+                                <div className="absolute top-4 right-8">
+                                    <button
+                                        onClick={async () => {
+                                            await gerarRelatorioPdf(sim)
+                                            console.log(sim)
+                                            await fetch('/api/user/relatorio', {
+                                                method: 'POST'
+                                            })
+                                        }}
+                                    >
+                                        <p>Baixar Relatório</p>
+                                    </button>
+                                </div>
+                            ) : (
+                                ''
+                            )
+                        }
                         <div className="flex w-full h-full justify-center items-center text-2xl">
                             <p>
                                 {etapa}

@@ -19,7 +19,7 @@ export function renderResultadosDaSimulacao({
 }: ResultadosDaSimulacaoProps) {
 
     doc.addImage(
-        formulaCinetica,
+        iconeRaio,
         'PNG',
         10,
         102.5,

@@ -22,7 +22,7 @@ export function renderDadosDoMaterial({
         6,
         6
     )
-    doc.rect(x, y, 55, 180)
+    doc.rect(x, y, 55, 195)
 
     doc.setFontSize(12)
     doc.text("Dados da Material", x + 10, y + 9)

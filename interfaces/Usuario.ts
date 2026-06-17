@@ -3,6 +3,7 @@ export default interface Usuario{
     email: string
     id: string
     imagem: string | null
+    qtdeRelatorios: number
     nome: string
     sexo: string
 }

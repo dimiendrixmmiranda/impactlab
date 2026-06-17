@@ -137,13 +137,13 @@ export default function Dados() {
     }, [simulacoes])
 
     const gerarCampo = (icone: React.ReactNode, titulo: string, paragrafo: string) => {
-        return <div className="flex items-center gap-2">
+        return <div className="flex items-center gap-2 text-shadow-[1px_1px_2px_black]">
             <div className="w-14 h-14 rounded-lg border border-laranja-impacto text-laranja-impacto flex justify-center items-center text-2xl">
                 {icone}
             </div>
             <div>
                 <h3 className="font-bold text-2xl">{titulo}</h3>
-                <p className="line-clamp-1">{paragrafo}</p>
+                <p className="line-clamp-1 capitalize">{paragrafo}</p>
             </div>
         </div>
     }
@@ -421,36 +421,36 @@ export default function Dados() {
                             <Link href={'/simulacao'} className="flex flex-col justify-centere items-center border border-zinc-600 rounded-xl p-4 h-full">
                                 <FaPlus className="text-laranja-impacto text-6xl" />
                                 <h4 className="mt-2 text-xl">Nova Simulação</h4>
-                                <span className="text-zinc-500 text-center leading-5">Criar uma nova simulação</span>
+                                <span className="text-zinc-400 text-center leading-5">Criar uma nova simulação</span>
                             </Link>
                         </div>
                         <div>
                             <Link href={'/'} className="flex flex-col justify-centere items-center border border-zinc-600 rounded-xl p-4 h-full">
                                 <LuImport className="text-laranja-impacto text-6xl" />
                                 <h4 className="mt-2 text-xl">Importar Dados</h4>
-                                <span className="text-zinc-500 text-center leading-5">CSV ou Excel</span>
+                                <span className="text-zinc-400 text-center leading-5">CSV ou Excel</span>
                             </Link>
                         </div>
                         <div>
                             <Link href={'/materiais'} className="flex flex-col justify-centere items-center border border-zinc-600 rounded-xl p-4 h-full">
                                 <IoCubeOutline className="text-laranja-impacto text-6xl" />
                                 <h4 className="mt-2 text-xl">Modelos</h4>
-                                <span className="text-zinc-500 text-center leading-5">Usar modelos prontos</span>
+                                <span className="text-zinc-400 text-center leading-5">Usar modelos prontos</span>
                             </Link>
                         </div>
                         <div>
                             <Link href={'/'} className="flex flex-col justify-centere items-center border border-zinc-600 rounded-xl p-4 h-full">
                                 <GrDocumentText className="text-laranja-impacto text-6xl" />
                                 <h4 className="mt-2 text-xl">Relatórios</h4>
-                                <span className="text-zinc-500 text-center leading-5">Gerar Relatório</span>
+                                <span className="text-zinc-400 text-center leading-5">Gerar Relatório</span>
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-4 p-4 bg-zinc-700 rounded-xl">
+            <div className="grid grid-cols-4 gap-4 p-4 bg-zinc-700 rounded-xl">
                 {gerarCampo(<VscGraph />, 'Insights dos seus dados', 'Descubra padrões e tendências nas suas simulações')}
-                {gerarCampo(<GiScreenImpact />, 'Material mais utilizado', 'Aço estrutural')}
+                {gerarCampo(<GiScreenImpact />, 'Material mais utilizado', `${materialMaisUtilizado[0]}`)}
                 {gerarCampo(<GiMaterialsScience />, 'Total de simulações', `${simulacoes.length} simulações`)}
                 {gerarCampo(<VscGraphLine />, 'Simulações no mês atual', `${simulacoesMesAtual.length} simulações`)}
             </div>

@@ -43,7 +43,7 @@ export function renderDadosDaSimulacao({
     )
     doc.setFontSize(12)
     doc.text("Massa do Projetil", 70, 60)
-    doc.text("20kg", 145, 60, {align: 'right'})
+    doc.text("20kg", 138, 60, {align: 'right'})
 
     doc.addImage(
         velocidade,
@@ -55,7 +55,7 @@ export function renderDadosDaSimulacao({
     )
     doc.setFontSize(12)
     doc.text("Velocidade do Projetil", 70, 69)
-    doc.text("80 m/s", 145, 69, {align: 'right'})
+    doc.text("80 m/s", 138, 69, {align: 'right'})
 
     doc.addImage(
         diametro,
@@ -67,7 +67,7 @@ export function renderDadosDaSimulacao({
     )
     doc.setFontSize(12)
     doc.text("Diâmetro do Projetil", 70, 76.5)
-    doc.text("10cm", 145, 76.5, {align: 'right'})
+    doc.text("10cm", 138, 76.5, {align: 'right'})
     
     doc.addImage(
         parede,
@@ -79,7 +79,7 @@ export function renderDadosDaSimulacao({
     )
     doc.setFontSize(12)
     doc.text("Espessura da Parede", 70, 84.5)
-    doc.text("10cm", 145, 84.5, {align: 'right'})
+    doc.text("10cm", 138, 84.5, {align: 'right'})
     
     doc.addImage(
         materialImg,
@@ -91,6 +91,6 @@ export function renderDadosDaSimulacao({
     )
     doc.setFontSize(12)
     doc.text("Material Selecionado", 70, 92)
-    doc.text("Madeira", 145, 92, {align: 'right'})
+    doc.text("Madeira", 138, 92, {align: 'right'})
 
 }

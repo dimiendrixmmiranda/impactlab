@@ -12,9 +12,9 @@ export function renderSobreOMaterial({
     lampada
 }: SobreOMaterialProps) {
 
-    const x = 150
+    const x = 145
     const y = 240
-    const largura = 50
+    const largura = 55
     const altura = 50
 
     doc.rect(
@@ -27,8 +27,8 @@ export function renderSobreOMaterial({
     doc.addImage(
         lampada,
         'PNG',
-        152,
-        242,
+        x + 2,
+        y + 2,
         5,
         5
     )

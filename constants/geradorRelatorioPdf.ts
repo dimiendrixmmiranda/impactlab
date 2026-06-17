@@ -133,6 +133,8 @@ import { renderSobreOMaterial } from "./components/sobreOMaterial"
 import { renderConclusao } from "./components/conclusao"
 import renderStatusEstrutura from "./components/statusDaEstrutura"
 import { renderDadosDoMaterial } from "./components/dadosDoMaterial"
+import { renderDesempenhoDoMaterial } from "./components/desempenhoDoMaterial"
+import { calcularResultado } from "./formulas"
 
 export async function gerarRelatorioPdf(
     simulacao: any
@@ -140,6 +142,11 @@ export async function gerarRelatorioPdf(
     const material = materiais.find(
         material => material.id === simulacao.material
     )
+    const resultado = calcularResultado(simulacao.massa, simulacao.velocidade, simulacao.diametroProjetil, simulacao.material, simulacao.espessura)
+    if(!material){
+        return
+    }
+
     async function carregarImagem(caminho: string) {
         const response = await fetch(caminho)
 
@@ -252,6 +259,11 @@ export async function gerarRelatorioPdf(
         largura: 130,
         integridade: 20,
         iconePerigo: iconePerigo
+    })
+    renderDesempenhoDoMaterial({
+        doc,
+        tensaoAplicada: resultado.tensao,
+        resistenciaMaterial: material?.resistencia!
     })
     renderConclusao({
         doc,

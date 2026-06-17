@@ -410,10 +410,10 @@ export default function Dashboard() {
                                     {dicaAleatoria.descricao}
                                 </span>
                             </div>
-                            <button className="flex text-nowrap items-center bg-zinc-950 p-2 rounded-xl text-center justify-center mt-auto">
+                            <Link href={'/dicas'} className="flex text-nowrap items-center bg-zinc-950 p-2 rounded-xl text-center justify-center mt-auto">
                                 <p>Ver todas as dicas</p>
                                 <IoIosArrowForward className="pt-1" />
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
