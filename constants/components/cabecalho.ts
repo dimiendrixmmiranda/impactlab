@@ -42,9 +42,9 @@ export function renderCabecalho({
         data,
         'PNG',
         162,
-        11,
-        7,
-        7
+        12,
+        5,
+        5
     )
 
     doc.setFontSize(10)
@@ -59,9 +59,9 @@ export function renderCabecalho({
         calendario,
         'PNG',
         162,
-        19,
-        7,
-        7
+        20,
+        5,
+        5
     )
 
     doc.text("Data", 170, 22)
@@ -75,9 +75,9 @@ export function renderCabecalho({
         user,
         'PNG',
         162,
-        27,
-        7,
-        7
+        28,
+        5,
+        5
     )
 
     doc.text("Gerado por", 170, 30)

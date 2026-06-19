@@ -185,7 +185,8 @@ export async function gerarRelatorioPdf(
         formulaForca,
         formulaTensao,
         iconeRaio,
-        iconePerigo
+        iconePerigo,
+        projetil,
     ] = await Promise.all([
         carregarImagem('/logo/logo.png'),
         carregarImagem('/pdf/data.png'),
@@ -206,6 +207,7 @@ export async function gerarRelatorioPdf(
         carregarImagem('/pdf/tensao.png'),
         carregarImagem('/pdf/raio.png'),
         carregarImagem('/pdf/perigo.png'),
+        carregarImagem('/pdf/projetil.png'),
     ])
 
     const dataFormatada = new Date(
@@ -237,7 +239,8 @@ export async function gerarRelatorioPdf(
         velocidade,
         diametro,
         parede,
-        materialImg
+        materialImg,
+        projetil,
     })
     renderResultadosDaSimulacao({
         doc,

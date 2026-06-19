@@ -33,7 +33,7 @@ export default function Relatorios() {
         "#FFD400",
         "#007979",
         "#4F252E",
-        "#0A7C6E",
+        "#2C3947",
     ]
     const { usuario } = useUsuario();
     console.log(usuario)
@@ -82,20 +82,35 @@ export default function Relatorios() {
             return [];
         }
 
-        return Object.entries(
-            simulacoes.length > 0 ? simulacoes.reduce((acc, simulacao) => {
+        const dados = Object.entries(
+            simulacoes.reduce((acc, simulacao) => {
                 acc[simulacao.material] =
                     (acc[simulacao.material] || 0) + 1;
 
                 return acc;
-            }, {} as Record<string, number>) : []
+            }, {} as Record<string, number>)
         )
             .map(([material, quantidade]) => ({
                 material: material.replaceAll("-", " "),
                 quantidade: Number(quantidade),
             }))
             .sort((a, b) => b.quantidade - a.quantidade);
-    }, [simulacoes])
+
+        const top7 = dados.slice(0, 6);
+
+        const outros = dados
+            .slice(6)
+            .reduce((soma, item) => soma + item.quantidade, 0);
+
+        if (outros > 0) {
+            top7.push({
+                material: "Outros",
+                quantidade: outros
+            });
+        }
+
+        return top7;
+    }, [simulacoes]);
 
     const dadosGrafico = useMemo(() => {
         const agrupado: Record<string, any> = {}
