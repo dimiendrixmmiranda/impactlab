@@ -50,28 +50,28 @@ export default function Header() {
                     </li>
 
                     <li>
-                        <Link href="/sobre" className={getLinkClass('/sobre')}>
+                        <Link href="/menu/sobre" className={getLinkClass('/menu/sobre')}>
                             <FaFlask />
                             <p>Sobre o Projeto</p>
                         </Link>
                     </li>
 
                     <li>
-                        <Link href="/recursos" className={getLinkClass('/recursos')}>
+                        <Link href="/menu/recursos" className={getLinkClass('/menu/recursos')}>
                             <FaCogs />
                             <p>Recursos</p>
                         </Link>
                     </li>
 
                     <li>
-                        <Link href="/materiais" className={getLinkClass('/materiais')}>
+                        <Link href="/menu/materiais" className={getLinkClass('/menu/materiais')}>
                             <FaCube />
                             <p>Materiais</p>
                         </Link>
                     </li>
 
                     <li>
-                        <Link href="/funcionamento" className={getLinkClass('/funcionamento')}>
+                        <Link href="/menu/funcionamento" className={getLinkClass('/menu/funcionamento')}>
                             <MdOutlineScience />
                             <p>Como Funciona?</p>
                         </Link>

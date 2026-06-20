@@ -6,8 +6,8 @@ export default function Detalhes() {
 
     const gerarDetalhe = (icone: React.ReactNode, titulo: string, descricao: string) => {
         return (
-            <div className="p-2 bg-zinc-800 rounded-xl border border-zinc-500 flex flex-col gap-4 lg:p-4">
-                <div className="text-6xl flex justify-center items-center text-laranja-impacto">
+            <div className="group p-2 bg-zinc-800 rounded-xl border border-zinc-500 flex flex-col gap-4 cursor-pointer lg:p-4 hover:bg-laranja-impacto duration-500 hover:scale-105 hover:text-shadow-[1px_1px_2px_black]">
+                <div className="text-6xl flex justify-center items-center text-laranja-impacto group-hover:text-white duration-500 group-hover:drop-shadow-[1px_1px_2px_black]">
                     {icone}
                 </div>
                 <div className="flex flex-col text-center gap-1">

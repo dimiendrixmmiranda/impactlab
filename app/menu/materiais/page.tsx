@@ -114,11 +114,9 @@ export default function Page() {
         first + rows
     )
 
-    console.log(visible)
-
     function cardMaterial(material: Material) {
         return (
-            <div key={material.id} className="bg-zinc-800 p-2 rounded-xl border border-zinc-500 w-full max-w-[320px] mx-auto flex flex-col gap-3 lg:p-4">
+            <div key={material.id} className="bg-zinc-800 p-2 rounded-xl border border-zinc-500 w-full max-w-[320px] mx-auto flex flex-col gap-3 lg:p-4 hover:border-laranja-impacto duration-300 hover:scale-105">
                 <div>
                     <h2 className="text-xl font-bold">{material.nome}</h2>
                     <p className="text-laranja-impacto">{material.categoria}</p>
@@ -145,7 +143,7 @@ export default function Page() {
                     </div>
                 </div>
                 <button
-                    className="border border-laranja-impacto text-laranja-impacto rounded-xl flex gap-2 items-center p-2 px-4 cursor-pointer w-full justify-between"
+                    className="border border-laranja-impacto text-laranja-impacto rounded-xl flex gap-2 items-center p-2 px-4 cursor-pointer w-full justify-between hover:bg-laranja-impacto hover:text-zinc-200 duration-300 hover:text-shadow-[1px_1px_2px_black] hover:scale-102"
                     onClick={() => {
                         setVisible(true)
                         setMaterialAtual(material)
@@ -501,9 +499,9 @@ export default function Page() {
                                                 <div>
                                                     <ul className="flex flex-col gap-2">
                                                         {
-                                                            materialAtual?.aplicacoes.map(aplicacao => {
+                                                            materialAtual?.aplicacoes.map((aplicacao, i) => {
                                                                 return (
-                                                                    <li className="flex items-center gap-1 text-sm">
+                                                                    <li key={i} className="flex items-center gap-1 text-sm">
                                                                         <FaCheckCircle className="text-laranja-impacto" />
                                                                         <p>{aplicacao}</p>
                                                                     </li>

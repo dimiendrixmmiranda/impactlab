@@ -25,7 +25,7 @@ export default function Sobre() {
                             Utilizamos princípios da física e mecânica para transformar colisões em dados, insights e conhecimento aplicável ao mundo real.
                         </p>
                     </div>
-                    <Link href={'/'} className="flex items-center gap-2 bg-zinc-700 w-fit rounded-xl p-2 px-4 border border-zinc-900 lg:text-xl">
+                    <Link href={'/'} className="flex items-center gap-2 bg-zinc-700 w-fit rounded-xl p-2 px-4 border border-zinc-900 lg:text-xl hover:bg-laranja-impacto duration-300 hover:text-shadow-[1px_1px_2px_black]">
                         <p>Conheça o Projeto</p>
                         <FaArrowRightLong />
                     </Link>

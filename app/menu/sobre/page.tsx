@@ -1,0 +1,139 @@
+'use client'
+import Template from "@/components/template/Template";
+import Image from "next/image";
+import { FaCube, FaLightbulb, FaQuoteLeft, FaQuoteRight, FaUsers } from "react-icons/fa";
+import { FaGear, FaUserGroup } from "react-icons/fa6";
+import { GiAtom, GiGooeyImpact } from "react-icons/gi";
+import { IoIosRocket } from "react-icons/io";
+import { IoShieldCheckmarkOutline } from "react-icons/io5";
+import { MdScience } from "react-icons/md";
+import { TbTargetArrow } from "react-icons/tb";
+import { VscGraph } from "react-icons/vsc";
+
+export default function Page() {
+
+    const gerarCampoMissao = (icone: React.ReactNode, titulo: string, descricao: string, borda: boolean = true) => {
+        return (
+            <div className="grid grid-rows-[60px_auto_auto] text-center relative">
+                <div className={`z-20 bg-zinc-200 text-laranja-impacto w-[60px] h-[60px] mx-auto rounded-full flex justify-center items-center p-2 text-3xl border border-laranja-impacto`}>
+                    {icone}
+                </div>
+                <h4 className="font-bold text-xl mt-2">{titulo}</h4>
+                <p>{descricao}</p>
+                {
+                    borda ? (
+                        <div className="w-[100%] h-1 bg-laranja-impacto absolute top-[15%] left-[50%] z-10" ></div>
+                    ) : ''
+                }
+            </div>
+        )
+    }
+    const gerarCampoDescricao = (icone: React.ReactNode, titulo: string, descricao: string, borda: boolean = true) => {
+        return (
+            <div className={`flex flex-col justify-center items-center gap-1p-4 xl:p-6 ${borda ? 'border-r border-zinc-500' : ''}`}>
+                <div className="relative w-[80px] h-[80px] rounded-full p-1 border border-laranja-impacto text-laranja-impacto flex justify-center items-center text-5xl">
+                    {icone}
+                </div>
+                <h3 className="font-bold text-xl">{titulo}</h3>
+                <p className="text-center leading-5">{descricao}</p>
+            </div>
+        )
+    }
+
+    return (
+        <Template>
+            <div className="max-w-[1400px] mx-auto">
+                <div className="min-h-screen font-oswald p-4 flex flex-col gap-10 lg:p-8">
+                    <div className="grid grid-cols-2 gap-4 rounded-xl bordaInterativa" style={{
+                        ['--angulo-inicial' as any]:
+                            `${Math.random() * 360}deg`
+                    }}>
+                        <div className="p-4 rounded-xl flex flex-col gap-6 xl:p-8 xl:px-12">
+                            <div>
+                                <p className="text-laranja-impacto uppercase text-laranja-impacto">Sobre o Projeto</p>
+                                <h2 className="font-bold uppercase mt-2 lg:text-6xl lg:leading-[65px]">Ciência, Fisíca, <b className="text-laranja-impacto">Impacto Real!</b></h2>
+                            </div>
+                            <p>
+                                O <b className="text-laranja-impacto">ImpactLab</b> é uma plataforma interativa criada para simular impactos de projeteis em diferentes materiais e estruturas. Unimos a física, engenharia e tecnologia para tornar o aprendizado mais visual, dinâmico e proximo da realidade.
+                            </p>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="grid grid-cols-[40px_1fr] gap-2 bg-zinc-900 p-2 rounded-xl">
+                                    <div className="w-10 h-10 my-auto bg-zinc-700 rounded-full p-1 flex justify-center items-center">
+                                        <GiGooeyImpact className="text-xl text-laranja-impacto" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-bold">100+</h3>
+                                        <p className="text-xs">Simulações Realizadas</p>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-[40px_1fr] gap-2 bg-zinc-900 p-2 rounded-xl">
+                                    <div className="w-10 h-10 my-auto bg-zinc-700 rounded-full p-1 flex justify-center items-center">
+                                        <IoShieldCheckmarkOutline className="text-xl text-laranja-impacto" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-bold">50+</h3>
+                                        <p className="text-xs">Materiais Disponíveis</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex justify-center items-center">
+                            <div className="relative w-[300px] h-[200px] lg:w-full lg:h-[380px]">
+                                <Image alt="bola na parede" src={'/assets/bola-3.png'} fill className="object-contain" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="rounded-xl px-2 py-6 lg:grid lg:grid-cols-4 bordaInterativa" style={{
+                        ['--angulo-inicial' as any]:
+                            `${Math.random() * 360}deg`
+                    }}>
+                        {gerarCampoDescricao(<GiAtom />, 'Física Aplicada', 'Utilizamos principios reais da física para calcular a energia, momento, força de impacto e tensão mecânica com precisão.')}
+                        {gerarCampoDescricao(<FaCube />, 'Engenharia Estrutural', 'Analisamos como diferentes materiais e espessuras reagem a impactos, observando deformações, danos e ruptura.')}
+                        {gerarCampoDescricao(<VscGraph />, 'Aprendizado Interativo', 'Transformamos cálculos complexos em visualizações intuitivas para facilitar a compreensão e o ensino de conceitos ciêntificos.')}
+                        {gerarCampoDescricao(<FaUserGroup />, 'Para Todos', 'Voltado para estudantes, professores e curiosos que desejam explorar a física dos impactos de forma prática e envolvente.', false)}
+                    </div>
+                    <div className="p-4 rounded-xl lg:grid lg:grid-cols-2 lg:gap-4 xl:grid-cols-[1fr_auto] bordaInterativa" style={{
+                        ['--angulo-inicial' as any]:
+                            `${Math.random() * 360}deg`
+                    }}>
+                        <div className="grid grid-cols-[70px_1fr] gap-2">
+                            <div className="text-4xl p-1 rounded-full border w-[70px] h-[70px] flex justify-center items-center border-laranja-impacto my-auto text-laranja-impacto">
+                                <TbTargetArrow />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-xl text-laranja-impacto">Nossa Missão</h3>
+                                <p>
+                                    Tornar o estudo da física e da engenharia mais acessível, prático e inspirador, mostrando como a ciência esta presente em situações reais do dia a dia.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="bg-zinc-950 border border-laranja-impacto grid grid-cols-[20px_1fr_20px] w-fit gap-2 p-4 rounded-xl">
+                            <div className="flex justify-center items-center w-full h-full col-start-1 col-end-2 pb-4 text-laranja-impacto">
+                                <FaQuoteLeft />
+                            </div>
+                            <h4 className="italic font-semibold col-start-2 col-end-3 mt-auto">Entender o Impacto é entender a força que molda o mundo!</h4>
+                            <div className="flex justify-center items-center w-full h-full col-start-3 col-end-4 pb-4 text-laranja-impacto">
+                                <FaQuoteRight />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="p-4 rounded-xl flex flex-col gap-4 xl:px-8 xl:py-6 bordaInterativa" style={{
+                        ['--angulo-inicial' as any]:
+                            `${Math.random() * 360}deg`
+                    }}>
+                        <div>
+                            <h3 className="font-bold text-xl text-laranja-impacto">Nossa Missão</h3>
+                        </div>
+                        <div className="lg:grid lg:grid-cols-5 lg:gap-2 relative xl:gap-4">
+                            {gerarCampoMissao(<FaUsers />, "1. Ideia", "Identificamos a necessidade de uma ferramenta que unisse física, engenharia e visualização interativa.")}
+                            {gerarCampoMissao(<FaLightbulb />, "2. Pesquisa", "Estudamos conceitos físicos, comportamento de materiais e modelos de impacto utilizados na engenharia.")}
+                            {gerarCampoMissao(<FaGear />, "3. Desenvolvimento", "Construímos simulações realistas com cálculos precisos e uma interface intuitiva.")}
+                            {gerarCampoMissao(<MdScience />, "4. Testes", "Validamos os modelos, aprimoramos métricas e garantimos resultados confiáveis.")}
+                            {gerarCampoMissao(<IoIosRocket />, "5. Impacto", "Disponibilizamos o ImpactLab para transformar o aprendizado e inspirar novas descobertas.", false)}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Template>
+    )
+}
