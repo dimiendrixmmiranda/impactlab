@@ -7,7 +7,7 @@ export default function Estatisticas() {
     return (
         <section className="font-oswald p-4 flex flex-col gap-4 lg:gap-8">
             <div className="font-oswald p-4 flex flex-col gap-4 max-w-[1440px] w-full bg-zinc-800 border border-zinc-500 rounded-xl mx-auto lg:grid lg:grid-cols-4 lg:gap-8">
-                <div className="grid grid-cols-[80px_1fr] gap-2 border-r border-zinc-600 px-4 py-2">
+                <div className="grid grid-cols-[80px_1fr] gap-2 px-4 py-2 lg:border-r lg:border-zinc-600">
                     <div className="w-full h-full flex justify-center items-center rounded-2xl p-1">
                         <MdOutlineScience className="text-[80px] text-laranja-impacto" />
                     </div>
@@ -16,7 +16,7 @@ export default function Estatisticas() {
                         <p>Materiais Disponiveis</p>
                     </div>
                 </div>
-                <div className="grid grid-cols-[80px_1fr] gap-2 border-r border-zinc-600 px-4 py-2">
+                <div className="grid grid-cols-[80px_1fr] gap-2 px-4 py-2 lg:border-r lg:border-zinc-600">
                     <div className="w-full h-full flex justify-center items-center rounded-2xl p-1">
                         <IoMdRocket className="text-[80px] text-laranja-impacto" />
                     </div>
@@ -25,7 +25,7 @@ export default function Estatisticas() {
                         <p>Simulações Realizadas</p>
                     </div>
                 </div>
-                <div className="grid grid-cols-[80px_1fr] gap-2 border-r border-zinc-600 px-4 py-2">
+                <div className="grid grid-cols-[80px_1fr] gap-2 px-4 py-2 lg:border-r lg:border-zinc-600">
                     <div className="w-full h-full flex justify-center items-center rounded-2xl p-1">
                         <TbTargetArrow className="text-[80px] text-laranja-impacto" />
                     </div>

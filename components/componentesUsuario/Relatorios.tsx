@@ -27,6 +27,7 @@ import {
     Pie,
     Cell,
 } from 'recharts'
+import DialogPersonalizado from "../dialog/Dialog"
 
 export default function Relatorios() {
     const CORES = [
@@ -39,12 +40,10 @@ export default function Relatorios() {
         "#2C3947",
     ]
     const { usuario } = useUsuario();
-    console.log(usuario)
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(6);
-    const [simulacoes, setSimulacoes] = useState<any[]>([])
-
-    const { maiorForcaImpacto, maiorTensao, dadosGraficoPizza } = useEstatisticasUsuario()
+    const [dialogoSairAberto, setDialogoSairAberto] = useState(false)
+    const { maiorForcaImpacto, maiorTensao, dadosGraficoPizza, qtdeSimulacoes, simulacoes, carregarSimulacoes } = useEstatisticasUsuario()
     const simulacoesPaginadas: any[] = simulacoes.length > 0 ? simulacoes.slice(
         first,
         first + rows
@@ -87,7 +86,17 @@ export default function Relatorios() {
     const onPageChange = (event: PaginatorPageChangeEvent) => {
         setFirst(event.first);
         setRows(event.rows);
-    };
+    }
+
+    async function handleExcluirSimulacao(id: string) {
+        const response = await fetch(`/api/simulacao/${id}`, {
+            method: "DELETE"
+        });
+
+        if (response.ok) {
+            await carregarSimulacoes();
+        }
+    }
 
     const gerarCampo = (icone: React.ReactNode, titulo: string, quantidade: string) => {
         return (
@@ -126,7 +135,7 @@ export default function Relatorios() {
                         gerarCampo(<GiShieldImpact />, 'Maior Tensão', `${maiorTensao.toFixed(2)} MPa`)
                     }
                     {
-                        gerarCampo(<BiSolidReport />, 'Quantidade de Simulações', `${simulacoes.length}`)
+                        gerarCampo(<BiSolidReport />, 'Quantidade de Simulações', `${qtdeSimulacoes}`)
                     }
                 </div>
                 <div className="flex flex-col gap-4 xl:grid xl:grid-cols-2 xl:gap-4">
@@ -220,7 +229,7 @@ export default function Relatorios() {
                                     pointer-events-none
                                 ">
                                     <span className="text-4xl font-bold">
-                                        {simulacoes.length}
+                                        {qtdeSimulacoes}
                                     </span>
 
                                     <span className="text-sm text-zinc-400">
@@ -344,21 +353,21 @@ export default function Relatorios() {
                                                     <td className="flex items-center justify-center text-center">
                                                         <span
                                                             className="
-                                                px-3 py-1
-                                                rounded-full
-                                                text-sm
-                                                bg-green-500/20
-                                                text-green-400
-                                                border border-green-500/40
-                                            "
+                                                            px-3 py-1
+                                                            rounded-full
+                                                            text-sm
+                                                            bg-green-500/20
+                                                            text-green-400
+                                                            border border-green-500/40
+                                                        "
                                                         >
                                                             Concluída
                                                         </span>
                                                     </td>
                                                     <td className="flex items-center justify-center text-center flex items-center justify-center w-full gap-2">
-                                                        <button className="text-2xl"><FaEye /></button>
+                                                        <button className="text-2xl hover:text-laranja-impacto duration-300 transition-all"><FaEye /></button>
                                                         <button
-                                                            className="text-2xl"
+                                                            className="text-2xl hover:text-laranja-impacto duration-300 transition-all"
                                                             onClick={async () => {
                                                                 await gerarRelatorioPdf(sim)
                                                                 console.log(sim)
@@ -369,9 +378,19 @@ export default function Relatorios() {
                                                         >
                                                             <IoMdDownload />
                                                         </button>
-                                                        <button className="text-2xl" >
+                                                        <button className="text-2xl hover:text-red-600 duration-300 transition-all" onClick={() => setDialogoSairAberto(true)}>
                                                             <FaRegTrashCan />
                                                         </button>
+                                                        <DialogPersonalizado
+                                                            aberto={dialogoSairAberto}
+                                                            titulo="Excluir Simulação"
+                                                            mensagem="Deseja realmente excluir essa simulação?"
+                                                            textoConfirmar="Excluir"
+                                                            onCancelar={() => setDialogoSairAberto(false)}
+                                                            onConfirmar={() => {
+                                                                handleExcluirSimulacao(sim.id)
+                                                            }}
+                                                        />
                                                     </td>
                                                 </tr>
                                             )

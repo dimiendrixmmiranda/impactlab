@@ -28,7 +28,7 @@ export default function Detalhes() {
                         Tudo que você precisa para simulações precisas
                     </h3>
                 </div>
-                <div className="lg:grid lg:grid-cols-5 lg:gap-4">
+                <div className="flex flex-col gap-4 lg:grid lg:grid-cols-5 lg:gap-4">
                     {
                         gerarDetalhe(<IoCubeOutline />, 'Simulações Realistas', 'Motor físico avançado que simula colisões e impactos com alto nivel de precisão.')
                     }

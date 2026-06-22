@@ -40,17 +40,15 @@ export function useEstatisticasUsuario() {
         }
         carregarUsuario()
     }, [])
+    const carregarSimulacoes = async () => {
+        const response = await fetch("/api/simulacao");
+        const data = await response.json();
 
+        setSimulacoes(data);
+    }
     useEffect(() => {
-        async function carregarSimulacoes() {
-            const response = await fetch("/api/simulacao")
-            const data = await response.json()
-
-            setSimulacoes(data)
-        }
-
-        carregarSimulacoes()
-    }, [usuario])
+        carregarSimulacoes();
+    }, [usuario]);
 
     const simulacoesMesAtual = simulacoes.length > 0 ? simulacoes.filter((simulacao) => {
         const data = new Date(simulacao.createdAt);
@@ -119,13 +117,13 @@ export function useEstatisticasUsuario() {
     }, [simulacoes]);
 
     const contagemMateriais: Record<string, number> =
-    simulacoes.length > 0 ?
-        simulacoes.reduce((acc, simulacao) => {
-            acc[simulacao.material] =
-                (acc[simulacao.material] || 0) + 1;
+        simulacoes.length > 0 ?
+            simulacoes.reduce((acc, simulacao) => {
+                acc[simulacao.material] =
+                    (acc[simulacao.material] || 0) + 1;
 
-            return acc;
-        }, {} as Record<string, number>) : {}
+                return acc;
+            }, {} as Record<string, number>) : {}
 
     const materialMaisUtilizado =
         Object.entries(contagemMateriais)
@@ -165,6 +163,7 @@ export function useEstatisticasUsuario() {
         maiorTensao,
         maiorVelocidadeUsada,
         dadosGraficoPizza,
-        materialMaisUtilizado
+        materialMaisUtilizado,
+        carregarSimulacoes
     }
 }

@@ -84,7 +84,7 @@ export default function Header() {
                         <div className="relative w-8 h-8 rounded-full overflow-hidden bg-zinc-800">
                             <Image alt="Imagem do usuário" src={usuario?.imagem || '/logo/logo.png'} fill unoptimized className="object-cover" />
                         </div>
-                        <h2 className="hidden md:block">Bem vindo, {usuario.nome?.split(' ')[0]}</h2>
+                        <h2 className="hidden lg:block">Bem vindo, {usuario.nome?.split(' ')[0]}</h2>
                         <div className="text-lg text-yellow-500 hidden lg:block">
                             <MdWavingHand />
                         </div>

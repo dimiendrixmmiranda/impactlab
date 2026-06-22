@@ -13,11 +13,12 @@ import { IoDocumentTextOutline, IoRocketOutline } from 'react-icons/io5';
 import { IoIosArrowForward } from 'react-icons/io';
 import { CiFacebook, CiLinkedin, CiMail } from 'react-icons/ci';
 import { PiCubeFill } from 'react-icons/pi';
+import { useUsuario } from '@/hooks/useUsuario';
 
 export default function SidebarComponent() {
     const [visibleRight, setVisibleRight] = useState(false);
     const pathname = usePathname()
-
+    const {usuario} = useUsuario()
     function getLinkClass(path: string) {
         const ativo = pathname === path;
 
@@ -120,7 +121,7 @@ export default function SidebarComponent() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href={'/'} className='grid grid-cols-[60px_1fr_20px] border border-laranja-impacto rounded-xl p-2'>
+                                <Link href={`${usuario ? '/usuario' : '/login'}`} className='grid grid-cols-[60px_1fr_20px] border border-laranja-impacto rounded-xl p-2'>
                                     <IoRocketOutline className='mx-auto my-auto text-4xl text-laranja-impacto' />
                                     <div>
                                         <h3 className='font-bold'>Acessar minhas simulações</h3>

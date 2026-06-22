@@ -146,7 +146,7 @@ export default function Page() {
             </li>
         )
     }
-
+    
     return (
         <Template>
             <div className="max-w-[1400px] mx-auto flex flex-col gap-8 p-4 min-h-screen">
