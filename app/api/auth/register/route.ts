@@ -11,6 +11,10 @@ export async function POST(req: Request) {
             email,
             senha,
             sexo,
+            dataNascimento,
+            instituicao,
+            localizacao,
+            bio,
             imagem
         } = body;
 
@@ -43,8 +47,14 @@ export async function POST(req: Request) {
                 nome,
                 email,
                 senha: senhaHash,
-                sexo, 
-                imagem
+                sexo,
+                imagem: `${sexo == 'masculino' ? '/users/usuario-masculino.png': '/users/usuario-feminino.png'}`,
+                dataNascimento: dataNascimento
+                    ? new Date(dataNascimento)
+                    : null,
+                instituicao: instituicao || '',
+                localizacao: localizacao || '',
+                bio: bio || '',
             }
         });
 

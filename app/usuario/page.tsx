@@ -5,33 +5,15 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { FaCube, FaDatabase, FaEye, FaLightbulb, FaPencilAlt, FaPlus, FaRegBell, FaRegLightbulb, FaUser, FaUserAlt } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
-import { IoIosArrowForward, IoIosCamera, IoIosColorPalette, IoIosTv, IoMdArrowDropright, IoMdDownload } from "react-icons/io";
 import { IoCubeOutline, IoDocumentText, IoDocumentTextOutline, IoLogOut, IoMailOutline, IoRocketOutline } from "react-icons/io5";
 import { MdAutoGraph, MdMoreVert, MdOutlineDashboard, MdOutlinePlayCircle, MdOutlineScience } from "react-icons/md";
-import { PiAtomBold, PiBellSimpleRingingFill, PiCubeBold, PiFlaskBold, PiLightningBold, PiRocketLaunchBold } from "react-icons/pi";
-import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator';
+import { PaginatorPageChangeEvent } from 'primereact/paginator';
 import { signOut } from "next-auth/react";
 import Simulacao from "@/components/simulacao/Simulacao";
-import { GiGooeyImpact, GiNotebook, GiPadlock, GiShieldImpact } from "react-icons/gi";
-import { BiSolidReport } from "react-icons/bi";
 import { useUsuario } from "@/hooks/useUsuario";
-import { SlEnergy } from "react-icons/sl";
-import { TiWorld } from "react-icons/ti";
-import { TbHexagonNumber1Filled, TbHexagonNumber5Filled } from "react-icons/tb";
-import { HiOutlineDocumentAdd } from "react-icons/hi";
-import { SiMubi } from "react-icons/si";
-import { BsFillSave2Fill, BsFillShieldLockFill } from "react-icons/bs";
 import { materiais } from "@/constants/materiais";
 import { useLarguraDaTela } from "@/hooks/useLarguraDaTela";
 import Dialog from "@/components/dialog/Dialog";
-import {
-    PieChart,
-    Pie,
-    Cell,
-    ResponsiveContainer,
-    Tooltip,
-    Legend,
-} from "recharts";
 import { dicasImpactLab } from "@/constants/dicas";
 import Configuracoes from "@/components/componentesUsuario/Configuracoes";
 import Perfil from "@/components/componentesUsuario/Perfil";
@@ -39,16 +21,10 @@ import Image from "next/image";
 import Dashboard from "@/components/componentesUsuario/Dashboard";
 import Dados from "@/components/componentesUsuario/Dados";
 import Relatorios from "@/components/componentesUsuario/Relatorios";
+import { useEstatisticasUsuario } from "@/hooks/useEstatisticasUsuario";
+import MenuMobile from "@/components/menuMobile/MenuMobile";
+import { Menu } from "@/types/Menu";
 
-type Menu =
-    | 'dashboard'
-    | 'simulacoes'
-    | 'dados'
-    | 'resultados'
-    | 'relatorios'
-    | 'perfil'
-    | 'configuracoes'
-    | 'sair';
 
 
 export default function Page() {
@@ -63,11 +39,14 @@ export default function Page() {
         "#4F252E",
         "#0A7C6E",
     ]
+    const { simulacoes, qtdeSimulacoes, simulacoesMesAtual, maiorForcaImpacto, maiorVelocidadeUsada, qtdeMateriaisDisponiveis, dadosGraficoPizza } = useEstatisticasUsuario()
+    console.log(maiorForcaImpacto)
     const [menuAtivo, setMenuAtivo] = useState<Menu>('dashboard')
-    const [simulacoes, setSimulacoes] = useState<any[]>([])
+    // const [simulacoes, setSimulacoes] = useState<any[]>([])
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(6);
     const [dialogoSairAberto, setDialogoSairAberto] = useState(false)
+    const { usuario } = useUsuario()
 
 
     const [blurInterface, setBlurInterface] = useState(false)
@@ -81,7 +60,6 @@ export default function Page() {
         )
     );
 
-    const { usuario } = useUsuario()
 
     useEffect(() => {
         if (larguraTela >= 1440) {
@@ -98,16 +76,16 @@ export default function Page() {
         setFirst(event.first);
         setRows(event.rows);
     };
-    useEffect(() => {
-        async function carregarSimulacoes() {
-            const response = await fetch("/api/simulacao");
-            const data = await response.json();
+    // useEffect(() => {
+    //     async function carregarSimulacoes() {
+    //         const response = await fetch("/api/simulacao");
+    //         const data = await response.json();
 
-            setSimulacoes(data);
-        }
+    //         setSimulacoes(data);
+    //     }
 
-        carregarSimulacoes();
-    }, []);
+    //     carregarSimulacoes();
+    // }, []);
 
     const dicaAleatoria = dicasImpactLab[Math.floor(Math.random() * dicasImpactLab.length)]
 
@@ -168,7 +146,7 @@ export default function Page() {
         switch (menuAtivo) {
             case 'dashboard':
                 return (
-                    <Dashboard />
+                    <Dashboard simulacoes={simulacoes} simulacoesMesAtual={simulacoesMesAtual} maiorForcaImpacto={maiorForcaImpacto} maiorVelocidadeUsada={maiorVelocidadeUsada} qtdeMateriaisDisponiveis={qtdeMateriaisDisponiveis} qtdeSimulacoes={qtdeSimulacoes} dadosGraficoPizza={dadosGraficoPizza} />
                 )
             case 'simulacoes':
                 return (
@@ -195,10 +173,18 @@ export default function Page() {
         }
     }
 
+    if (!usuario) {
+        return (
+            <div className="bg-zinc-900 w-full min-h-screen flex justify-center items-center">
+                <h3 className="text-4xl font-oswald text-shadow-[1px_1px_2px_black] xl:text-7xl">Carregando....</h3>
+            </div>
+        )
+    }
+
     return (
         <Template>
-            <div className="min-h-screen font-oswald gap-4 xl:grid xl:grid-cols-[200px_1fr] 2xl:grid-cols-[280px_1fr]">
-                <div className="flex flex-col">
+            <div className="min-h-screen relative font-oswald gap-4 xl:grid xl:grid-cols-[200px_1fr] 2xl:grid-cols-[280px_1fr]">
+                <div className="flex-col hidden xl:flex">
                     <div className="flex flex-col">
                         <h3 className="uppercase p-4">Menu Principal</h3>
                         <ul className="flex flex-col gap-2">
@@ -348,6 +334,7 @@ export default function Page() {
                 {
                     identificarMenuAtivo()
                 }
+                <MenuMobile menuAtivo={menuAtivo} setMenuAtivo={setMenuAtivo}/>
             </div>
         </Template>
     )

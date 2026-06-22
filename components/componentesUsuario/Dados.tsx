@@ -2,6 +2,7 @@
 
 import { areaImpacto, energiaCinetica, forcaImpacto, tensaoMecanica } from "@/constants/formulas"
 import { materiais } from "@/constants/materiais"
+import { useEstatisticasUsuario } from "@/hooks/useEstatisticasUsuario"
 import { useLarguraDaTela } from "@/hooks/useLarguraDaTela"
 import Image from "next/image"
 import Link from "next/link"
@@ -34,6 +35,7 @@ export default function Dados() {
     const larguraTela = useLarguraDaTela()
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(6);
+    const { materialMaisUtilizado, maiorForcaImpacto, maiorTensao, dadosGraficoPizza } = useEstatisticasUsuario()
 
 
     const simulacoesPaginadas: any[] = simulacoes.length > 0 ? simulacoes.slice(
@@ -45,52 +47,6 @@ export default function Dados() {
         setFirst(event.first);
         setRows(event.rows);
     }
-    const contagemMateriais: Record<string, number> =
-        simulacoes.reduce((acc, simulacao) => {
-            acc[simulacao.material] =
-                (acc[simulacao.material] || 0) + 1;
-
-            return acc;
-        }, {} as Record<string, number>);
-
-    const materialMaisUtilizado =
-        Object.entries(contagemMateriais)
-            .sort((a, b) => b[1] - a[1])[0] ?? ["Nenhum", 0];
-
-    const maiorForcaImpacto =
-        simulacoes.length > 0
-            ? Math.max(
-                ...simulacoes.map(simulacao =>
-                    forcaImpacto(
-                        simulacao.massa,
-                        simulacao.velocidade
-                    )
-                )
-            )
-            : 0
-
-    const maiorTensao =
-        simulacoes.length > 0
-            ? Math.max(
-                ...simulacoes.map(simulacao => {
-                    const forca =
-                        forcaImpacto(
-                            simulacao.massa,
-                            simulacao.velocidade
-                        );
-
-                    const area =
-                        areaImpacto(
-                            simulacao.diametroProjetil
-                        )
-
-                    return tensaoMecanica(
-                        forca,
-                        area
-                    )
-                })
-            )
-            : 0
 
     useEffect(() => {
         async function carregarSimulacoes() {
@@ -115,28 +71,7 @@ export default function Dados() {
         )
     })
 
-    const dadosGrafico = useMemo(() => {
-        if (simulacoes.length === 0) {
-            return [];
-        }
-
-        return Object.entries(
-            simulacoes.length > 0 ? simulacoes.reduce((acc, simulacao) => {
-                acc[simulacao.material] =
-                    (acc[simulacao.material] || 0) + 1;
-
-                return acc;
-            }, {} as Record<string, number>) : []
-        )
-            .map(([material, quantidade], i) => ({
-                material: material.replaceAll("-", " "),
-                quantidade: Number(quantidade),
-                cor: CORES[i]
-            }))
-            .sort((a, b) => b.quantidade - a.quantidade);
-    }, [simulacoes])
-
-    const gerarCampo = (icone: React.ReactNode, titulo: string, paragrafo: string) => {
+    const gerarCampoDados = (icone: React.ReactNode, titulo: string, paragrafo: string) => {
         return <div className="flex items-center gap-2 text-shadow-[1px_1px_2px_black]">
             <div className="w-14 h-14 rounded-lg border border-laranja-impacto text-laranja-impacto flex justify-center items-center text-2xl">
                 {icone}
@@ -147,47 +82,37 @@ export default function Dados() {
             </div>
         </div>
     }
-    return (
-        <div className="flex flex-col gap-6 p-4">
-            <div className="grid grid-cols-4 gap-4">
-                <div className="bg-zinc-700 p-4 rounded-xl flex flex-col gap-1">
-                    <div className="flex items-center gap-2 text-xl justify-center">
-                        <SiMaterialdesignicons className="text-laranja-impacto" />
-                        <h3 className="line-clamp-1">Material mais utilizado</h3>
-                    </div>
-                    <div className="flex flex-col gap-1 justify-center items-center">
-                        <p className="text-2xl font-bold text-laranja-impacto text-shadow-[1px_1px_2px_black] capitalize">{materialMaisUtilizado[0]}</p>
-                    </div>
+
+    function gerarCampoEstatistica(icone: React.ReactNode, titulo: string, valor: string | number) {
+        return (
+            <div className="bg-zinc-700 p-4 rounded-xl flex flex-col gap-1">
+                <div className="flex items-center gap-2 text-xl justify-center text-laranja-impacto">
+                    {icone}
+                    <h3 className="line-clamp-1 text-white">{titulo}</h3>
                 </div>
-                <div className="bg-zinc-700 p-4 rounded-xl flex flex-col gap-1">
-                    <div className="flex items-center gap-2 text-xl justify-center">
-                        <GiGooeyImpact className="text-laranja-impacto" />
-                        <h3 className="line-clamp-1">Maior Impacto</h3>
-                    </div>
-                    <div className="flex flex-col gap-1 justify-center items-center">
-                        <p className="text-2xl font-bold text-laranja-impacto text-shadow-[1px_1px_2px_black]">{maiorForcaImpacto}J</p>
-                    </div>
-                </div>
-                <div className="bg-zinc-700 p-4 rounded-xl flex flex-col gap-1">
-                    <div className="flex items-center gap-2 text-xl justify-center">
-                        <MdOutlineIntegrationInstructions className="text-laranja-impacto" />
-                        <h3 className="line-clamp-1">Melhor Integridade</h3>
-                    </div>
-                    <div className="flex flex-col gap-1 justify-center items-center">
-                        <p className="text-2xl font-bold text-laranja-impacto text-shadow-[1px_1px_2px_black]">XXXXX</p>
-                    </div>
-                </div>
-                <div className="bg-zinc-700 p-4 rounded-xl flex flex-col gap-1">
-                    <div className="flex items-center gap-2 text-xl justify-center">
-                        <TbCircuitVoltmeter className="text-laranja-impacto" />
-                        <h3 className="line-clamp-1">Maior Tensão Obtida</h3>
-                    </div>
-                    <div className="flex flex-col gap-1 justify-center items-center">
-                        <p className="text-2xl font-bold text-laranja-impacto text-shadow-[1px_1px_2px_black]">{maiorTensao.toFixed(2)}MPa</p>
-                    </div>
+                <div className="flex flex-col gap-1 justify-center items-center">
+                    <p className="text-2xl font-bold text-laranja-impacto text-shadow-[1px_1px_2px_black] capitalize">{valor}</p>
                 </div>
             </div>
-            <div className="grid grid-cols-2 grid-rows-2 gap-4 3xl:grid-rows-[auto_280px]">
+        )
+    }
+    return (
+        <div className="flex flex-col gap-6 p-4">
+            <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+                {
+                    gerarCampoEstatistica(<SiMaterialdesignicons />, 'Material mais utilizado', materialMaisUtilizado[0])
+                }
+                {
+                    gerarCampoEstatistica(<GiGooeyImpact />, 'Maior Impacto', maiorForcaImpacto)
+                }
+                {
+                    gerarCampoEstatistica(<MdOutlineIntegrationInstructions />, 'Melhor Integridade', materialMaisUtilizado[0])
+                }
+                {
+                    gerarCampoEstatistica(<TbCircuitVoltmeter />, 'Maior Tensão Obtida', `${maiorTensao.toFixed(2)} MPa`)
+                }
+            </div>
+            <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2">
                 <div className="bg-zinc-700 w-full h-full col-start-1 col-end-2 row-start-1 row-end-3 rounded-xl p-4">
                     <div className="bg-zinc-700 border border-zinc-700 rounded-xl p-4 flex flex-col h-full xl:row-start-1 xl:row-end-3">
                         <h3 className="text-3xl font-bold mb-4">
@@ -357,7 +282,7 @@ export default function Dados() {
                     </h3>
                     {
                         simulacoes.length > 0 ? (
-                            <div className="w-full h-full 4xl:grid 4xl:grid-cols-2 3xl:gap-4">
+                            <div className="w-full h-full md:grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                                 <div className="w-full h-full mx-auto z-10 3xl:m-0">
                                     <ResponsiveContainer
                                         width="100%"
@@ -365,30 +290,29 @@ export default function Dados() {
                                     >
                                         <PieChart>
                                             <Pie
-                                                data={dadosGrafico}
+                                                data={dadosGraficoPizza}
                                                 dataKey="quantidade"
                                                 nameKey="material"
                                                 cx="50%"
                                                 cy="50%"
                                                 outerRadius={120}
                                             >
-                                                {dadosGrafico.map((_, index) => (
+                                                {dadosGraficoPizza.map((_, index) => (
                                                     <Cell
                                                         key={index}
                                                         fill={CORES[index % CORES.length]}
                                                     />
                                                 ))}
                                             </Pie>
-
                                             <Tooltip />
                                         </PieChart>
                                     </ResponsiveContainer>
                                 </div>
-                                <div className="hidden flex-col gap-2 4xl:flex">
+                                <div className="hidden flex-col gap-2 md:flex lg:hidden xl:flex">
                                     <h3 className="text-2xl font-bold text-shadow-[1px_1px_2px_black]">Legendas</h3>
                                     <ul>
                                         {
-                                            dadosGrafico.map((dado) => {
+                                            dadosGraficoPizza.map((dado) => {
                                                 return (
                                                     <li className="flex items-center gap-2">
                                                         <div className={`w-6 h-4`} style={{ backgroundColor: dado.cor }}></div>
@@ -448,11 +372,11 @@ export default function Dados() {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-4 gap-4 p-4 bg-zinc-700 rounded-xl">
-                {gerarCampo(<VscGraph />, 'Insights dos seus dados', 'Descubra padrões e tendências nas suas simulações')}
-                {gerarCampo(<GiScreenImpact />, 'Material mais utilizado', `${materialMaisUtilizado[0]}`)}
-                {gerarCampo(<GiMaterialsScience />, 'Total de simulações', `${simulacoes.length} simulações`)}
-                {gerarCampo(<VscGraphLine />, 'Simulações no mês atual', `${simulacoesMesAtual.length} simulações`)}
+            <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+                {gerarCampoDados(<VscGraph />, 'Insights dos seus dados', 'Descubra padrões e tendências nas suas simulações')}
+                {gerarCampoDados(<GiScreenImpact />, 'Material mais utilizado', `${materialMaisUtilizado[0]}`)}
+                {gerarCampoDados(<GiMaterialsScience />, 'Total de simulações', `${simulacoes.length} simulações`)}
+                {gerarCampoDados(<VscGraphLine />, 'Simulações no mês atual', `${simulacoesMesAtual.length} simulações`)}
             </div>
         </div>
     )

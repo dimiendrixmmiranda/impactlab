@@ -13,16 +13,22 @@ datasource db {
 }
 
 model User {
-  id          String       @id @default(cuid())
-  nome        String
-  email       String       @unique
-  senha       String
-  sexo        String?
-  imagem      String?
-  createdAt   DateTime     @default(now())
+  id              String       @id @default(cuid())
+  nome            String
+  email           String       @unique
+  senha           String
+  sexo            String?
+  imagem          String?
+
+  dataNascimento  DateTime?
+  instituicao     String?
+  localizacao     String?
+  bio             String?
+
+  createdAt       DateTime     @default(now())
   qtdeRelatorios  Int          @default(0)
 
-  simulations Simulation[]
+  simulations     Simulation[]
 }
 
 model Simulation {

@@ -2,7 +2,9 @@
 import { areaImpacto, calcularResultado, forcaImpacto, tensaoMecanica } from "@/constants/formulas"
 import { gerarRelatorioPdf } from "@/constants/geradorRelatorioPdf"
 import { materiais } from "@/constants/materiais"
+import { useEstatisticasUsuario } from "@/hooks/useEstatisticasUsuario"
 import { useUsuario } from "@/hooks/useUsuario"
+import Link from "next/link"
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator"
 import { useEffect, useMemo, useState } from "react"
 import { BiSolidReport } from "react-icons/bi"
@@ -11,6 +13,7 @@ import { FaRegTrashCan } from "react-icons/fa6"
 import { GiGooeyImpact, GiShieldImpact } from "react-icons/gi"
 import { IoMdDownload } from "react-icons/io"
 import { IoDocumentText, IoDocumentTextOutline } from "react-icons/io5"
+import { MdOutlineScience } from "react-icons/md"
 import {
     ResponsiveContainer,
     LineChart,
@@ -41,76 +44,11 @@ export default function Relatorios() {
     const [rows, setRows] = useState(6);
     const [simulacoes, setSimulacoes] = useState<any[]>([])
 
+    const { maiorForcaImpacto, maiorTensao, dadosGraficoPizza } = useEstatisticasUsuario()
     const simulacoesPaginadas: any[] = simulacoes.length > 0 ? simulacoes.slice(
         first,
         first + rows
     ) : []
-
-    const maiorForcaImpacto = simulacoes.length > 0 ? Math.max(
-        ...simulacoes.map((simulacao) =>
-            forcaImpacto(
-                simulacao.massa,
-                simulacao.velocidade,
-                simulacao.tempoImpacto
-            )
-        )
-    ) : 0
-
-    const maiorTensao =
-        simulacoes.length > 0
-            ? Math.max(
-                ...simulacoes.map(sim => {
-                    const forca = forcaImpacto(
-                        sim.massa,
-                        sim.velocidade
-                    )
-
-                    const area = areaImpacto(
-                        sim.diametroProjetil
-                    )
-
-                    return tensaoMecanica(
-                        forca,
-                        area
-                    )
-                })
-            )
-            : 0
-
-    const dadosGraficoCirculo = useMemo(() => {
-        if (simulacoes.length === 0) {
-            return [];
-        }
-
-        const dados = Object.entries(
-            simulacoes.reduce((acc, simulacao) => {
-                acc[simulacao.material] =
-                    (acc[simulacao.material] || 0) + 1;
-
-                return acc;
-            }, {} as Record<string, number>)
-        )
-            .map(([material, quantidade]) => ({
-                material: material.replaceAll("-", " "),
-                quantidade: Number(quantidade),
-            }))
-            .sort((a, b) => b.quantidade - a.quantidade);
-
-        const top7 = dados.slice(0, 6);
-
-        const outros = dados
-            .slice(6)
-            .reduce((soma, item) => soma + item.quantidade, 0);
-
-        if (outros > 0) {
-            top7.push({
-                material: "Outros",
-                quantidade: outros
-            });
-        }
-
-        return top7;
-    }, [simulacoes]);
 
     const dadosGrafico = useMemo(() => {
         const agrupado: Record<string, any> = {}
@@ -146,22 +84,10 @@ export default function Relatorios() {
         return Object.values(agrupado)
     }, [simulacoes])
 
-    console.log(dadosGrafico)
-
     const onPageChange = (event: PaginatorPageChangeEvent) => {
         setFirst(event.first);
         setRows(event.rows);
     };
-    useEffect(() => {
-        async function carregarSimulacoes() {
-            const response = await fetch("/api/simulacao");
-            const data = await response.json();
-
-            setSimulacoes(data);
-        }
-
-        carregarSimulacoes();
-    }, []);
 
     const gerarCampo = (icone: React.ReactNode, titulo: string, quantidade: string) => {
         return (
@@ -189,7 +115,7 @@ export default function Relatorios() {
                     <h2 className="font-bold text-4xl">Relatórios Recentes</h2>
                     <p>Acompanhe e analise seus resultados</p>
                 </div>
-                <div className="xl:grid xl:grid-cols-4 xl:gap-4">
+                <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-4 xl:gap-4">
                     {
                         gerarCampo(<IoDocumentText />, 'Total de Relatórios', `${usuario?.qtdeRelatorios}`)
                     }
@@ -203,7 +129,7 @@ export default function Relatorios() {
                         gerarCampo(<BiSolidReport />, 'Quantidade de Simulações', `${simulacoes.length}`)
                     }
                 </div>
-                <div className="xl:grid xl:grid-cols-2 xl:gap-4">
+                <div className="flex flex-col gap-4 xl:grid xl:grid-cols-2 xl:gap-4">
                     <div className="bg-zinc-700 rounded-xl p-4">
                         <h3 className="text-3xl font-bold mb-4">
                             Visão Geral dos Relatórios
@@ -263,19 +189,18 @@ export default function Relatorios() {
                         <h3 className="text-3xl font-bold mb-4">
                             Distribuição por Material
                         </h3>
-                        <div className="grid grid-cols-1 2xl:grid-cols-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-2">
                             <div className="relative h-[300px] w-full">
-
                                 <ResponsiveContainer>
                                     <PieChart>
                                         <Pie
-                                            data={dadosGraficoCirculo}
+                                            data={dadosGraficoPizza}
                                             dataKey="quantidade"
                                             innerRadius={70}
                                             outerRadius={110}
                                             paddingAngle={2}
                                         >
-                                            {dadosGraficoCirculo.map((_, index) => (
+                                            {dadosGraficoPizza.map((_, index) => (
                                                 <Cell
                                                     key={index}
                                                     fill={CORES[index]}
@@ -307,7 +232,7 @@ export default function Relatorios() {
                             <div className="flex items-center">
                                 <ul className="flex flex-col gap-2">
                                     {
-                                        dadosGraficoCirculo.map((dado, i) => {
+                                        dadosGraficoPizza.map((dado, i) => {
                                             return (
                                                 <li className="flex items-center gap-1 text-2xl">
                                                     <div className="rounded-full overflow-hidden w-4 h-4" style={{ backgroundColor: `${CORES[i]}` }}></div>
@@ -325,98 +250,100 @@ export default function Relatorios() {
                     <div className="flex">
                         <h3 className="font-bold text-3xl">Lista de Relatórios</h3>
                     </div>
-                    {/* Vai ter um botao na hora da simulação para gerar relatorio, mas por enquanto, todas as simulações terao relatorios */}
-                    <table className="w-fit min-w-[900px] 2xl:h-[600px] 3xl:h-[550px] overflow-x-scroll">
-                        <thead>
-                            <tr className="border-b border-zinc-600 text-zinc-400 text-sm uppercase grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px_130px]">
-                                <th className="text-left py-3">
-                                    Relatório
-                                </th>
-                                <th className="text-center py-3">
-                                    Material
-                                </th>
-                                <th className="text-center py-3">
-                                    Data
-                                </th>
-                                <th className="text-center py-3">
-                                    Energia
-                                </th>
-                                <th className="text-center py-3">
-                                    Tensão
-                                </th>
-                                <th className="text-center py-3">
-                                    Espessura
-                                </th>
-                                <th className="text-center py-3">
-                                    Deformação
-                                </th>
-                                <th className="text-center py-3">
-                                    Status
-                                </th>
-                                <th className="text-center py-3">
-                                    Ações
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="">
-                            {simulacoesPaginadas.map((sim) => {
-                                const material = materiais.find(material => material.id === sim.material)
-                                const resultadoCalculado = calcularResultado(parseFloat(sim.massa), parseFloat(sim.velocidade), parseFloat(sim.diametroProjetil), material!, parseFloat(sim.espessura))
-                                console.log(sim)
+                    {
+                        simulacoesPaginadas.length > 0 ? (
+                            <>
+                                <table className="w-fit min-w-[900px] 2xl:h-[600px] 3xl:h-[550px] overflow-x-scroll">
+                                    <thead>
+                                        <tr className="border-b border-zinc-600 text-zinc-400 text-sm uppercase grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px_130px]">
+                                            <th className="text-left py-3">
+                                                Relatório
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Material
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Data
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Energia
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Tensão
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Espessura
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Deformação
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Status
+                                            </th>
+                                            <th className="text-center py-3">
+                                                Ações
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="">
+                                        {simulacoesPaginadas.map((sim) => {
+                                            const material = materiais.find(material => material.id === sim.material)
+                                            const resultadoCalculado = calcularResultado(parseFloat(sim.massa), parseFloat(sim.velocidade), parseFloat(sim.diametroProjetil), material!, parseFloat(sim.espessura))
+                                            console.log(sim)
 
-                                return (
-                                    <tr
-                                        key={sim.id}
-                                        className="border-b border-zinc-700
+                                            return (
+                                                <tr
+                                                    key={sim.id}
+                                                    className="border-b border-zinc-700
                                                     hover:bg-zinc-700/40
                                                     transition-colors
                                                     grid grid-cols-[250px_130px_130px_130px_130px_130px_130px_130px_130px]
                                                     "
-                                    >
-                                        <td className="flex items-center py-4">
-                                            <div className="flex gap-3 items-center">
-                                                <IoDocumentTextOutline className="text-3xl text-laranja-impacto" />
-                                                <div>
-                                                    <p className="font-bold capitalize">
-                                                        {sim.material.replaceAll('-', ' ')}
-                                                    </p>
-                                                    <p className="text-sm text-zinc-400">
-                                                        Força de Impacto: {resultadoCalculado.impacto} N
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="flex items-center justify-center text-center uppercase">
-                                            {sim.material.split('-')[0]}
-                                        </td>
-                                        <td className="flex items-center justify-center text-center">
-                                            <div>
-                                                <p>
-                                                    {new Date(sim.createdAt).toLocaleDateString("pt-BR")}
-                                                </p>
-                                                <p className="text-zinc-400 text-sm">
-                                                    {new Date(sim.createdAt).toLocaleTimeString("pt-BR", {
-                                                        hour: "2-digit",
-                                                        minute: "2-digit",
-                                                    })}
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td className="flex items-center justify-center text-center">
-                                            <span>{resultadoCalculado.energia.toFixed(2)}</span>
-                                        </td>
-                                        <td className="flex items-center justify-center text-center">
-                                            <span>{resultadoCalculado.tensao.toFixed(2)}</span>
-                                        </td>
-                                        <td className="flex items-center justify-center text-center">
-                                            <span>{sim.espessura}</span>
-                                        </td>
-                                        <td className="flex items-center justify-center text-center">
-                                            <span>{resultadoCalculado.deformParede.toFixed(2)}</span>
-                                        </td>
-                                        <td className="flex items-center justify-center text-center">
-                                            <span
-                                                className="
+                                                >
+                                                    <td className="flex items-center py-4">
+                                                        <div className="flex gap-3 items-center">
+                                                            <IoDocumentTextOutline className="text-3xl text-laranja-impacto" />
+                                                            <div>
+                                                                <p className="font-bold capitalize">
+                                                                    {sim.material.replaceAll('-', ' ')}
+                                                                </p>
+                                                                <p className="text-sm text-zinc-400">
+                                                                    Força de Impacto: {resultadoCalculado.impacto} N
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="flex items-center justify-center text-center uppercase">
+                                                        {sim.material.split('-')[0]}
+                                                    </td>
+                                                    <td className="flex items-center justify-center text-center">
+                                                        <div>
+                                                            <p>
+                                                                {new Date(sim.createdAt).toLocaleDateString("pt-BR")}
+                                                            </p>
+                                                            <p className="text-zinc-400 text-sm">
+                                                                {new Date(sim.createdAt).toLocaleTimeString("pt-BR", {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit",
+                                                                })}
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td className="flex items-center justify-center text-center">
+                                                        <span>{resultadoCalculado.energia.toFixed(2)}</span>
+                                                    </td>
+                                                    <td className="flex items-center justify-center text-center">
+                                                        <span>{resultadoCalculado.tensao.toFixed(2)}</span>
+                                                    </td>
+                                                    <td className="flex items-center justify-center text-center">
+                                                        <span>{sim.espessura}</span>
+                                                    </td>
+                                                    <td className="flex items-center justify-center text-center">
+                                                        <span>{resultadoCalculado.deformParede.toFixed(2)}</span>
+                                                    </td>
+                                                    <td className="flex items-center justify-center text-center">
+                                                        <span
+                                                            className="
                                                 px-3 py-1
                                                 rounded-full
                                                 text-sm
@@ -424,43 +351,54 @@ export default function Relatorios() {
                                                 text-green-400
                                                 border border-green-500/40
                                             "
-                                            >
-                                                Concluída
-                                            </span>
-                                        </td>
-                                        <td className="flex items-center justify-center text-center flex items-center justify-center w-full gap-2">
-                                            <button className="text-2xl"><FaEye /></button>
-                                            <button
-                                                className="text-2xl"
-                                                onClick={async () => {
-                                                    await gerarRelatorioPdf(sim)
-                                                    console.log(sim)
-                                                    await fetch('/api/user/relatorio', {
-                                                        method: 'POST'
-                                                    })
-                                                }}
-                                            >
-                                                <IoMdDownload />
-                                            </button>
-                                            <button className="text-2xl" >
-                                                <FaRegTrashCan />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                    <div className="card mt-auto">
-                        <Paginator
-                            first={first}
-                            rows={rows}
-                            totalRecords={simulacoes.length}
-                            onPageChange={onPageChange}
-                            template="PrevPageLink PageLinks NextPageLink"
-                            className="bg-transparent border-none"
-                        />
-                    </div>
+                                                        >
+                                                            Concluída
+                                                        </span>
+                                                    </td>
+                                                    <td className="flex items-center justify-center text-center flex items-center justify-center w-full gap-2">
+                                                        <button className="text-2xl"><FaEye /></button>
+                                                        <button
+                                                            className="text-2xl"
+                                                            onClick={async () => {
+                                                                await gerarRelatorioPdf(sim)
+                                                                console.log(sim)
+                                                                await fetch('/api/user/relatorio', {
+                                                                    method: 'POST'
+                                                                })
+                                                            }}
+                                                        >
+                                                            <IoMdDownload />
+                                                        </button>
+                                                        <button className="text-2xl" >
+                                                            <FaRegTrashCan />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </table>
+                                <div className="card mt-auto">
+                                    <Paginator
+                                        first={first}
+                                        rows={rows}
+                                        totalRecords={simulacoes.length}
+                                        onPageChange={onPageChange}
+                                        template="PrevPageLink PageLinks NextPageLink"
+                                        className="bg-transparent border-none"
+                                    />
+                                </div>
+                            </>
+                        ) : (
+                            <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
+                                <h2 className="text-2xl font-oswald">Nenhuma Simulação Realizada!</h2>
+                                <Link href={'/simulacao'} className="border border-laranja-impacto px-4 py-2 rounded-xl text-xl bg-laranja-impacto text-white text-shadow-[1px_1px_2px_black] flex items-center gap-1 w-fit">
+                                    <MdOutlineScience className="text-3xl" />
+                                    <p>Faça uma nova simulação!</p>
+                                </Link>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

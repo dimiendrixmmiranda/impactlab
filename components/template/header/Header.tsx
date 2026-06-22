@@ -33,7 +33,7 @@ export default function Header() {
     }
 
     return (
-        <header className="bg-stone-950 font-oswald p-2 items-center grid grid-cols-[1fr_40px] md:grid-cols-[auto_1fr_40px] md:grid-cols-[auto_1fr_200px] lg:px-6">
+        <header className="bg-stone-950 font-oswald p-2 items-center grid grid-cols-[1fr_40px] gap-4 md:grid-cols-[auto_1fr_50px] lg:px-6 lg:grid-cols-[auto_1fr_200px]">
             <Link href={'/'}>
                 <div className="relative w-[100px] h-[50px]">
                     <Image alt="Logo da ImpactLab" src={'/logo/logo.png'} fill className="object-cover" />
@@ -52,7 +52,7 @@ export default function Header() {
                     <li>
                         <Link href="/menu/sobre" className={getLinkClass('/menu/sobre')}>
                             <FaFlask />
-                            <p>Sobre o Projeto</p>
+                            <p>Sobre</p>
                         </Link>
                     </li>
 
@@ -80,17 +80,17 @@ export default function Header() {
             </section>
             {
                 usuario ? (
-                    <Link href={'/usuario'} className="flex items-center gap-2">
+                    <Link href={'/usuario'} className="items-center gap-2 hidden md:flex mx-auto">
                         <div className="relative w-8 h-8 rounded-full overflow-hidden bg-zinc-800">
-                            <Image alt="Imagem do usuário" src={usuario?.imagem || ""} fill unoptimized className="object-cover" />
+                            <Image alt="Imagem do usuário" src={usuario?.imagem || '/logo/logo.png'} fill unoptimized className="object-cover" />
                         </div>
-                        <h2>Bem vindo, {usuario.nome?.split(' ')[0]}</h2>
-                        <div className="text-lg text-yellow-500">
+                        <h2 className="hidden md:block">Bem vindo, {usuario.nome?.split(' ')[0]}</h2>
+                        <div className="text-lg text-yellow-500 hidden lg:block">
                             <MdWavingHand />
                         </div>
                     </Link >
                 ) : (
-                    <div className="ml-auto hidden md:flex w-full h-full mx-auto my-auto justify-center items-center">
+                    <div className="ml-auto md:flex w-full h-full mx-auto my-auto justify-center items-center hidden md:flex mx-auto    ">
                         <Link href={'/login'} className="flex justify-center items-center bg-laranja-impacto p-2 rounded-xl">
                             <IoLogIn className="text-xl mx-auto my-auto" />
                             <p className="hidden lg:flex flex-nowrap" style={{ textShadow: '1px 1px 2px black' }}>Acessar minhas simulações</p>

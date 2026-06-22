@@ -6,4 +6,8 @@ export default interface Usuario{
     qtdeRelatorios: number
     nome: string
     sexo: string
+    dataNascimento: Date
+    instituicao: string
+    localizacao: string
+    bio: string
 }

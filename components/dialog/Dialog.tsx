@@ -11,7 +11,7 @@ interface DialogConfirmacaoProps {
     onCancelar: () => void;
 }
 
-export default function Dialog({
+export default function DialogPersonalizado({
     aberto,
     titulo,
     mensagem,

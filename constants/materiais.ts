@@ -216,7 +216,7 @@ export const materiais: Material[] = [
         nome: 'Fibra de Carbono',
         descricao: 'Material compósito de altíssimo desempenho, caracterizado por elevada resistência mecânica, alta rigidez e baixa densidade, ideal para aplicações que exigem redução de peso.',
         categoria: 'Compósito',
-        imagem: '/materiais/carbono.png',
+        imagem: '/materiais/carbono.jpg',
         disponivel: true,
         resistencia: 3500,
         densidade: 1600,

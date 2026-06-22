@@ -5,8 +5,8 @@ import { IoIosMail } from "react-icons/io";
 
 export default function Footer() {
     return (
-        <footer className="p-4 lg:grid lg:grid-cols-4 lg:gap-x-5 max-w-[1400px] mx-auto lg:pt-8">
-            <div className="flex w-full h-full justify-center items-center lg:my-auto">
+        <footer className="p-4 flex flex-col gap-4 pb-20 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 lg:gap-x-5 max-w-[1400px] mx-auto lg:pt-8 xl:pb-4 xl:p-6">
+            <div className="flex w-full h-full justify-center items-center lg:my-auto md:col-span-4 lg:col-span-1">
                 <Link href={'/'} className="flex flex-col justify-centere items-center gap-2    ">
                     <div className="relative w-[160px] h-[80px]">
                         <Image alt="Logo da ImpactLab" src={'/logo/logo.png'} fill className="object-cover" />

@@ -8,16 +8,47 @@ import { IoIosCamera, IoIosColorPalette, IoMdArrowDropright } from "react-icons/
 import { SiMubi } from "react-icons/si";
 import { TbHexagonNumber1Filled, TbHexagonNumber5Filled } from "react-icons/tb";
 import { TiWorld } from "react-icons/ti";
-import { MdOutlineScience } from "react-icons/md";
-import { IoCubeOutline, IoRocketOutline } from "react-icons/io5";
+import { MdOutlineSave, MdOutlineScience } from "react-icons/md";
+import { IoCubeOutline, IoLogOut, IoRocketOutline } from "react-icons/io5";
 import { SlEnergy } from "react-icons/sl";
 import { useEffect, useRef, useState } from "react";
 import { forcaImpacto } from "@/constants/formulas";
+import { signOut } from "next-auth/react";
+import { Dialog } from 'primereact/dialog';
+import DialogPersonalizado from "../dialog/Dialog";
 
 export default function Perfil() {
     const { usuario } = useUsuario()
     const [simulacoes, setSimulacoes] = useState<any[]>([])
     const inputRef = useRef<HTMLInputElement>(null);
+    const [visible, setVisible] = useState(false);
+
+    // valores editar informações
+    const [senha, setSenha] = useState<string>('')
+    const [novaSenha, setNovaSenha] = useState<string>('')
+
+    const [nome, setNome] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [dataNascimento, setDataNascimento] = useState('')
+    const [instituicao, setInstituicao] = useState<string>('')
+    const [localizacao, setLocalizacao] = useState<string>('')
+    const [bio, setBio] = useState<string>('')
+
+    const [dialogoSairAberto, setDialogoSairAberto] = useState(false)
+
+    useEffect(() => {
+        if (usuario) {
+            setNome(usuario.nome)
+            setEmail(usuario.email)
+            setDataNascimento(
+                usuario.dataNascimento
+                    ? new Date(usuario.dataNascimento)
+                        .toISOString()
+                        .split('T')[0]
+                    : ''
+            )
+        }
+    }, [usuario])
 
     const selecionarImagem = () => {
         inputRef.current?.click();
@@ -55,6 +86,35 @@ export default function Perfil() {
         carregarSimulacoes();
     }, []);
 
+    async function handleUpdateInformacoes() {
+        const response = await fetch("/api/user/me", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nome,
+                email,
+                dataNascimento,
+                instituicao,
+                localizacao,
+                bio,
+                imagem: imagemPerfil,
+                senha,
+                novaSenha,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error);
+            return;
+        }
+
+        alert("Informações atualizadas com sucesso!");
+        setVisible(false);
+    }
 
     const handleImagem = async (
         e: React.ChangeEvent<HTMLInputElement>
@@ -94,6 +154,14 @@ export default function Perfil() {
         )
     }
 
+    if (!usuario) {
+        return (
+            <div className="bg-zinc-900 w-full min-h-screen flex justify-center items-center">
+                <h3 className="text-4xl font-oswald text-shadow-[1px_1px_2px_black] xl:text-7xl">Carregando....</h3>
+            </div>
+        )
+    }
+
     return (
         <div className="flex flex-col gap-4 overflow-hidden p-4">
             <div className="flex flex-col gap-4 w-full items-center justify-between">
@@ -101,18 +169,17 @@ export default function Perfil() {
                     <h2 className="font-bold text-4xl">Meu Perfil</h2>
                     <p>Gerencie suas informações pessoais e acompanhe seu desempenho.</p>
                 </div>
-                <div className="w-full xl:grid xl:grid-cols-2 xl:gap-4">
+                <div className="w-full flex flex-col gap-6 xl:grid xl:grid-cols-2 xl:gap-4">
                     <div className="bg-zinc-700 p-4 rounded-xl flex flex-col gap-4">
-                        <div className="flex justify-between">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
                             <h3 className="font-bold text-xl">Informações Pessoais</h3>
-                            <div className="flex items-center gap-2 border border-laranja-impacto px-2 py-1 text-laranja-impacto rounded-xl">
+                            <button onClick={() => setVisible(true)} className="flex items-center gap-2 border border-laranja-impacto px-2 py-1 text-laranja-impacto rounded-xl">
                                 <FaPencilAlt />
                                 <p>Editar Informações</p>
-                            </div>
+                            </button>
                         </div>
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="flex flex-col md:grid md:grid-cols-3 gap-4">
                             <div className="flex flex-col gap-3 justify-center items-center">
-
                                 <div className="relative w-[130px] h-[130px] rounded-full bg-zinc-950 overflow-hidden 3xl:w-[160px] 3xl:h-[160px]">
                                     <img
                                         src={imagemPerfil || usuario?.imagem || ""}
@@ -120,7 +187,6 @@ export default function Perfil() {
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
-
                                 <input
                                     ref={inputRef}
                                     type="file"
@@ -128,7 +194,6 @@ export default function Perfil() {
                                     className="hidden"
                                     onChange={handleImagem}
                                 />
-
                                 <button
                                     type="button"
                                     onClick={selecionarImagem}
@@ -137,7 +202,6 @@ export default function Perfil() {
                                     <p>Alterar foto</p>
                                     <IoIosCamera className="mt-1" />
                                 </button>
-
                             </div>
                             <div className="col-start-2 col-end-4 grid grid-cols-2 gap-2">
                                 <div>
@@ -164,24 +228,93 @@ export default function Perfil() {
                                 </div>
                                 <div>
                                     <span className="text-zinc-400 text-sm">Instituição (opcional)</span>
-                                    <p className="line-clamp-1">ImpactLab</p>
+                                    <p className="line-clamp-1">{usuario.instituicao || 'Nenhuma informação encontrada'}</p>
                                 </div>
                                 <div>
                                     <span className="text-zinc-400 text-sm">Localização (Brasil)</span>
-                                    <p className="line-clamp-1">ImpactLab</p>
+                                    <p className="line-clamp-1">{usuario.localizacao || 'Nenhuma informação encontrada'}</p>
                                 </div>
                                 <div className="col-span-2">
                                     <span className="text-zinc-400 text-sm">Bio</span>
-                                    <p className="line-clamp-1">Uma bio bem legal com sabor real de alegria</p>
+                                    <p className="line-clamp-1">{usuario.bio || 'Nenhuma informação encontrada'}</p>
                                 </div>
                             </div>
                         </div>
+                        <Dialog header={<div><h2 className="font-oswald text-2xl text-white pb-2">Informações</h2></div>} visible={visible} className="w-full max-w-[1000px] mx-4 p-4" onHide={() => { if (!visible) return; setVisible(false); }}>
+                            <form className="bg-cinza-grafite text-white flex flex-col px-2 gap-4 md:grid md:grid-cols-2">
+                                <div className="flex flex-col gap-3 justify-center items-center">
+                                    <div className="relative w-[130px] h-[130px] rounded-full bg-zinc-950 overflow-hidden 3xl:w-[160px] 3xl:h-[160px]">
+                                        <img
+                                            src={imagemPerfil || usuario?.imagem || ""}
+                                            alt="Foto de perfil"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    <input
+                                        ref={inputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={handleImagem}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={selecionarImagem}
+                                        className="flex items-center justify-center gap-1 border border-laranja-impacto rounded-xl text-laranja-impacto px-6 py-1"
+                                    >
+                                        <p>Alterar foto</p>
+                                        <IoIosCamera className="mt-1" />
+                                    </button>
+                                </div>
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="senha">Informe a Senha Atual</label>
+                                        <input type="text" name="senha" id="senha" className="border border-zinc-400 p-2 rounded-xl" value={senha} onChange={(e) => setSenha(e.target.value)} />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="novaSenha">Informe a Nova Senha:</label>
+                                        <input type="text" name="novaSenha" id="novaSenha" className="border border-zinc-400 p-2 rounded-xl" value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)} />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label htmlFor="nome">Nome</label>
+                                        <input type="text" name="nome" id="nome" className="border border-zinc-400 p-2 rounded-xl" value={nome} onChange={(e) => setNome(e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label htmlFor="email">Email</label>
+                                    <input type="text" name="email" id="email" className="border border-zinc-400 p-2 rounded-xl" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label htmlFor="dataNascimento">Data de Nascimento</label>
+                                    <input type="date" name="dataNascimento" id="dataNascimento" className="border border-zinc-400 p-2 rounded-xl" value={dataNascimento} onChange={(e) => setDataNascimento(e.target.value)} />
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label htmlFor="instituicao">Instituição</label>
+                                    <input type="text" name="instituicao" id="instituicao" className="border border-zinc-400 p-2 rounded-xl" value={instituicao} onChange={(e) => setInstituicao(e.target.value)} />
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label htmlFor="localizacao">Localização</label>
+                                    <input type="text" name="localizacao" id="localizacao" className="border border-zinc-400 p-2 rounded-xl" value={localizacao} onChange={(e) => setLocalizacao(e.target.value)} />
+                                </div>
+                                <div className="flex flex-col gap-1 md:col-span-2">
+                                    <label htmlFor="text">Bio</label>
+                                    <textarea name="bio" id="bio" className="border border-zinc-400 p-2 rounded-xl h-[100px]" value={bio} onChange={(e) => setBio(e.target.value)} />
+                                </div>
+                                <button className="flex items-center gap-2 text-center justify-center bg-laranja-impacto font-bold text-shadow-[1px_1px_2px_black] p-2 rounded-xl text-xl col-span-2" onClick={(e) => {
+                                    e.preventDefault()
+                                    handleUpdateInformacoes()
+                                }}>
+                                    <MdOutlineSave className="drop-shadow-[1px_1px_2px_black]" />
+                                    <p>Salvar Alterações</p>
+                                </button>
+                            </form>
+                        </Dialog>
                     </div>
                     <div className="bg-zinc-700 p-4 rounded-xl flex flex-col gap-4">
                         <div className="flex justify-between">
                             <h3 className="font-bold text-xl">Resumo de Atividade</h3>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-4 md:grid md:grid-cols-2">
                             {
                                 gerarCampoInformacaoDado(<MdOutlineScience />, 'Simulações Realizadas', simulacoes.length.toString())
                             }
@@ -323,7 +456,7 @@ export default function Perfil() {
                         <div className="flex justify-between">
                             <h3 className="font-bold text-xl">Segurança da Conta</h3>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-4 2xl:grid-cols-3">
                             <div className="flex items-center gap-2 bg-zinc-600 p-2 px-4 rounded-xl">
                                 <div className="relative w-10 h-10 rounded-xl flex justify-center items-center border border-zinc-500 text-lg">
                                     <GiPadlock />
@@ -353,6 +486,31 @@ export default function Perfil() {
                                     </select>
                                 </div>
                             </div>
+                            <div className="flex items-center gap-2 bg-zinc-600 p-2 px-4 rounded-xl md:col-span-2 2xl:col-span-1">
+                                <div className="relative w-10 h-10 rounded-xl flex justify-center items-center border border-zinc-500 text-lg">
+                                    <IoLogOut />
+                                </div>
+                                <div>
+                                    <h3>Sair</h3>
+                                    <p className="text-sm">Encerrar sessão...</p>
+                                </div>
+                                <button onClick={() => setDialogoSairAberto(true)} className="flex items-center gap-2 border border-laranja-impacto px-2 py-1 text-laranja-impacto rounded-xl ml-auto">
+                                    <GiNotebook />
+                                    <p>Encerrar</p>
+                                </button>
+                            </div>
+                            <DialogPersonalizado
+                                aberto={dialogoSairAberto}
+                                titulo="Sair da conta"
+                                mensagem="Tem certeza que deseja encerrar sua sessão?"
+                                textoConfirmar="Sair"
+                                onCancelar={() => setDialogoSairAberto(false)}
+                                onConfirmar={async () => {
+                                    await signOut({
+                                        callbackUrl: "/login",
+                                    });
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
